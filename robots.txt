@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://reddydentalfl.com/sitemap.xml
