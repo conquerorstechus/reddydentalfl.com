@@ -1590,6 +1590,9 @@
           <div class="font-subtitle2 font-[500] uppercase text-[16px] text-tertiary hidden" id="loading">
             Submitting...
           </div>
+          <div class="font-body font-[300] normal-case text-[16px] text-tertiary hidden" id="error">
+            Something went wrong. Please try again or call us at 727-377-3339.
+          </div>
           <form class="gap-x-md gap-y-sm grid grid-cols-1 sm:grid-cols-2" id="requestAppointment">
             <div>
               <label class="font-title font-[400] capitalize text-[16px] text-tertiary block pb-1 pl-2" for="name">Patient Name</label>
@@ -1976,54 +1979,62 @@
               }
               if (hasError) return;
 
-              const getId = () => {
-                return Math.random()
-                  .toString(36)
-                  .substring(2, 18 + 2);
-              };
-
               form.classList.add("hidden");
+              document.getElementById("error").classList.add("hidden");
               document.getElementById("loading").classList.remove("hidden");
               document
                 .getElementById("loading")
                 .scrollIntoView({ block: "center", behavior: "instant" });
-              const r = await fetch(
-                "https://api.ascentpgs.com/revu/open/request-appointment",
-                // "http://localhost:8000/revu/open/request-appointment",
-                {
-                  method: "POST",
-                  headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    appointmentRequest: {
+
+              try {
+                const response = await fetch(
+                  "https://n8n.srv1393511.hstgr.cloud/webhook/8e9ccd83-8fbd-47f8-a088-044357d44c2e",
+                  {
+                    method: "POST",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      source: "https://reddydentalfl-com.vercel.app/",
                       name: name,
                       phoneNumber: phoneNumber,
                       patientType: patientType,
                       availability: availability,
-                      howDidYouFindUs: howDidYouHearAboutUs,
+                      howDidYouHearAboutUs: howDidYouHearAboutUs,
                       preferredContactMethod: preferredContactMethod,
                       notes: notes,
                       email: email,
                       ...(patientType === "newPatient" && lastDentalVisit
                         ? { lastDentalVisit: lastDentalVisit }
                         : {}),
-                    },
-                    siteId: "e249a904-3375-48d4-9546-ead0ba203693",
-                    userId: localStorage.getItem("userId") || getId(),
-                    sessionId:
-                      sessionStorage.getItem("sessionStorage") || getId(),
-                    locationId: "",
-                  }),
-                },
-              );
-              document.getElementById("loading").classList.add("hidden");
+                    }),
+                  },
+                );
 
-              document.getElementById("success").classList.remove("hidden");
-              document
-                .getElementById("success")
-                .scrollIntoView({ block: "center", behavior: "instant" });
+                document.getElementById("loading").classList.add("hidden");
+
+                if (!response.ok) {
+                  form.classList.remove("hidden");
+                  document.getElementById("error").classList.remove("hidden");
+                  document
+                    .getElementById("error")
+                    .scrollIntoView({ block: "center", behavior: "instant" });
+                  return;
+                }
+
+                document.getElementById("success").classList.remove("hidden");
+                document
+                  .getElementById("success")
+                  .scrollIntoView({ block: "center", behavior: "instant" });
+              } catch (err) {
+                document.getElementById("loading").classList.add("hidden");
+                form.classList.remove("hidden");
+                document.getElementById("error").classList.remove("hidden");
+                document
+                  .getElementById("error")
+                  .scrollIntoView({ block: "center", behavior: "instant" });
+              }
             });
           })();
         </script>
