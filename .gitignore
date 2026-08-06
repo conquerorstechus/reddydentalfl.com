@@ -1,17 +1,29 @@
 # dependencies
-/node_modules
+/node_modules/
 
-# next.js
+# next.js build output
 /.next/
 /out/
 
-# misc
-.DS_Store
+# other build / cache artifacts
+/build/
+/dist/
+/coverage/
+*.tsbuildinfo
+
+# static assets (kept locally, not in git)
+/public/
+/assets/
+
+# env & secrets
+.env
+.env*.local
 *.pem
+
+# misc / OS
+.DS_Store
+Thumbs.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# local
 .claude/settings.local.json
-.env*.local

@@ -8,6 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@opinly/backend": "^1.4.0",
+    "@opinly/next": "^1.4.0",
+    "@opinly/react": "^1.4.0",
+    "@opinly/shared": "^1.4.0",
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
