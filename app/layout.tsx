@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+function resolveMetadataBase(): URL {
+  const fromEnv =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "");
+  return new URL(fromEnv || "https://reddydentalfl.com");
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://reddydentalfl-com-git-nextjs-conquerorstechus-6043s-projects.vercel.app/"),
+  metadataBase: resolveMetadataBase(),
   title: "Dentist Near Me in St. Petersburg, FL | Reddy Dental",
   description:
     "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.",
@@ -13,7 +20,6 @@ export const metadata: Metadata = {
     title: "Dentist Near Me in St. Petersburg, FL | Reddy Dental",
     description:
       "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.",
-    url: "https://reddydentalfl-com-git-nextjs-conquerorstechus-6043s-projects.vercel.app/",
     images: [
       {
         url: "/og-image.jpg",

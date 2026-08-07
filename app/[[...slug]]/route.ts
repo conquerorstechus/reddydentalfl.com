@@ -13,7 +13,8 @@ type RouteContext = {
 
 export async function GET(request: Request, context: RouteContext) {
   const { slug } = await context.params;
-  const html = await readSiteHtml(slug ?? []);
+  const origin = new URL(request.url).origin;
+  const html = await readSiteHtml(slug ?? [], origin);
 
   if (html) {
     return new Response(html, {

@@ -2,12 +2,19 @@ import { promises as fs } from "fs";
 import path from "path";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
-const SITE_URL = "https://reddydentalfl.com";
+const PRODUCTION_SITE_URL = "https://reddydentalfl.com";
 const SITE_NAME = "Reddy Dental";
-const OG_IMAGE_URL = `${SITE_URL}/og-image.jpg`;
 const DEFAULT_TITLE = "Dentist Near Me in St. Petersburg, FL | Reddy Dental";
 const DEFAULT_DESCRIPTION =
   "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.";
+
+function resolveSiteOrigin(origin?: string): string {
+  const fromEnv =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "");
+  const candidate = (origin || fromEnv || PRODUCTION_SITE_URL).replace(/\/$/, "");
+  return candidate;
+}
 
 export async function listSitePages(): Promise<string[][]> {
   const pages: string[][] = [];
@@ -62,22 +69,28 @@ function extractDescription(html: string): string {
   return DEFAULT_DESCRIPTION;
 }
 
-function buildCanonicalUrl(slug: string[]): string {
-  if (slug.length === 0) return `${SITE_URL}/`;
-  return `${SITE_URL}/${slug.join("/")}/`;
+function buildCanonicalUrl(siteOrigin: string, slug: string[]): string {
+  if (slug.length === 0) return `${siteOrigin}/`;
+  return `${siteOrigin}/${slug.join("/")}/`;
 }
 
-function injectOpenGraphTags(html: string, slug: string[]): string {
+function injectOpenGraphTags(
+  html: string,
+  slug: string[],
+  siteOrigin: string,
+): string {
   if (/property=["']og:title["']/i.test(html)) {
     return html;
   }
 
   const title = extractTitle(html);
   const description = extractDescription(html);
-  const url = buildCanonicalUrl(slug);
+  const url = buildCanonicalUrl(siteOrigin, slug);
+  const ogImageUrl = `${siteOrigin}/og-image.jpg`;
   const safeTitle = escapeHtmlAttr(title);
   const safeDescription = escapeHtmlAttr(description);
   const safeUrl = escapeHtmlAttr(url);
+  const safeImageUrl = escapeHtmlAttr(ogImageUrl);
 
   const tags = `
     <meta property="og:type" content="website">
@@ -85,8 +98,8 @@ function injectOpenGraphTags(html: string, slug: string[]): string {
     <meta property="og:title" content="${safeTitle}">
     <meta property="og:description" content="${safeDescription}">
     <meta property="og:url" content="${safeUrl}">
-    <meta property="og:image" content="${OG_IMAGE_URL}">
-    <meta property="og:image:secure_url" content="${OG_IMAGE_URL}">
+    <meta property="og:image" content="${safeImageUrl}">
+    <meta property="og:image:secure_url" content="${safeImageUrl}">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -95,7 +108,7 @@ function injectOpenGraphTags(html: string, slug: string[]): string {
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${safeTitle}">
     <meta name="twitter:description" content="${safeDescription}">
-    <meta name="twitter:image" content="${OG_IMAGE_URL}">
+    <meta name="twitter:image" content="${safeImageUrl}">
     <link rel="canonical" href="${safeUrl}">
 `;
 
@@ -117,12 +130,15 @@ function injectOpenGraphTags(html: string, slug: string[]): string {
   return html.replace(/<head[^>]*>/i, (match) => `${match}\n${tags}`);
 }
 
-export async function readSiteHtml(slug: string[] = []): Promise<string | null> {
+export async function readSiteHtml(
+  slug: string[] = [],
+  origin?: string,
+): Promise<string | null> {
   const filePath = path.join(CONTENT_DIR, ...slug, "index.html");
 
   try {
     const html = await fs.readFile(filePath, "utf8");
-    return injectOpenGraphTags(html, slug);
+    return injectOpenGraphTags(html, slug, resolveSiteOrigin(origin));
   } catch {
     return null;
   }

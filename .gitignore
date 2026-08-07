@@ -12,8 +12,9 @@
 *.tsbuildinfo
 
 # static assets (kept locally, not in git)
-/public/
-/assets/
+# Open Graph share image must be deployed for crawlers
+
+
 
 # env & secrets
 .env
