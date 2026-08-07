@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@next/third-parties": "15.5.23",
     "@opinly/backend": "^1.4.0",
     "@opinly/next": "^1.4.0",
     "@opinly/react": "^1.4.0",

@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { getGoogleAnalyticsHtml } from "@/lib/analytics";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const PRODUCTION_SITE_URL = "https://reddydentalfl.com";
@@ -130,6 +131,20 @@ function injectOpenGraphTags(
   return html.replace(/<head[^>]*>/i, (match) => `${match}\n${tags}`);
 }
 
+function injectGoogleAnalytics(html: string): string {
+  if (/googletagmanager\.com\/gtag\/js/i.test(html)) {
+    return html;
+  }
+
+  const snippet = getGoogleAnalyticsHtml();
+
+  if (/<\/head>/i.test(html)) {
+    return html.replace(/<\/head>/i, `${snippet}</head>`);
+  }
+
+  return `${html}${snippet}`;
+}
+
 export async function readSiteHtml(
   slug: string[] = [],
   origin?: string,
@@ -138,7 +153,8 @@ export async function readSiteHtml(
 
   try {
     const html = await fs.readFile(filePath, "utf8");
-    return injectOpenGraphTags(html, slug, resolveSiteOrigin(origin));
+    const withOg = injectOpenGraphTags(html, slug, resolveSiteOrigin(origin));
+    return injectGoogleAnalytics(withOg);
   } catch {
     return null;
   }
