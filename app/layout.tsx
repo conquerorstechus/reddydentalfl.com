@@ -41,12 +41,13 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  // GoogleAnalytics applies to React routes only (e.g. /blog).
+  // Static HTML from app/[[...slug]]/route.ts bypasses this layout and
+  // receives GA via lib/site-pages.ts → getGoogleAnalyticsHtml().
   return (
     <html lang="en">
-      <body>
-        {children}
-        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
-      </body>
+      <body>{children}</body>
+      <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
     </html>
   );
 }
