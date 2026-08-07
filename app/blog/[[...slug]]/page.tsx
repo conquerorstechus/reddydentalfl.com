@@ -6,6 +6,7 @@ import { generateOpinlyMetadata, opinlyConfig } from "@opinly/next";
 import type { SeoResolved } from "@opinly/shared";
 import { PostContent } from "@/components/post-content";
 import { opinly } from "@/lib/opinly";
+import styles from "../blog.module.css";
 
 export const revalidate = 3600;
 
@@ -95,15 +96,22 @@ export const generateMetadata = async (
 
 function PostList({ posts }: { posts: Post[] }) {
   if (posts.length === 0) {
-    return <p>No posts yet.</p>;
+    return <p className={styles.empty}>No posts yet.</p>;
   }
 
   return (
-    <ul>
+    <ul className={styles.list}>
       {posts.map((post) => (
         <li key={post.slug}>
-          <Link href={`${blogPrefix}/${post.slug}/`}>{post.title}</Link>
-          {post.description ? <p>{post.description}</p> : null}
+          <Link
+            href={`${blogPrefix}/${post.slug}/`}
+            className={styles.card}
+          >
+            <h2 className={styles.cardTitle}>{post.title}</h2>
+            {post.description ? (
+              <p className={styles.cardDescription}>{post.description}</p>
+            ) : null}
+          </Link>
         </li>
       ))}
     </ul>
@@ -116,23 +124,35 @@ function BlogIndex({
   data: { posts: Post[]; categories: CategorySummary[] };
 }) {
   return (
-    <main>
-      <h1>Blog</h1>
-      <PostList posts={data.posts} />
-      {data.categories.length > 0 ? (
-        <section>
-          <h2>Categories</h2>
-          <ul>
-            {data.categories.map((category) => (
-              <li key={category.slug}>
-                <Link href={`${blogPrefix}/${categoryPrefix}/${category.slug}/`}>
-                  {category.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+    <main className={styles.page}>
+      <div className={styles.inner}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>Reddy Dental Blog</h1>
+          <p className={styles.subtitle}>
+            Discover dental health articles, tips, and practice updates.
+          </p>
+        </header>
+
+        <PostList posts={data.posts} />
+
+        {data.categories.length > 0 ? (
+          <section className={styles.categories}>
+            <h2 className={styles.categoriesTitle}>Categories</h2>
+            <ul className={styles.categoryList}>
+              {data.categories.map((category) => (
+                <li key={category.slug}>
+                  <Link
+                    href={`${blogPrefix}/${categoryPrefix}/${category.slug}/`}
+                    className={styles.categoryLink}
+                  >
+                    {category.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+      </div>
     </main>
   );
 }
