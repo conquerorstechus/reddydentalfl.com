@@ -9,6 +9,6 @@ export default withOpinlyConfig({
   cdnNamespace: "Xlz6qeNMFahM1LnqEBkJU",
   siteUrl: "https://www.reddydentalfl.com",
   blogPath: "/blog",
-  companyName: "reddydentalfl.com",
+  companyName: "Reddy Dental",
   imagesPath: "/images",
 })(nextConfig);

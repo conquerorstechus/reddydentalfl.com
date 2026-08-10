@@ -3,18 +3,21 @@ import path from "path";
 import { getGoogleAnalyticsHtml } from "@/lib/analytics";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
-const PRODUCTION_SITE_URL = "https://reddydentalfl.com";
+const PRODUCTION_SITE_URL = "https://www.reddydentalfl.com";
 const SITE_NAME = "Reddy Dental";
 const DEFAULT_TITLE = "Dentist Near Me in St. Petersburg, FL | Reddy Dental";
 const DEFAULT_DESCRIPTION =
   "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.";
 
-function resolveSiteOrigin(origin?: string): string {
+function resolveSiteOrigin(_origin?: string): string {
+  // Always emit absolute production URLs in OG/Twitter tags. Preview origins
+  // (VERCEL_URL / request host) are often behind Deployment Protection, so
+  // WhatsApp/Facebook scrapers never see the real page or image.
   const fromEnv =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "");
-  const candidate = (origin || fromEnv || PRODUCTION_SITE_URL).replace(/\/$/, "");
-  return candidate;
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    process.env.OPINLY_SITE_URL?.trim() ||
+    "";
+  return (fromEnv || PRODUCTION_SITE_URL).replace(/\/$/, "");
 }
 
 export async function listSitePages(): Promise<string[][]> {

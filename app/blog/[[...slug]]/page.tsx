@@ -91,7 +91,50 @@ export const generateMetadata = async (
   const { slug } = await props.params;
   const route = await loadRoute(slug ?? []);
   if (route.type === "not-found") return {};
-  return generateOpinlyMetadata(toSeo(route), parent);
+
+  // Opinly replaces openGraph wholesale and omits siteName / twitter /
+  // fallback image — which is why checkers show og:site_name "Not Provided"
+  // and WhatsApp falls back to generic preview chrome.
+  const meta = await generateOpinlyMetadata(toSeo(route), parent);
+  const title =
+    typeof meta.title === "string" ? meta.title : "Reddy Dental Blog";
+  const description =
+    typeof meta.description === "string" ? meta.description : undefined;
+  const ogImages = meta.openGraph?.images;
+  const hasOgImage = Array.isArray(ogImages)
+    ? ogImages.length > 0
+    : Boolean(ogImages);
+  const fallbackImage = {
+    url: "/og-image.jpg",
+    width: 1200,
+    height: 630,
+    alt: title,
+  };
+  const images = hasOgImage ? ogImages : [fallbackImage];
+
+  return {
+    ...meta,
+    openGraph: {
+      ...meta.openGraph,
+      siteName: "Reddy Dental",
+      locale: "en_US",
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      ...(description ? { description } : {}),
+      images: Array.isArray(images)
+        ? images.map((image) =>
+            typeof image === "string"
+              ? image
+              : image instanceof URL
+                ? image.toString()
+                : image.url,
+          )
+        : images,
+    },
+  };
 };
 
 function PostList({ posts }: { posts: Post[] }) {

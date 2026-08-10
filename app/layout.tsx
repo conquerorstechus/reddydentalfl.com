@@ -3,11 +3,15 @@ import type { ReactNode } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GA_MEASUREMENT_ID } from "@/lib/analytics";
 
+const PRODUCTION_SITE_URL = "https://www.reddydentalfl.com";
+
 function resolveMetadataBase(): URL {
-  const fromEnv =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "");
-  return new URL(fromEnv || "https://reddydentalfl.com");
+  // Prefer the canonical production host so OG/Twitter image URLs never
+  // resolve to a protected *.vercel.app preview deployment.
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (fromEnv) return new URL(fromEnv);
+  if (process.env.OPINLY_SITE_URL) return new URL(process.env.OPINLY_SITE_URL);
+  return new URL(PRODUCTION_SITE_URL);
 }
 
 export const metadata: Metadata = {
