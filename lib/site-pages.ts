@@ -445,6 +445,110 @@ function injectPageBackNav(html: string, slug: string[]): string {
 }
 
 /**
+ * Normalize relative/CDN asset paths used in Tailwind bg-[url('...')] classes
+ * to root-absolute /assets/... URLs that work from any page depth.
+ */
+function toAbsoluteAssetUrl(rawPath: string): string | null {
+  let p = rawPath.trim().replace(/\\/g, "/");
+  if (!p) return null;
+
+  if (/^https?:\/\//i.test(p)) {
+    try {
+      const { pathname } = new URL(p);
+      // CDN paths are typically /images/..., /Atwood-.../, or /computer.webp
+      if (pathname.startsWith("/assets/")) return pathname;
+      return `/assets${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
+    } catch {
+      return null;
+    }
+  }
+
+  while (p.startsWith("../") || p.startsWith("./")) {
+    p = p.replace(/^\.\.?\//, "");
+  }
+
+  if (p.startsWith("/assets/")) return p;
+  if (p.startsWith("assets/")) return `/${p}`;
+  if (p.startsWith("/")) return `/assets${p}`;
+  return `/assets/${p}`;
+}
+
+/**
+ * Callout cards use white icons/text inside gold circles on photo backgrounds.
+ * Precompiled CSS only matched CDN-shaped bg-[url(...)] classes, while HTML used
+ * relative paths — so backgrounds never applied and light content vanished on white.
+ * Inject absolute background-image inline styles for every bg-[url('...')] usage.
+ */
+function fixCalloutBackgroundImages(html: string): string {
+  // Match tags whose class contains bg-[url('...')] or bg-[url("...")].
+  // Class values often nest quotes (url('...')), so parse by outer quote type.
+  return html.replace(
+    /<([a-zA-Z][\w:-]*)\b([^>]*?)>/gi,
+    (match, tag: string, attrs: string) => {
+      const classMatch = attrs.match(/\bclass\s*=\s*(")([^"]*)"|(\bclass\s*=\s*')([^']*)'/i);
+      if (!classMatch) return match;
+
+      const classValue = classMatch[2] ?? classMatch[4] ?? "";
+      const urlMatch = classValue.match(
+        /bg-\[url\(\s*['"]([^'"]+)['"]\s*\)\]/,
+      );
+      if (!urlMatch) return match;
+
+      const absUrl = toAbsoluteAssetUrl(urlMatch[1]);
+      if (!absUrl) return match;
+
+      const bgDecl = `background-image: url('${absUrl}')`;
+
+      if (/\bstyle\s*=\s*"/i.test(attrs)) {
+        if (
+          new RegExp(
+            `background-image\\s*:\\s*url\\(['"]?${absUrl.replace(
+              /[.*+?^${}()|[\]\\]/g,
+              "\\$&",
+            )}['"]?\\)`,
+            "i",
+          ).test(attrs)
+        ) {
+          return match;
+        }
+        const nextAttrs = attrs.replace(
+          /background-image\s*:\s*url\((['"]?)([^'")]+)\1\)/i,
+          bgDecl,
+        );
+        if (nextAttrs !== attrs) {
+          return `<${tag}${nextAttrs}>`;
+        }
+        return `<${tag}${attrs.replace(/\bstyle\s*=\s*"/i, `style="${bgDecl}; `)}>`;
+      }
+
+      if (/\bstyle\s*=\s*'/i.test(attrs)) {
+        if (
+          new RegExp(
+            `background-image\\s*:\\s*url\\(['"]?${absUrl.replace(
+              /[.*+?^${}()|[\]\\]/g,
+              "\\$&",
+            )}['"]?\\)`,
+            "i",
+          ).test(attrs)
+        ) {
+          return match;
+        }
+        const nextAttrs = attrs.replace(
+          /background-image\s*:\s*url\((['"]?)([^'")]+)\1\)/i,
+          bgDecl,
+        );
+        if (nextAttrs !== attrs) {
+          return `<${tag}${nextAttrs}>`;
+        }
+        return `<${tag}${attrs.replace(/\bstyle\s*=\s*'/i, `style='${bgDecl}; `)}>`;
+      }
+
+      return `<${tag}${attrs} style="${bgDecl}">`;
+    },
+  );
+}
+
+/**
  * Makes inline "Learn More »" CTAs look like real hyperlinks (gold + underline)
  * so they don't blend into body copy.
  */
@@ -507,7 +611,8 @@ export async function readSiteHtml(
     const withOg = injectOpenGraphTags(html, slug, resolveSiteOrigin(origin));
     const withPhone = fixMobileHeaderPhone(withOg);
     const withMobile = injectMobileResponsiveFixes(withPhone);
-    const withBack = injectPageBackNav(withMobile, slug);
+    const withCallouts = fixCalloutBackgroundImages(withMobile);
+    const withBack = injectPageBackNav(withCallouts, slug);
     const withLearnMore = styleLearnMoreLinks(withBack);
     return injectGoogleAnalytics(withLearnMore);
   } catch {
