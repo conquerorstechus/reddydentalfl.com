@@ -259,6 +259,243 @@ function fixMobileHeaderPhone(html: string): string {
     );
 }
 
+type BackNavTarget = { href: string; label: string };
+
+const SERVICE_CATEGORY_PAGES = new Set([
+  "cosmetic",
+  "restorative",
+  "preventative",
+  "emergency",
+]);
+
+/** Leaf service pages → parent category listing (Learn More destinations). */
+const SERVICE_PARENT: Record<string, BackNavTarget> = {
+  crowns: { href: "/services/cosmetic/", label: "Cosmetic Dentistry" },
+  dentures: { href: "/services/cosmetic/", label: "Cosmetic Dentistry" },
+  "partial-dentures": {
+    href: "/services/cosmetic/",
+    label: "Cosmetic Dentistry",
+  },
+  whitening: { href: "/services/cosmetic/", label: "Cosmetic Dentistry" },
+  veneers: { href: "/services/cosmetic/", label: "Cosmetic Dentistry" },
+  reconstruction: { href: "/services/cosmetic/", label: "Cosmetic Dentistry" },
+  invisalign: { href: "/services/cosmetic/", label: "Cosmetic Dentistry" },
+  bridges: { href: "/services/restorative/", label: "Restorative Dentistry" },
+  endodontics: {
+    href: "/services/restorative/",
+    label: "Restorative Dentistry",
+  },
+  fillings: { href: "/services/restorative/", label: "Restorative Dentistry" },
+  "dental-implants": {
+    href: "/services/restorative/",
+    label: "Restorative Dentistry",
+  },
+  "root-canals": {
+    href: "/services/restorative/",
+    label: "Restorative Dentistry",
+  },
+  "tmj-treatment": {
+    href: "/services/restorative/",
+    label: "Restorative Dentistry",
+  },
+  "dental-cleanings": {
+    href: "/services/preventative/",
+    label: "Preventative Dentistry",
+  },
+  "fluoride-treatment": {
+    href: "/services/preventative/",
+    label: "Preventative Dentistry",
+  },
+  "mouth-guards": {
+    href: "/services/preventative/",
+    label: "Preventative Dentistry",
+  },
+  "night-guards": {
+    href: "/services/preventative/",
+    label: "Preventative Dentistry",
+  },
+  sealants: {
+    href: "/services/preventative/",
+    label: "Preventative Dentistry",
+  },
+  "sleep-apnea": {
+    href: "/services/preventative/",
+    label: "Preventative Dentistry",
+  },
+  "wisdom-teeth": {
+    href: "/services/preventative/",
+    label: "Preventative Dentistry",
+  },
+  "emergency-exams": {
+    href: "/services/emergency/",
+    label: "Emergency Dentistry",
+  },
+  extractions: { href: "/services/emergency/", label: "Emergency Dentistry" },
+  "oral-cancer-screenings": {
+    href: "/technologies/",
+    label: "Technologies",
+  },
+  "dermal-fillers": { href: "/services/", label: "All Services" },
+};
+
+function resolveBackNav(slug: string[]): BackNavTarget | null {
+  if (slug[0] === "services" && slug.length === 2) {
+    const page = slug[1];
+    // Category listing pages already include their own back control.
+    if (SERVICE_CATEGORY_PAGES.has(page)) {
+      return null;
+    }
+    return SERVICE_PARENT[page] ?? { href: "/services/", label: "All Services" };
+  }
+
+  if (slug[0] === "technologies" && slug.length === 2) {
+    return { href: "/technologies/", label: "Technologies" };
+  }
+
+  return null;
+}
+
+/**
+ * Adds a clear "Back to …" control on detail pages so users can return after
+ * clicking Learn More from a category listing. Matches the existing
+ * `.back-to-services` pill used on category pages.
+ */
+function injectPageBackNav(html: string, slug: string[]): string {
+  if (html.includes("data-page-back-nav")) {
+    return html;
+  }
+
+  const target = resolveBackNav(slug);
+  if (!target) {
+    return html;
+  }
+
+  let next = html;
+
+  if (!next.includes(".back-to-services")) {
+    const styles = `
+    <style data-page-back-nav-style>
+      @keyframes backLinkPulse {
+        0%,
+        100% {
+          opacity: 1;
+          box-shadow: 0 0 0 0 rgba(217, 183, 72, 0.55);
+        }
+        50% {
+          opacity: 0.72;
+          box-shadow: 0 0 0 8px rgba(217, 183, 72, 0);
+        }
+      }
+      .back-to-services {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 14px;
+        padding: 8px 16px;
+        border: 1.5px solid #46433f;
+        border-radius: 999px;
+        font-family: Roboto, sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.3;
+        color: #46433f;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.65);
+        animation: backLinkPulse 1.4s ease-in-out infinite;
+      }
+      .back-to-services:hover,
+      .back-to-services:focus-visible {
+        background: #46433f;
+        color: #fff;
+        animation: none;
+        outline: none;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .back-to-services {
+          animation: none;
+        }
+      }
+    </style>
+`;
+    if (/<\/head>/i.test(next)) {
+      next = next.replace(/<\/head>/i, `${styles}</head>`);
+    } else {
+      next = `${styles}${next}`;
+    }
+  }
+
+  const backLink = `<a href="${escapeHtmlAttr(target.href)}" target="_self" class="back-to-services" data-page-back-nav>← Back to ${escapeHtmlAttr(target.label)}</a>`;
+
+  // Prefer the tertiary hero band (same placement as category pages).
+  const heroInner =
+    /(<div class="bg-tertiary py-md px-sm flex justify-center">\s*<div class="max-w-content w-full text-center lg:text-start">)/i;
+  if (heroInner.test(next)) {
+    return next.replace(heroInner, `$1\n          ${backLink}\n          `);
+  }
+
+  if (/<main\b[^>]*>/i.test(next)) {
+    return next.replace(
+      /<main\b[^>]*>/i,
+      (match) =>
+        `${match}\n      <div class="bg-tertiary px-sm py-sm flex justify-center"><div class="max-w-content w-full">${backLink}</div></div>`,
+    );
+  }
+
+  return `${backLink}${next}`;
+}
+
+/**
+ * Makes inline "Learn More »" CTAs look like real hyperlinks (gold + underline)
+ * so they don't blend into body copy.
+ */
+function styleLearnMoreLinks(html: string): string {
+  let next = html;
+
+  if (!next.includes("data-learn-more-link-style")) {
+    const styles = `
+    <style data-learn-more-link-style>
+      a.learn-more-link {
+        color: #b8942f !important;
+        font-weight: 500 !important;
+        text-decoration: underline !important;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1.5px;
+        white-space: nowrap;
+        transition: color 0.2s ease, text-decoration-color 0.2s ease;
+      }
+      a.learn-more-link:hover,
+      a.learn-more-link:focus-visible {
+        color: #d9b748 !important;
+        text-decoration-thickness: 2px;
+        outline: none;
+      }
+    </style>
+`;
+    if (/<\/head>/i.test(next)) {
+      next = next.replace(/<\/head>/i, `${styles}</head>`);
+    } else {
+      next = `${styles}${next}`;
+    }
+  }
+
+  return next.replace(
+    /<a\b([^>]*?)>(\s*Learn More\s*»\s*)<\/a>/gi,
+    (match, attrs: string, text: string) => {
+      if (/\blearn-more-link\b/.test(attrs)) {
+        return match;
+      }
+      if (/\bclass\s*=\s*"/i.test(attrs)) {
+        attrs = attrs.replace(/\bclass\s*=\s*"/i, 'class="learn-more-link ');
+      } else if (/\bclass\s*=\s*'/i.test(attrs)) {
+        attrs = attrs.replace(/\bclass\s*=\s*'/i, "class='learn-more-link ");
+      } else {
+        attrs = ` class="learn-more-link"${attrs}`;
+      }
+      return `<a${attrs}>${text}</a>`;
+    },
+  );
+}
+
 export async function readSiteHtml(
   slug: string[] = [],
   origin?: string,
@@ -270,7 +507,9 @@ export async function readSiteHtml(
     const withOg = injectOpenGraphTags(html, slug, resolveSiteOrigin(origin));
     const withPhone = fixMobileHeaderPhone(withOg);
     const withMobile = injectMobileResponsiveFixes(withPhone);
-    return injectGoogleAnalytics(withMobile);
+    const withBack = injectPageBackNav(withMobile, slug);
+    const withLearnMore = styleLearnMoreLinks(withBack);
+    return injectGoogleAnalytics(withLearnMore);
   } catch {
     return null;
   }

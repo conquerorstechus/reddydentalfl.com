@@ -35,6 +35,26 @@
   padding: 64px 0 80px;
 }
 
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 24px;
+  font-family: Roboto, system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--blog-navy);
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.backLink:hover,
+.backLink:focus-visible {
+  color: var(--blog-muted);
+  outline: none;
+}
+
 .header {
   margin-bottom: 40px;
 }

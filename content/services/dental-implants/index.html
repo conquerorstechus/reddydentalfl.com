@@ -1081,6 +1081,46 @@
         --tw-text-opacity: 1;
         color: rgb(70 67 63 / var(--tw-text-opacity, 1));
       }
+      @keyframes backLinkPulse {
+        0%,
+        100% {
+          opacity: 1;
+          box-shadow: 0 0 0 0 rgba(217, 183, 72, 0.55);
+        }
+        50% {
+          opacity: 0.72;
+          box-shadow: 0 0 0 8px rgba(217, 183, 72, 0);
+        }
+      }
+      .back-to-services {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 14px;
+        padding: 8px 16px;
+        border: 1.5px solid #46433f;
+        border-radius: 999px;
+        font-family: Roboto, sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.3;
+        color: #46433f;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.65);
+        animation: backLinkPulse 1.4s ease-in-out infinite;
+      }
+      .back-to-services:hover,
+      .back-to-services:focus-visible {
+        background: #46433f;
+        color: #fff;
+        animation: none;
+        outline: none;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .back-to-services {
+          animation: none;
+        }
+      }
       .hover\:text-imageHover:hover,
       .text-texture {
         --tw-text-opacity: 1;
@@ -1603,6 +1643,9 @@
     <main id="main">
       <div class="bg-tertiary py-md px-sm flex justify-center">
         <div class="max-w-content w-full text-center lg:text-start">
+          <a href="/#services" target="_self" class="back-to-services">
+            ← Back to Services
+          </a>
           <h1 class="font-subtitle1 font-[400] capitalize text-[26px] md:text-[30px] text-tertiaryTitle">
             Your Best Choice for Dental Implants
           </h1>

@@ -1082,6 +1082,136 @@
           text-align: start;
         }
       }
+
+      /* Interactive technology destination links */
+      .tech-links {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        width: min(100%, 760px);
+        margin: 0 auto;
+      }
+      @media (min-width: 640px) {
+        .tech-links {
+          grid-template-columns: 1fr 1fr;
+          gap: 14px 16px;
+        }
+      }
+      .tech-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px 18px 16px 20px;
+        text-decoration: none;
+        color: rgb(99 99 99);
+        background: rgb(255 255 255);
+        border: 1px solid rgb(214 210 203);
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+        font-family: Roboto, sans-serif;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 1.35;
+        opacity: 0;
+        transform: translateY(10px);
+        animation: techLinkIn 0.55s ease forwards;
+        transition:
+          color 0.25s ease,
+          border-color 0.25s ease,
+          background-color 0.25s ease,
+          transform 0.25s ease;
+      }
+      .tech-link::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: #d9b748;
+        transform: scaleY(0.4);
+        transform-origin: center;
+        transition:
+          transform 0.3s ease,
+          width 0.3s ease;
+      }
+      .tech-link:hover,
+      .tech-link:focus-visible {
+        color: rgb(35 31 32);
+        background: rgb(243 242 240);
+        border-color: rgb(217 183 72 / 0.65);
+        transform: translateY(-2px);
+        outline: none;
+      }
+      .tech-link:hover::before,
+      .tech-link:focus-visible::before {
+        transform: scaleY(1);
+        width: 4px;
+      }
+      .tech-link-name {
+        display: inline-block;
+        transition: transform 0.25s ease;
+      }
+      .tech-link:hover .tech-link-name,
+      .tech-link:focus-visible .tech-link-name {
+        transform: translateX(4px);
+      }
+      .tech-link-arrow {
+        flex-shrink: 0;
+        color: #d9b748;
+        font-size: 18px;
+        line-height: 1;
+        transition: transform 0.25s ease;
+      }
+      .tech-link:hover .tech-link-arrow,
+      .tech-link:focus-visible .tech-link-arrow {
+        transform: translateX(5px);
+      }
+      @keyframes techLinkIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .tech-link:nth-child(1) {
+        animation-delay: 0.04s;
+      }
+      .tech-link:nth-child(2) {
+        animation-delay: 0.09s;
+      }
+      .tech-link:nth-child(3) {
+        animation-delay: 0.14s;
+      }
+      .tech-link:nth-child(4) {
+        animation-delay: 0.19s;
+      }
+      .tech-link:nth-child(5) {
+        animation-delay: 0.24s;
+      }
+      .tech-link:nth-child(6) {
+        animation-delay: 0.29s;
+      }
+      .tech-link:nth-child(7) {
+        animation-delay: 0.34s;
+      }
+      .tech-link:nth-child(8) {
+        animation-delay: 0.39s;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .tech-link {
+          opacity: 1;
+          transform: none;
+          animation: none;
+          transition: none;
+        }
+        .tech-link::before,
+        .tech-link-name,
+        .tech-link-arrow {
+          transition: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1478,69 +1608,47 @@
         </div>
       </div>
 
-      <div class="bg-neutral px-sm py-sm flex justify-center">
-        <div class="max-w-content gap-lg flex flex-wrap justify-center">
-          <div class="">
-            <h3 class="font-title font-[400] capitalize text-[16px] text-neutralHighlight text-center pb-2.5">
-              Technologies
-            </h3>
-            <div class="sm:grid-cols-2 gap-x-sm grid grid-cols-1 gap-1">
-              <div>
-                <a target="_self" class="font-body font-[300] normal-case text-[16px] text-neutral text-neutralHover" href="/technologies/3d-imaging/">
-                  <span class="text-neutralHighlight">»</span>
-                  3D Imaging
-                </a>
-              </div>
-
-              <div>
-                <a target="_self" class="font-body font-[300] normal-case text-[16px] text-neutral text-neutralHover" href="/technologies/cone-beam/">
-                  <span class="text-neutralHighlight">»</span>
-                  Cone Beam Technology
-                </a>
-              </div>
-
-              <div>
-                <a target="_self" class="font-body font-[300] normal-case text-[16px] text-neutral text-neutralHover" href="/technologies/impressions/">
-                  <span class="text-neutralHighlight">»</span>
-                  Digital Impressions
-                </a>
-              </div>
-
-              <div>
-                <a target="_self" class="font-body font-[300] normal-case text-[16px] text-neutral text-neutralHover" href="/technologies/digital-x-rays/">
-                  <span class="text-neutralHighlight">»</span>
-                  Digital X-Rays
-                </a>
-              </div>
-
-              <div>
-                <a target="_self" class="font-body font-[300] normal-case text-[16px] text-neutral text-neutralHover" href="/technologies/intraoral-cameras/">
-                  <span class="text-neutralHighlight">»</span>
-                  Intraoral Cameras
-                </a>
-              </div>
-
-              <div>
-                <a target="_self" class="font-body font-[300] normal-case text-[16px] text-neutral text-neutralHover" href="/services/oral-cancer-screenings/">
-                  <span class="text-neutralHighlight">»</span>
-                  Oral Cancer Screenings
-                </a>
-              </div>
-
-              <div>
-                <a target="_self" class="font-body font-[300] normal-case text-[16px] text-neutral text-neutralHover" href="/technologies/panoramic-x-rays/">
-                  <span class="text-neutralHighlight">»</span>
-                  Panoramic X-Rays
-                </a>
-              </div>
-
-              <div>
-                <a target="_self" class="font-body font-[300] normal-case text-[16px] text-neutral text-neutralHover" href="/technologies/ultrasonic-scaler/">
-                  <span class="text-neutralHighlight">»</span>
-                  Ultrasonic Scaler
-                </a>
-              </div>
-            </div>
+      <div class="bg-neutral px-sm py-md flex justify-center">
+        <div class="max-w-content w-full">
+          <h3 class="font-title font-[400] capitalize text-[16px] text-neutralHighlight text-center pb-2.5">
+            Technologies
+          </h3>
+          <p class="font-body font-[300] normal-case text-[16px] text-neutral text-center pb-sm">
+            Explore the tools behind more precise, comfortable care.
+          </p>
+          <div class="tech-links" role="list">
+            <a class="tech-link" role="listitem" target="_self" href="/technologies/3d-imaging/">
+              <span class="tech-link-name">3D Imaging</span>
+              <span class="tech-link-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="tech-link" role="listitem" target="_self" href="/technologies/cone-beam/">
+              <span class="tech-link-name">Cone Beam Technology</span>
+              <span class="tech-link-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="tech-link" role="listitem" target="_self" href="/technologies/impressions/">
+              <span class="tech-link-name">Digital Impressions</span>
+              <span class="tech-link-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="tech-link" role="listitem" target="_self" href="/technologies/digital-x-rays/">
+              <span class="tech-link-name">Digital X-Rays</span>
+              <span class="tech-link-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="tech-link" role="listitem" target="_self" href="/technologies/intraoral-cameras/">
+              <span class="tech-link-name">Intraoral Cameras</span>
+              <span class="tech-link-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="tech-link" role="listitem" target="_self" href="/services/oral-cancer-screenings/">
+              <span class="tech-link-name">Oral Cancer Screenings</span>
+              <span class="tech-link-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="tech-link" role="listitem" target="_self" href="/technologies/panoramic-x-rays/">
+              <span class="tech-link-name">Panoramic X-Rays</span>
+              <span class="tech-link-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="tech-link" role="listitem" target="_self" href="/technologies/ultrasonic-scaler/">
+              <span class="tech-link-name">Ultrasonic Scaler</span>
+              <span class="tech-link-arrow" aria-hidden="true">→</span>
+            </a>
           </div>
         </div>
       </div>
