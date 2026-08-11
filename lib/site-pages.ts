@@ -148,6 +148,117 @@ function injectGoogleAnalytics(html: string): string {
   return `${html}${snippet}`;
 }
 
+/**
+ * Site-wide mobile layout fixes for static HTML pages.
+ * - pre-wrap + indented source caused pinched bio text
+ * - oversized header phone overlapped the hamburger
+ * - fixed-width images/callouts overflowed small viewports
+ */
+function injectMobileResponsiveFixes(html: string): string {
+  if (html.includes("data-mobile-responsive-fix")) {
+    return html;
+  }
+
+  const styles = `
+    <style data-mobile-responsive-fix>
+      /* Indentation in HTML source was preserved as leading spaces */
+      p {
+        white-space: normal !important;
+      }
+
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      img,
+      video,
+      iframe {
+        max-width: 100%;
+      }
+
+      /* Mobile top bar: keep menu + phone + book icon on one row */
+      @media (max-width: 1023px) {
+        #topNav .max-w-content {
+          min-width: 0;
+          gap: 0.5rem;
+        }
+
+        #topNav a[href^="tel:"].lg\\:hidden,
+        #topNav #phoneNumber {
+          font-size: clamp(12px, 3.5vw, 16px) !important;
+          line-height: 1.15 !important;
+          white-space: nowrap;
+          max-width: min(58vw, 11.5rem);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          flex-shrink: 1;
+        }
+
+        #topNav .flex.items-center.gap-3,
+        #topNav .flex.items-center.gap-x-3 {
+          min-width: 0;
+          flex: 1 1 auto;
+          justify-content: flex-end;
+        }
+
+        #menuBar img.h-\\[50px\\].w-\\[250px\\],
+        #menuBar img[alt="Logo"] {
+          width: min(250px, 72vw) !important;
+          height: auto !important;
+          max-height: 50px;
+        }
+
+        main img.h-72.w-72,
+        main img.w-72 {
+          width: min(18rem, 100%) !important;
+          height: auto !important;
+          max-width: 100%;
+        }
+
+        .w-\\[320px\\] {
+          width: min(320px, 100%) !important;
+        }
+
+        .w-\\[280px\\] {
+          width: min(280px, 100%) !important;
+        }
+
+        .sm\\:w-\\[500px\\] {
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        #topNav a[href^="tel:"].lg\\:hidden,
+        #topNav #phoneNumber {
+          max-width: min(52vw, 9.75rem);
+        }
+      }
+    </style>
+`;
+
+  if (/<\/head>/i.test(html)) {
+    return html.replace(/<\/head>/i, `${styles}</head>`);
+  }
+
+  return `${styles}${html}`;
+}
+
+/** Shorten the mobile header phone so it fits beside the menu icon. */
+function fixMobileHeaderPhone(html: string): string {
+  return html
+    .replace(
+      /(<a\b(?=[^>]*\bid=["']phoneNumber["'])[^>]*>)\s*727-377-3339\s*\(727-DR REDDY\)\s*(<\/a>)/gi,
+      "$1\n                727-377-3339\n              $2",
+    )
+    .replace(
+      /(<a\b(?=[^>]*\blg:hidden\b)(?=[^>]*\bhref=["']tel:727-377-3339["'])[^>]*>)\s*727-377-3339\s*\(727-DR REDDY\)\s*(<\/a>)/gi,
+      "$1\n                727-377-3339\n              $2",
+    );
+}
+
 export async function readSiteHtml(
   slug: string[] = [],
   origin?: string,
@@ -157,7 +268,9 @@ export async function readSiteHtml(
   try {
     const html = await fs.readFile(filePath, "utf8");
     const withOg = injectOpenGraphTags(html, slug, resolveSiteOrigin(origin));
-    return injectGoogleAnalytics(withOg);
+    const withPhone = fixMobileHeaderPhone(withOg);
+    const withMobile = injectMobileResponsiveFixes(withPhone);
+    return injectGoogleAnalytics(withMobile);
   } catch {
     return null;
   }
