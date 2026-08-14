@@ -1,10 +1,21 @@
 import { createOpinlyClient } from "@opinly/backend";
 
-// Picks up OPINLY_API_KEY from the environment. Short revalidate keeps newly
-// published posts visible until webhook invalidation is wired up; tags stay
-// ready for that later step.
-export const opinly = createOpinlyClient({
-  apiKey: process.env.OPINLY_API_KEY,
-  fetch: (url, init) =>
-    fetch(url, { ...init, next: { revalidate: 60, tags: ["opinly"] } }),
-});
+const apiKey = process.env.OPINLY_API_KEY?.trim();
+
+const fetchWithRevalidate: typeof fetch = (input, init) =>
+  fetch(input, { ...init, next: { revalidate: 60, tags: ["opinly"] } });
+
+export const hasOpinlyApiKey = Boolean(apiKey);
+
+export const opinly = hasOpinlyApiKey
+  ? createOpinlyClient({
+      apiKey,
+      fetch: fetchWithRevalidate,
+    })
+  : ({
+      posts: async () => ({ data: [] }),
+      categories: async () => [],
+      authors: async () => ({ data: [] }),
+      author: async () => ({ type: "not-found", data: null }),
+      post: async () => null,
+    } as any);

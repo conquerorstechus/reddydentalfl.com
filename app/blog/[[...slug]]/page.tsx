@@ -36,7 +36,7 @@ const loadRoute = async (slug: string[]) => {
       opinly.categories(),
       opinly.posts({ category: slug[1] }),
     ]);
-    const meta = categories.find((c) => c.slug === slug[1]);
+    const meta = categories.find((c: CategorySummary) => c.slug === slug[1]);
     if (!meta) return { type: "not-found" as const };
     return {
       type: "category" as const,
@@ -244,7 +244,7 @@ function AuthorsView({ authors }: { authors: AuthorsData }) {
     <main>
       <h1>Authors</h1>
       <ul>
-        {authors.map((author) => (
+        {authors.map((author: { slug: string; name: string }) => (
           <li key={author.slug}>
             <Link href={`${blogPrefix}/${authorPrefix}/${author.slug}/`}>
               {author.name}
