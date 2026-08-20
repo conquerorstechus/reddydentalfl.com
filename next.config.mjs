@@ -3,6 +3,15 @@ import { withOpinlyConfig } from "@opinly/next";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
+  async redirects() {
+    return [
+      {
+        source: "/offer/call-us",
+        destination: "/offers/call-us/",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withOpinlyConfig({

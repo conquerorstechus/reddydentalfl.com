@@ -2,6 +2,10 @@
 export const GA_MEASUREMENT_ID =
   process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-1CH7FV431K";
 
+/** Google Tag Manager container ID (public; safe to expose client-side). */
+export const GTM_CONTAINER_ID =
+  process.env.NEXT_PUBLIC_GTM_CONTAINER_ID || "GTM-PMT4LNC5";
+
 /**
  * gtag.js snippet for static HTML pages served by the Route Handler
  * (app/[[...slug]]/route.ts), which bypasses RootLayout / React.
