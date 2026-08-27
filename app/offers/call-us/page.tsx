@@ -94,6 +94,22 @@ export default function CallUsOfferPage() {
           </a>
         </section>
 
+        <section style={styles.offerBannerSecond} aria-labelledby="limited-exam-heading">
+          <div style={styles.price}>$59</div>
+          <div style={styles.offerCopy}>
+            <p style={styles.cardLabel}>Need care now?</p>
+            <h2 id="limited-exam-heading" style={styles.sectionTitle}>
+              Limited exam &amp; X-ray
+            </h2>
+            <p style={styles.cardText}>
+              Concerned about a dental issue? Start with a limited exam and X-ray for just $59. We&apos;ll evaluate your concern, provide a diagnosis and treatment plan for any necessary dental work, or, if appropriate, call in an antibiotic to help address an infection.
+            </p>
+          </div>
+          <a href={PHONE_TEL} style={styles.claimButton}>
+            Call to claim this offer
+          </a>
+        </section>
+
         <div style={styles.bottomRow}>
           <p style={styles.bottomText}>
             Questions at any hour? Call now for an appointment as early as tomorrow.
@@ -251,6 +267,17 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: "center",
     gap: "22px",
     marginTop: "30px",
+    padding: "24px",
+    borderRadius: "20px",
+    background: "#f8fbff",
+    border: "1px solid #dbe9f7",
+  },
+  offerBannerSecond: {
+    display: "grid",
+    gridTemplateColumns: "auto 1fr auto",
+    alignItems: "center",
+    gap: "22px",
+    marginTop: "16px",
     padding: "24px",
     borderRadius: "20px",
     background: "#f8fbff",
