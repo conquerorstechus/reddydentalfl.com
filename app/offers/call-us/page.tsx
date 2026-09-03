@@ -1,24 +1,23 @@
 import Link from "next/link";
 
 const PHONE_TEL = "tel:727-377-3339";
-const PHONE_DISPLAY = "727-377-3339";
 
 const insurancePlans = [
-  { carrier: "Aetna", contract: "Direct", plans: "PPO and Medicare", effective: "6.17.2026" },
-  { carrier: "Always Care", contract: "Connection Dental", plans: "PPO", effective: "3.1.2026" },
-  { carrier: "Ameritas", contract: "Connection Dental", plans: "Classic PPO", effective: "3.1.2026" },
-  { carrier: "Anthem", contract: "Connection Dental", plans: "300/Complete", effective: "3.1.2026" },
-  { carrier: "Cigna", contract: "Connection Dental", plans: "Total DPPO", effective: "3.1.2026" },
-  { carrier: "GEHA", contract: "Connection Dental", plans: "PPO", effective: "3.1.2026" },
-  { carrier: "Humana", contract: "Connection Dental", plans: "PPO and Medicare", effective: "3.17.2026" },
-  { carrier: "LFG", contract: "Connection Dental", plans: "PPO Plans", effective: "3.1.2026" },
-  { carrier: "DNoA", contract: "Connection Dental", plans: "PPO and Medicare", effective: "3.1.2026" },
-  { carrier: "MetLife", contract: "Connection Dental", plans: "PDP Plus", effective: "3.1.2026" },
-  { carrier: "Principal", contract: "Connection Dental", plans: "Principal Preferred", effective: "3.16.2026" },
-  { carrier: "United Concordia", contract: "Connection Dental", plans: "Elite Plus", effective: "3.1.2026" },
-  { carrier: "United Healthcare", contract: "Connection Dental", plans: "Medicare and PPO", effective: "3.1.2026" },
-  { carrier: "Delta Dental", contract: "Direct", plans: "PPO and Premier", effective: "5.20.2026" },
-  { carrier: "Florida Blue", contract: "Direct", plans: "BlueDental Access Max", effective: "3.15.2026" },
+  { carrier: "Aetna", plans: "PPO and Medicare" },
+  { carrier: "Always Care", plans: "PPO" },
+  { carrier: "Ameritas", plans: "Classic PPO" },
+  { carrier: "Anthem", plans: "300/Complete" },
+  { carrier: "Cigna", plans: "Total DPPO" },
+  { carrier: "GEHA", plans: "PPO" },
+  { carrier: "Humana", plans: "PPO and Medicare" },
+  { carrier: "LFG", plans: "PPO plans" },
+  { carrier: "DNoA", plans: "PPO and Medicare" },
+  { carrier: "MetLife", plans: "PDP Plus" },
+  { carrier: "Principal", plans: "Principal Preferred" },
+  { carrier: "United Concordia", plans: "Elite Plus" },
+  { carrier: "United Healthcare", plans: "Medicare and PPO" },
+  { carrier: "Delta Dental", plans: "PPO and Premier" },
+  { carrier: "Florida Blue", plans: "BlueDental Access Max" },
 ];
 
 export default function CallUsOfferPage() {
@@ -30,15 +29,15 @@ export default function CallUsOfferPage() {
         <div style={styles.topRow}>
           <div>
             <p style={styles.eyebrow}>Reddy Dental</p>
-            <h1 style={styles.title}>Care that fits your coverage and your budget.</h1>
+            <h1 style={styles.title}>Let&apos;s find the right way to care for your smile.</h1>
           </div>
           <a href={PHONE_TEL} style={styles.primaryButton}>
-            Call {PHONE_DISPLAY}
+            Call the office
           </a>
         </div>
 
         <p style={styles.subtitle}>
-          Call us any time, even in the middle of the night. Our team will help you understand your options, and we can make an appointment for as early as the next day.
+          Have questions about your insurance or need an appointment? Call our friendly team. We&apos;ll explain your options in simple terms and help you find a time that works for you.
         </p>
 
         <section style={styles.insuranceSection} aria-labelledby="insurance-heading">
@@ -46,10 +45,10 @@ export default function CallUsOfferPage() {
             <div>
               <p style={styles.cardLabel}>Insurance patients</p>
               <h2 id="insurance-heading" style={styles.sectionTitle}>
-                Accepted insurance plans
+                Insurance plans we accept
               </h2>
             </div>
-            <p style={styles.effectiveNote}>Effective dates shown below</p>
+            <p style={styles.effectiveNote}>Coverage can vary by plan</p>
           </div>
 
           <div style={styles.tableWrap}>
@@ -57,9 +56,7 @@ export default function CallUsOfferPage() {
               <thead>
                 <tr>
                   <th scope="col" style={styles.th}>Carrier</th>
-                  <th scope="col" style={styles.th}>Contract accessing</th>
-                  <th scope="col" style={styles.th}>Plans accessing</th>
-                  <th scope="col" style={styles.th}>Effective date</th>
+                  <th scope="col" style={styles.th}>Plans we accept</th>
                 </tr>
               </thead>
               <tbody>
@@ -68,9 +65,7 @@ export default function CallUsOfferPage() {
                     <th scope="row" style={styles.td}>
                       {plan.carrier}
                     </th>
-                    <td style={styles.td}>{plan.contract}</td>
                     <td style={styles.td}>{plan.plans}</td>
-                    <td style={styles.td}>{plan.effective}</td>
                   </tr>
                 ))}
               </tbody>
@@ -83,14 +78,14 @@ export default function CallUsOfferPage() {
           <div style={styles.offerCopy}>
             <p style={styles.cardLabel}>No insurance? No problem.</p>
             <h2 id="no-insurance-heading" style={styles.sectionTitle}>
-              Start with an extensive, comprehensive evaluation.
+              New patient exam and X-rays
             </h2>
             <p style={styles.cardText}>
-              New patients without dental insurance can receive a comprehensive evaluation, including x-rays, for just $99. We&apos;ll take the time to understand your concerns, assess your oral health, and explain your treatment options clearly.
+              New patients without dental insurance can receive a complete exam, including X-rays, for just $99. We&apos;ll listen to your concerns, check your oral health, and explain your options clearly.
             </p>
           </div>
           <a href={PHONE_TEL} style={styles.claimButton}>
-            Call to claim this offer
+            Call the office
           </a>
         </section>
 
@@ -99,14 +94,14 @@ export default function CallUsOfferPage() {
           <div style={styles.offerCopy}>
             <p style={styles.cardLabel}>Need care now?</p>
             <h2 id="limited-exam-heading" style={styles.sectionTitle}>
-              Limited exam &amp; X-ray
+              Focused exam and X-ray
             </h2>
             <p style={styles.cardText}>
-              Concerned about a dental issue? Start with a limited exam and X-ray for just $59. We&apos;ll evaluate your concern, provide a diagnosis and treatment plan for any necessary dental work, or, if appropriate, call in an antibiotic to help address an infection.
+              Have a specific dental concern? Start with a focused exam and X-ray for just $59. We&apos;ll identify the issue, explain the next steps, and, when appropriate, call in an antibiotic for an infection.
             </p>
           </div>
           <a href={PHONE_TEL} style={styles.claimButton}>
-            Call to claim this offer
+            Call the office
           </a>
         </section>
 
@@ -241,7 +236,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   table: {
     width: "100%",
-    minWidth: "700px",
+    minWidth: "520px",
     borderCollapse: "collapse",
     color: "#304c6b",
     fontSize: "0.95rem",
