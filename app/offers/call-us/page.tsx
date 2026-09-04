@@ -1,6 +1,11 @@
+"use client";
+
+import { FormEvent, useState } from "react";
 import Link from "next/link";
 
 const PHONE_TEL = "tel:727-377-3339";
+const CONTACT_ENDPOINT =
+  "https://n8n.srv1393511.hstgr.cloud/webhook/8e9ccd83-8fbd-47f8-a088-044357d44c2e";
 
 const insurancePlans = [
   { carrier: "Aetna", plans: "PPO and Medicare" },
@@ -21,6 +26,34 @@ const insurancePlans = [
 ];
 
 export default function CallUsOfferPage() {
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setFormStatus("loading");
+
+    try {
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          source: "https://www.reddydentalfl.com/offers/call-us/",
+          name: name.trim(),
+          phoneNumber: phoneNumber.trim(),
+        }),
+      });
+
+      setFormStatus(response.ok ? "success" : "error");
+    } catch {
+      setFormStatus("error");
+    }
+  }
+
   return (
     <main style={styles.page}>
       <section style={styles.hero}>
@@ -29,7 +62,7 @@ export default function CallUsOfferPage() {
         <div style={styles.topRow}>
           <div>
             <p style={styles.eyebrow}>Reddy Dental</p>
-            <h1 style={styles.title}>Let&apos;s find the right way to care for your smile.</h1>
+            <h1 style={styles.title}>Whether you have insurance or not, you&apos;re in caring hands.</h1>
           </div>
           <a href={PHONE_TEL} style={styles.primaryButton}>
             Call the office
@@ -37,41 +70,25 @@ export default function CallUsOfferPage() {
         </div>
 
         <p style={styles.subtitle}>
-          Have questions about your insurance or need an appointment? Call our friendly team. We&apos;ll explain your options in simple terms and help you find a time that works for you.
+          We take the time to listen, explain every procedure patiently, and help you choose care that feels right for your health and your budget.
         </p>
 
-        <section style={styles.insuranceSection} aria-labelledby="insurance-heading">
-          <div style={styles.insuranceHeader}>
-            <div>
-              <p style={styles.cardLabel}>Insurance patients</p>
-              <h2 id="insurance-heading" style={styles.sectionTitle}>
-                Insurance plans we accept
-              </h2>
-            </div>
-            <p style={styles.effectiveNote}>Coverage can vary by plan</p>
-          </div>
-
+        <details style={styles.insuranceSection}>
+          <summary style={styles.insuranceSummary}>
+            <span>
+              <span style={styles.cardLabel}>Insurance patients</span>
+              <span id="insurance-heading" style={styles.sectionTitle}>Insurance plans we accept</span>
+            </span>
+            <span style={styles.summaryHint}>View accepted plans</span>
+          </summary>
+          <p style={styles.effectiveNote}>Coverage can vary by plan. We&apos;ll gladly help verify your benefits.</p>
           <div style={styles.tableWrap}>
             <table style={styles.table}>
-              <thead>
-                <tr>
-                  <th scope="col" style={styles.th}>Carrier</th>
-                  <th scope="col" style={styles.th}>Plans we accept</th>
-                </tr>
-              </thead>
-              <tbody>
-                {insurancePlans.map((plan) => (
-                  <tr key={plan.carrier}>
-                    <th scope="row" style={styles.td}>
-                      {plan.carrier}
-                    </th>
-                    <td style={styles.td}>{plan.plans}</td>
-                  </tr>
-                ))}
-              </tbody>
+              <thead><tr><th scope="col" style={styles.th}>Carrier</th><th scope="col" style={styles.th}>Plans we accept</th></tr></thead>
+              <tbody>{insurancePlans.map((plan) => <tr key={plan.carrier}><th scope="row" style={styles.td}>{plan.carrier}</th><td style={styles.td}>{plan.plans}</td></tr>)}</tbody>
             </table>
           </div>
-        </section>
+        </details>
 
         <section style={styles.offerBanner} aria-labelledby="no-insurance-heading">
           <div style={styles.price}>$99</div>
@@ -113,6 +130,27 @@ export default function CallUsOfferPage() {
             Call the office now
           </a>
         </div>
+
+        <section style={styles.callbackSection} aria-labelledby="callback-heading">
+          <p style={styles.cardLabel}>Prefer a callback?</p>
+          <h2 id="callback-heading" style={{ ...styles.sectionTitle, ...styles.callbackTitle }}>Tell us where to reach you.</h2>
+          <p style={{ ...styles.cardText, ...styles.callbackText }}>Share your name and phone number and our team will get back to you.</p>
+          <form onSubmit={handleSubmit} style={styles.callbackForm}>
+            <label style={styles.fieldLabel}>
+              Name
+              <input required value={name} onChange={(event) => setName(event.target.value)} style={styles.input} name="name" type="text" autoComplete="name" />
+            </label>
+            <label style={styles.fieldLabel}>
+              Phone number
+              <input required value={phoneNumber} onChange={(event) => setPhoneNumber(event.target.value)} style={styles.input} name="phoneNumber" type="tel" autoComplete="tel" />
+            </label>
+            <button type="submit" style={styles.submitButton} disabled={formStatus === "loading"}>
+              {formStatus === "loading" ? "Sending..." : "Request a callback"}
+            </button>
+          </form>
+          {formStatus === "success" && <p role="status" style={styles.successMessage}>Thanks. We&apos;ll be in touch shortly.</p>}
+          {formStatus === "error" && <p role="alert" style={styles.errorMessage}>Something went wrong. Please call us at 727-377-3339.</p>}
+        </section>
 
         <div style={styles.footerLinkRow}>
           <Link href="/" style={styles.backLink}>
@@ -201,6 +239,24 @@ const styles: Record<string, React.CSSProperties> = {
   insuranceSection: {
     marginTop: "34px",
   },
+  insuranceSummary: {
+    display: "flex",
+    alignItems: "end",
+    justifyContent: "space-between",
+    gap: "18px",
+    cursor: "pointer",
+    listStyle: "none",
+    padding: "20px 22px",
+    border: "1px solid #dbe9f7",
+    borderRadius: "16px",
+    background: "#f8fbff",
+  },
+  summaryHint: {
+    color: "#1d5aa7",
+    fontSize: "0.9rem",
+    fontWeight: 700,
+    whiteSpace: "nowrap",
+  },
   insuranceHeader: {
     display: "flex",
     alignItems: "end",
@@ -217,6 +273,7 @@ const styles: Record<string, React.CSSProperties> = {
     textTransform: "uppercase",
   },
   sectionTitle: {
+    display: "block",
     margin: "8px 0 0",
     color: "#10263f",
     fontSize: "clamp(1.6rem, 3vw, 2.35rem)",
@@ -333,6 +390,65 @@ const styles: Record<string, React.CSSProperties> = {
     textDecoration: "none",
     fontWeight: 700,
     whiteSpace: "nowrap",
+  },
+  callbackSection: {
+    marginTop: "34px",
+    padding: "26px 24px",
+    borderRadius: "20px",
+    background: "#10263f",
+    color: "#fff",
+  },
+  callbackForm: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+    alignItems: "end",
+    gap: "14px",
+    marginTop: "20px",
+  },
+  fieldLabel: {
+    display: "grid",
+    gap: "7px",
+    color: "#dce9f7",
+    fontSize: "0.82rem",
+    fontWeight: 700,
+  },
+  input: {
+    minHeight: "48px",
+    padding: "0 13px",
+    border: "1px solid #b8cee4",
+    borderRadius: "8px",
+    background: "#fff",
+    color: "#10263f",
+    font: "inherit",
+    fontWeight: 400,
+  },
+  submitButton: {
+    minHeight: "48px",
+    padding: "0 20px",
+    border: 0,
+    borderRadius: "8px",
+    background: "#ffd75c",
+    color: "#1b2d3d",
+    font: "inherit",
+    fontWeight: 800,
+    cursor: "pointer",
+    whiteSpace: "nowrap",
+  },
+  callbackTitle: {
+    color: "#fff",
+  },
+  callbackText: {
+    color: "#dce9f7",
+  },
+  successMessage: {
+    margin: "16px 0 0",
+    color: "#d7f1df",
+    fontWeight: 600,
+  },
+  errorMessage: {
+    margin: "16px 0 0",
+    color: "#ffd5d5",
+    fontWeight: 600,
   },
   footerLinkRow: {
     marginTop: "22px",
