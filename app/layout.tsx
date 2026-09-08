@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import GoogleCallTracking from "@/components/google-call-tracking";
+import MetaPixel from "@/components/meta-pixel";
 import { GA_MEASUREMENT_ID } from "@/lib/analytics";
 
 const PRODUCTION_SITE_URL = "https://www.reddydentalfl.com";
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         {children}
         <GoogleCallTracking />
+        <MetaPixel />
       </body>
       <Script id="google-tag-bootstrap" strategy="beforeInteractive">
         {`
