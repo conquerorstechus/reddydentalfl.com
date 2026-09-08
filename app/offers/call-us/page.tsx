@@ -1,9 +1,20 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
+import { GOOGLE_ADS_WEBSITE_CALL_LABEL } from "@/lib/analytics";
 
-const PHONE_TEL = "tel:727-377-3339";
+const PHONE_NUMBER = "727-377-3339";
+const PHONE_TEL = `tel:${PHONE_NUMBER}`;
+
+type TrackingWindow = Window & {
+  gtag?: (...args: unknown[]) => void;
+};
+
+function sendGoogleEvent(eventName: string, parameters: Record<string, unknown>) {
+  const trackingWindow = window as TrackingWindow;
+  trackingWindow.gtag?.("event", eventName, parameters);
+}
 const CONTACT_ENDPOINT =
   "https://n8n.srv1393511.hstgr.cloud/webhook/8e9ccd83-8fbd-47f8-a088-044357d44c2e";
 
@@ -30,6 +41,44 @@ export default function CallUsOfferPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
+  useEffect(() => {
+    let attempts = 0;
+    const configureWebsiteCallTracking = () => {
+      const trackingWindow = window as TrackingWindow;
+      if (typeof trackingWindow.gtag !== "function") {
+        attempts += 1;
+        return attempts < 20;
+      }
+
+      trackingWindow.gtag("config", GOOGLE_ADS_WEBSITE_CALL_LABEL, {
+        phone_conversion_number: PHONE_NUMBER,
+        phone_conversion_callback: (_formattedNumber: string, mobileNumber: string) => {
+          document
+            .querySelectorAll<HTMLAnchorElement>('a[data-google-call-tracking="true"]')
+            .forEach((link) => {
+              link.href = `tel:${mobileNumber}`;
+            });
+        },
+      });
+      return false;
+    };
+
+    if (!configureWebsiteCallTracking()) return;
+    const intervalId = window.setInterval(() => {
+      if (!configureWebsiteCallTracking()) window.clearInterval(intervalId);
+    }, 500);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  function handleCallClick(event: MouseEvent<HTMLAnchorElement>) {
+    sendGoogleEvent("click_to_call", {
+      phone_number: PHONE_NUMBER,
+      link_url: event.currentTarget.href,
+      page_location: window.location.href,
+    });
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormStatus("loading");
@@ -48,7 +97,15 @@ export default function CallUsOfferPage() {
         }),
       });
 
-      setFormStatus(response.ok ? "success" : "error");
+      if (response.ok) {
+        sendGoogleEvent("generate_lead", {
+          form_name: "callback_request",
+          page_location: window.location.href,
+        });
+        setFormStatus("success");
+      } else {
+        setFormStatus("error");
+      }
     } catch {
       setFormStatus("error");
     }
@@ -64,7 +121,7 @@ export default function CallUsOfferPage() {
             <p style={styles.eyebrow}>Reddy Dental</p>
             <h1 style={styles.title}>Whether you have insurance or not, you&apos;re in caring hands.</h1>
           </div>
-          <a href={PHONE_TEL} style={styles.primaryButton}>
+          <a href={PHONE_TEL} onClick={handleCallClick} data-google-call-tracking="true" style={styles.primaryButton}>
             Call the office
           </a>
         </div>
@@ -101,7 +158,7 @@ export default function CallUsOfferPage() {
               New patients without dental insurance can receive a complete exam, including X-rays, for just $99. We&apos;ll listen to your concerns, check your oral health, and explain your options clearly.
             </p>
           </div>
-          <a href={PHONE_TEL} style={styles.claimButton}>
+          <a href={PHONE_TEL} onClick={handleCallClick} data-google-call-tracking="true" style={styles.claimButton}>
             Call the office
           </a>
         </section>
@@ -117,7 +174,7 @@ export default function CallUsOfferPage() {
               Have a specific dental concern? Start with a focused exam and X-ray for just $59. We&apos;ll identify the issue, explain the next steps, and, when appropriate, call in an antibiotic for an infection.
             </p>
           </div>
-          <a href={PHONE_TEL} style={styles.claimButton}>
+          <a href={PHONE_TEL} onClick={handleCallClick} data-google-call-tracking="true" style={styles.claimButton}>
             Call the office
           </a>
         </section>
@@ -126,7 +183,7 @@ export default function CallUsOfferPage() {
           <p style={styles.bottomText}>
             Questions at any hour? Call now for an appointment as early as tomorrow.
           </p>
-          <a href={PHONE_TEL} style={styles.secondaryButton}>
+          <a href={PHONE_TEL} onClick={handleCallClick} data-google-call-tracking="true" style={styles.secondaryButton}>
             Call the office now
           </a>
         </div>
