@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import GoogleCallTracking from "@/components/google-call-tracking";
 import { GA_MEASUREMENT_ID } from "@/lib/analytics";
 
 const PRODUCTION_SITE_URL = "https://www.reddydentalfl.com";
@@ -51,7 +52,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   // receives GA via lib/site-pages.ts → getGoogleAnalyticsHtml().
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <GoogleCallTracking />
+      </body>
       <Script id="google-tag-bootstrap" strategy="beforeInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
