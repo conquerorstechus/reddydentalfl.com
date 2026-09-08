@@ -8,12 +8,23 @@ const PHONE_NUMBER = "727-377-3339";
 const PHONE_TEL = `tel:${PHONE_NUMBER}`;
 
 type TrackingWindow = Window & {
+  dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
 };
 
-function sendGoogleEvent(eventName: string, parameters: Record<string, unknown>) {
+function getGtag() {
   const trackingWindow = window as TrackingWindow;
-  trackingWindow.gtag?.("event", eventName, parameters);
+  trackingWindow.dataLayer = trackingWindow.dataLayer || [];
+  trackingWindow.gtag =
+    trackingWindow.gtag ||
+    ((...args: unknown[]) => {
+      trackingWindow.dataLayer?.push(args);
+    });
+  return trackingWindow.gtag;
+}
+
+function sendGoogleEvent(eventName: string, parameters: Record<string, unknown>) {
+  getGtag()("event", eventName, parameters);
 }
 const CONTACT_ENDPOINT =
   "https://n8n.srv1393511.hstgr.cloud/webhook/8e9ccd83-8fbd-47f8-a088-044357d44c2e";
@@ -42,33 +53,16 @@ export default function CallUsOfferPage() {
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   useEffect(() => {
-    let attempts = 0;
-    const configureWebsiteCallTracking = () => {
-      const trackingWindow = window as TrackingWindow;
-      if (typeof trackingWindow.gtag !== "function") {
-        attempts += 1;
-        return attempts < 20;
-      }
-
-      trackingWindow.gtag("config", GOOGLE_ADS_WEBSITE_CALL_LABEL, {
-        phone_conversion_number: PHONE_NUMBER,
-        phone_conversion_callback: (_formattedNumber: string, mobileNumber: string) => {
-          document
-            .querySelectorAll<HTMLAnchorElement>('a[data-google-call-tracking="true"]')
-            .forEach((link) => {
-              link.href = `tel:${mobileNumber}`;
-            });
-        },
-      });
-      return false;
-    };
-
-    if (!configureWebsiteCallTracking()) return;
-    const intervalId = window.setInterval(() => {
-      if (!configureWebsiteCallTracking()) window.clearInterval(intervalId);
-    }, 500);
-
-    return () => window.clearInterval(intervalId);
+    getGtag()("config", GOOGLE_ADS_WEBSITE_CALL_LABEL, {
+      phone_conversion_number: PHONE_NUMBER,
+      phone_conversion_callback: (_formattedNumber: string, mobileNumber: string) => {
+        document
+          .querySelectorAll<HTMLAnchorElement>('a[data-google-call-tracking="true"]')
+          .forEach((link) => {
+            link.href = `tel:${mobileNumber}`;
+          });
+      },
+    });
   }, []);
 
   function handleCallClick(event: MouseEvent<HTMLAnchorElement>) {
