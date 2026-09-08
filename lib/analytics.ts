@@ -6,6 +6,11 @@ export const GA_MEASUREMENT_ID =
 export const GTM_CONTAINER_ID =
   process.env.NEXT_PUBLIC_GTM_CONTAINER_ID || "GTM-PMT4LNC5";
 
+/** Google Ads tag and website-call conversion label (public IDs). */
+export const GOOGLE_ADS_TAG_ID = "AW-18388713730";
+export const GOOGLE_ADS_WEBSITE_CALL_LABEL =
+  "AW-18388713730/_dS8CIyJ7vAcEIKCtsBE";
+
 /**
  * gtag.js snippet for static HTML pages served by the Route Handler
  * (app/[[...slug]]/route.ts), which bypasses RootLayout / React.
