@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { getGoogleAnalyticsHtml } from "@/lib/analytics";
+import { getGoogleAnalyticsHtml, getMetaPixelHtml } from "@/lib/analytics";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const PRODUCTION_SITE_URL = "https://www.reddydentalfl.com";
@@ -134,12 +134,19 @@ function injectOpenGraphTags(
   return html.replace(/<head[^>]*>/i, (match) => `${match}\n${tags}`);
 }
 
-function injectGoogleAnalytics(html: string): string {
-  if (/googletagmanager\.com\/gtag\/js/i.test(html)) {
-    return html;
+function injectAnalytics(html: string): string {
+  const snippets: string[] = [];
+
+  if (!/googletagmanager\.com\/gtag\/js/i.test(html)) {
+    snippets.push(getGoogleAnalyticsHtml());
   }
 
-  const snippet = getGoogleAnalyticsHtml();
+  if (!/connect\.facebook\.net\/.*\/fbevents\.js/i.test(html)) {
+    snippets.push(getMetaPixelHtml());
+  }
+
+  if (snippets.length === 0) return html;
+  const snippet = snippets.join("\n");
 
   if (/<\/head>/i.test(html)) {
     return html.replace(/<\/head>/i, `${snippet}</head>`);
@@ -614,7 +621,7 @@ export async function readSiteHtml(
     const withCallouts = fixCalloutBackgroundImages(withMobile);
     const withBack = injectPageBackNav(withCallouts, slug);
     const withLearnMore = styleLearnMoreLinks(withBack);
-    return injectGoogleAnalytics(withLearnMore);
+    return injectAnalytics(withLearnMore);
   } catch {
     return null;
   }
