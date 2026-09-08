@@ -9,6 +9,7 @@ const PHONE_TEL = `tel:${PHONE_NUMBER}`;
 type TrackingWindow = Window & {
   dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
+  fbq?: (...args: unknown[]) => void;
 };
 
 function getGtag() {
@@ -73,6 +74,9 @@ export default function CallUsOfferPage() {
         sendGoogleEvent("generate_lead", {
           form_name: "callback_request",
           page_location: window.location.href,
+        });
+        (window as TrackingWindow).fbq?.("track", "Lead", {
+          content_name: "callback_request",
         });
         setFormStatus("success");
       } else {
