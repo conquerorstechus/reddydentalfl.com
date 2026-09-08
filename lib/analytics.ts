@@ -28,6 +28,30 @@ export function getGoogleAnalyticsHtml(gaId: string = GA_MEASUREMENT_ID): string
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', '${gaId}', { send_page_view: true });
+      gtag('config', '${GOOGLE_ADS_TAG_ID}');
+      gtag('config', '${GOOGLE_ADS_WEBSITE_CALL_LABEL}', {
+        phone_conversion_number: '727-377-3339',
+        phone_conversion_callback: function(formattedNumber, mobileNumber) {
+          document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
+            link.setAttribute('href', 'tel:' + mobileNumber);
+            var label = (link.textContent || '').trim();
+            if (/^\\+?[\\d\\s().-]+$/.test(label) && label.replace(/\\D/g, '').length >= 10) {
+              link.textContent = formattedNumber;
+            }
+          });
+        }
+      });
+      document.addEventListener('click', function(event) {
+        var target = event.target;
+        if (!target || typeof target.closest !== 'function') return;
+        var link = target.closest('a[href^="tel:"]');
+        if (!link) return;
+        gtag('event', 'click_to_call', {
+          phone_number: '727-377-3339',
+          link_url: link.href,
+          page_location: window.location.href
+        });
+      }, true);
     </script>
 `;
 }
