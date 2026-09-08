@@ -1,8 +1,7 @@
 "use client";
 
-import { FormEvent, MouseEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { GOOGLE_ADS_WEBSITE_CALL_LABEL } from "@/lib/analytics";
 
 const PHONE_NUMBER = "727-377-3339";
 const PHONE_TEL = `tel:${PHONE_NUMBER}`;
@@ -52,27 +51,6 @@ export default function CallUsOfferPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  useEffect(() => {
-    getGtag()("config", GOOGLE_ADS_WEBSITE_CALL_LABEL, {
-      phone_conversion_number: PHONE_NUMBER,
-      phone_conversion_callback: (_formattedNumber: string, mobileNumber: string) => {
-        document
-          .querySelectorAll<HTMLAnchorElement>('a[data-google-call-tracking="true"]')
-          .forEach((link) => {
-            link.href = `tel:${mobileNumber}`;
-          });
-      },
-    });
-  }, []);
-
-  function handleCallClick(event: MouseEvent<HTMLAnchorElement>) {
-    sendGoogleEvent("click_to_call", {
-      phone_number: PHONE_NUMBER,
-      link_url: event.currentTarget.href,
-      page_location: window.location.href,
-    });
-  }
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormStatus("loading");
@@ -115,7 +93,7 @@ export default function CallUsOfferPage() {
             <p style={styles.eyebrow}>Reddy Dental</p>
             <h1 style={styles.title}>Whether you have insurance or not, you&apos;re in caring hands.</h1>
           </div>
-          <a href={PHONE_TEL} onClick={handleCallClick} data-google-call-tracking="true" style={styles.primaryButton}>
+          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.primaryButton}>
             Call the office
           </a>
         </div>
@@ -152,7 +130,7 @@ export default function CallUsOfferPage() {
               New patients without dental insurance can receive a complete exam, including X-rays, for just $99. We&apos;ll listen to your concerns, check your oral health, and explain your options clearly.
             </p>
           </div>
-          <a href={PHONE_TEL} onClick={handleCallClick} data-google-call-tracking="true" style={styles.claimButton}>
+          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.claimButton}>
             Call the office
           </a>
         </section>
@@ -168,7 +146,7 @@ export default function CallUsOfferPage() {
               Have a specific dental concern? Start with a focused exam and X-ray for just $59. We&apos;ll identify the issue, explain the next steps, and, when appropriate, call in an antibiotic for an infection.
             </p>
           </div>
-          <a href={PHONE_TEL} onClick={handleCallClick} data-google-call-tracking="true" style={styles.claimButton}>
+          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.claimButton}>
             Call the office
           </a>
         </section>
@@ -177,7 +155,7 @@ export default function CallUsOfferPage() {
           <p style={styles.bottomText}>
             Questions at any hour? Call now for an appointment as early as tomorrow.
           </p>
-          <a href={PHONE_TEL} onClick={handleCallClick} data-google-call-tracking="true" style={styles.secondaryButton}>
+          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.secondaryButton}>
             Call the office now
           </a>
         </div>
