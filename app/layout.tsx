@@ -54,17 +54,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
+        <Script id="google-tag-bootstrap" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+          `}
+        </Script>
         {children}
         <GoogleCallTracking />
         <MetaPixel />
+        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
       </body>
-      <Script id="google-tag-bootstrap" strategy="beforeInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
-        `}
-      </Script>
-      <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
     </html>
   );
 }

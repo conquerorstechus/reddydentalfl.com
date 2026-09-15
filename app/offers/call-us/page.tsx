@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const PHONE_NUMBER = "727-377-3339";
 const PHONE_TEL = `tel:${PHONE_NUMBER}`;
@@ -47,10 +48,15 @@ const insurancePlans = [
   { carrier: "Florida Blue", plans: "BlueDental Access Max" },
 ];
 
+function formatPhoneInput(value: string) {
+  return value.replace(/\D/g, "").slice(0, 10);
+}
+
 export default function CallUsOfferPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "error">("idle");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -78,7 +84,8 @@ export default function CallUsOfferPage() {
         (window as TrackingWindow).fbq?.("track", "Lead", {
           content_name: "callback_request",
         });
-        setFormStatus("success");
+        router.push("/offers/call-us/thank-you/");
+        return;
       } else {
         setFormStatus("error");
       }
@@ -171,17 +178,29 @@ export default function CallUsOfferPage() {
           <form onSubmit={handleSubmit} style={styles.callbackForm}>
             <label style={styles.fieldLabel}>
               Name
-              <input required value={name} onChange={(event) => setName(event.target.value)} style={styles.input} name="name" type="text" autoComplete="name" />
+              <input required value={name} onChange={(event) => setName(event.target.value)} style={styles.input} name="name" type="text" autoComplete="name" suppressHydrationWarning />
             </label>
             <label style={styles.fieldLabel}>
               Phone number
-              <input required value={phoneNumber} onChange={(event) => setPhoneNumber(event.target.value)} style={styles.input} name="phoneNumber" type="tel" autoComplete="tel" />
+              <input
+                required
+                value={phoneNumber}
+                onChange={(event) => setPhoneNumber(formatPhoneInput(event.target.value))}
+                style={styles.input}
+                name="phoneNumber"
+                type="tel"
+                inputMode="numeric"
+                autoComplete="tel"
+                maxLength={10}
+                pattern="[0-9]{10}"
+                title="Enter a 10-digit phone number"
+                suppressHydrationWarning
+              />
             </label>
-            <button type="submit" style={styles.submitButton} disabled={formStatus === "loading"}>
+            <button type="submit" style={styles.submitButton} disabled={formStatus === "loading"} suppressHydrationWarning>
               {formStatus === "loading" ? "Sending..." : "Request a callback"}
             </button>
           </form>
-          {formStatus === "success" && <p role="status" style={styles.successMessage}>Thanks. We&apos;ll be in touch shortly.</p>}
           {formStatus === "error" && <p role="alert" style={styles.errorMessage}>Something went wrong. Please call us at 727-377-3339.</p>}
         </section>
 
@@ -472,11 +491,6 @@ const styles: Record<string, React.CSSProperties> = {
   },
   callbackText: {
     color: "#dce9f7",
-  },
-  successMessage: {
-    margin: "16px 0 0",
-    color: "#d7f1df",
-    fontWeight: 600,
   },
   errorMessage: {
     margin: "16px 0 0",
