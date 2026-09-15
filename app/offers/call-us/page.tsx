@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import "./call-us.css";
 
 const PHONE_NUMBER = "727-377-3339";
 const PHONE_TEL = `tel:${PHONE_NUMBER}`;
@@ -99,12 +100,12 @@ export default function CallUsOfferPage() {
       <section style={styles.hero}>
         <div style={styles.kicker}>Dental offers</div>
 
-        <div style={styles.topRow}>
+        <div style={styles.topRow} className="top-row">
           <div>
             <p style={styles.eyebrow}>Reddy Dental</p>
             <h1 style={styles.title}>Whether you have insurance or not, you&apos;re in caring hands.</h1>
           </div>
-          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.primaryButton}>
+          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.primaryButton} className="primary-btn">
             Call the office
           </a>
         </div>
@@ -114,7 +115,7 @@ export default function CallUsOfferPage() {
         </p>
 
         <details style={styles.insuranceSection}>
-          <summary style={styles.insuranceSummary}>
+          <summary style={styles.insuranceSummary} className="insurance-summary">
             <span>
               <span style={styles.cardLabel}>Insurance patients</span>
               <span id="insurance-heading" style={styles.sectionTitle}>Insurance plans we accept</span>
@@ -130,8 +131,8 @@ export default function CallUsOfferPage() {
           </div>
         </details>
 
-        <section style={styles.offerBanner} aria-labelledby="no-insurance-heading">
-          <div style={styles.price}>$99</div>
+        <section style={styles.offerBanner} className="offer-banner" aria-labelledby="no-insurance-heading">
+          <div style={styles.price} className="offer-price">$99</div>
           <div style={styles.offerCopy}>
             <p style={styles.cardLabel}>No insurance? No problem.</p>
             <h2 id="no-insurance-heading" style={styles.sectionTitle}>
@@ -141,13 +142,13 @@ export default function CallUsOfferPage() {
               New patients without dental insurance can receive a complete exam, including X-rays, for just $99. We&apos;ll listen to your concerns, check your oral health, and explain your options clearly.
             </p>
           </div>
-          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.claimButton}>
+          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.claimButton} className="offer-claim-btn">
             Call the office
           </a>
         </section>
 
-        <section style={styles.offerBannerSecond} aria-labelledby="limited-exam-heading">
-          <div style={styles.price}>$59</div>
+        <section style={styles.offerBannerSecond} className="offer-banner" aria-labelledby="limited-exam-heading">
+          <div style={styles.price} className="offer-price">$59</div>
           <div style={styles.offerCopy}>
             <p style={styles.cardLabel}>Need care now?</p>
             <h2 id="limited-exam-heading" style={styles.sectionTitle}>
@@ -157,16 +158,16 @@ export default function CallUsOfferPage() {
               Have a specific dental concern? Start with a focused exam and X-ray for just $59. We&apos;ll identify the issue, explain the next steps, and, when appropriate, call in an antibiotic for an infection.
             </p>
           </div>
-          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.claimButton}>
+          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.claimButton} className="offer-claim-btn">
             Call the office
           </a>
         </section>
 
-        <div style={styles.bottomRow}>
+        <div style={styles.bottomRow} className="bottom-row">
           <p style={styles.bottomText}>
             Questions at any hour? Call now for an appointment as early as tomorrow.
           </p>
-          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.secondaryButton}>
+          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.secondaryButton} className="secondary-btn">
             Call the office now
           </a>
         </div>
@@ -175,7 +176,7 @@ export default function CallUsOfferPage() {
           <p style={styles.cardLabel}>Prefer a callback?</p>
           <h2 id="callback-heading" style={{ ...styles.sectionTitle, ...styles.callbackTitle }}>Tell us where to reach you.</h2>
           <p style={{ ...styles.cardText, ...styles.callbackText }}>Share your name and phone number and our team will get back to you.</p>
-          <form onSubmit={handleSubmit} style={styles.callbackForm}>
+          <form onSubmit={handleSubmit} style={styles.callbackForm} className="callback-form">
             <label style={styles.fieldLabel}>
               Name
               <input required value={name} onChange={(event) => setName(event.target.value)} style={styles.input} name="name" type="text" autoComplete="name" suppressHydrationWarning />

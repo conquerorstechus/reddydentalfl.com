@@ -1,0 +1,37 @@
+@media (max-width: 600px) {
+  .offer-banner {
+    grid-template-columns: 1fr !important;
+  }
+  .offer-banner .offer-price {
+    font-size: 2.5rem !important;
+  }
+  .offer-banner .offer-claim-btn {
+    justify-self: start;
+  }
+  .top-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .top-row .primary-btn {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .bottom-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .bottom-row .secondary-btn {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .insurance-summary {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  .callback-form {
+    grid-template-columns: 1fr !important;
+  }
+}
