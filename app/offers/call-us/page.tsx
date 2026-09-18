@@ -71,7 +71,7 @@ export default function CallUsOfferPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          source: "https://www.reddydentalfl.com/offers/call-us/",
+          source: window.location.href,
           name: name.trim(),
           phoneNumber: phoneNumber.trim(),
         }),
@@ -85,7 +85,10 @@ export default function CallUsOfferPage() {
         (window as TrackingWindow).fbq?.("track", "Lead", {
           content_name: "callback_request",
         });
-        router.push("/offers/call-us/thank-you/");
+        const currentPath = window.location.pathname.endsWith("/")
+          ? window.location.pathname
+          : `${window.location.pathname}/`;
+        router.push(`${currentPath}thank-you/`);
         return;
       } else {
         setFormStatus("error");
