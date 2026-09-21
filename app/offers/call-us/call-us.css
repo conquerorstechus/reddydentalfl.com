@@ -1,37 +1,453 @@
-@media (max-width: 600px) {
-  .offer-banner {
-    grid-template-columns: 1fr !important;
-  }
-  .offer-banner .offer-price {
-    font-size: 2.5rem !important;
-  }
-  .offer-banner .offer-claim-btn {
-    justify-self: start;
-  }
-  .top-row {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-  }
-  .top-row .primary-btn {
-    width: 100%;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+:root {
+  --gold: #d9b748;
+  --gold-light: #f4e8b8;
+  --ink: #18243a;
+  --blue: #244e66;
+  --cream: #fbfaf5;
+  --white: #ffffff;
+  --muted: #637083;
+  --line: #e6e2d6;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+
+.lp-page {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--white);
+  color: var(--ink);
+  font-family: "Roboto", Arial, sans-serif;
+  padding-bottom: 0;
+}
+
+.lp-page h1,
+.lp-page h2,
+.lp-page h3 {
+  font-family: Atwood, Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  margin: 0;
+}
+
+.lp-page p { line-height: 1.65; }
+
+.lp-header {
+  width: min(1180px, calc(100% - 40px));
+  min-height: 88px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold);
+  font-family: Atwood, Georgia, serif;
+  font-size: 1.65rem;
+}
+
+.brand strong,
+.brand small { display: block; }
+.brand strong { font-family: Atwood, Georgia, serif; font-size: 1.25rem; font-weight: 500; }
+.brand small { margin-top: 3px; color: var(--muted); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
+
+.header-phone {
+  color: var(--ink);
+  text-align: right;
+  text-decoration: none;
+}
+.header-phone small,
+.header-phone strong { display: block; }
+.header-phone small { color: var(--muted); font-size: .75rem; }
+.header-phone strong { margin-top: 3px; font-size: 1.08rem; }
+
+.hero {
+  width: min(1240px, calc(100% - 32px));
+  min-height: 620px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  overflow: hidden;
+  border-radius: 30px;
+  background: var(--ink);
+  color: var(--white);
+}
+
+.hero-copy {
+  padding: clamp(54px, 7vw, 96px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+  color: var(--gold);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 670px;
+  font-size: clamp(3rem, 5.7vw, 5.7rem);
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+
+.hero-lead {
+  max-width: 650px;
+  margin: 28px 0 0;
+  color: #dce2ea;
+  font-size: 1.08rem;
+}
+
+.hero-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 32px;
+}
+
+.hero-points span {
+  position: relative;
+  padding-left: 18px;
+  color: #f7f8fa;
+  font-size: .88rem;
+}
+
+.hero-points span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .4em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.hero-image {
+  position: relative;
+  min-height: 560px;
+  background:
+    linear-gradient(90deg, rgba(24,36,58,.35), transparent 40%),
+    url("/assets/Atwood-south-valley-dental/request-appt-callout-01.webp") center/cover no-repeat;
+}
+
+.hero-badge {
+  position: absolute;
+  right: 26px;
+  bottom: 26px;
+  padding: 17px 20px;
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 14px;
+  background: rgba(255,255,255,.92);
+  color: var(--ink);
+  box-shadow: 0 12px 32px rgba(0,0,0,.2);
+}
+.hero-badge strong,
+.hero-badge span { display: block; }
+.hero-badge strong { font-family: Atwood, Georgia, serif; font-size: 1.2rem; }
+.hero-badge span { margin-top: 3px; color: var(--muted); font-size: .78rem; }
+
+.call-strip {
+  width: min(1060px, calc(100% - 40px));
+  margin: -42px auto 0;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 34px;
+  border: 1px solid rgba(24,36,58,.08);
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 18px 50px rgba(24,36,58,.14);
+}
+.call-strip p { margin: 0 0 3px; color: var(--muted); font-size: .9rem; }
+.call-strip strong { font-family: Atwood, Georgia, serif; font-size: 1.45rem; font-weight: 500; }
+
+.call-button,
+.directions-button {
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.call-button:hover,
+.directions-button:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(217,183,72,.3); }
+.call-button-dark { background: var(--white); }
+
+.form-section,
+.trust-section,
+.services-section,
+.why-section,
+.insurance-section,
+.location-section,
+.final-cta {
+  width: min(1120px, calc(100% - 40px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-section {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: clamp(40px, 8vw, 100px);
+  align-items: start;
+}
+
+.form-intro h2,
+.trust-copy h2,
+.services-section h2,
+.why-section h2,
+.insurance-section h2,
+.location-copy h2,
+.final-cta h2 {
+  font-size: clamp(2.35rem, 4.2vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -.035em;
+}
+.form-intro > p:not(.eyebrow) { margin: 20px 0 0; color: var(--muted); }
+
+.offer-notes { margin-top: 30px; display: grid; gap: 13px; }
+.offer-notes div { display: grid; grid-template-columns: 72px 1fr; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); }
+.offer-notes strong { color: var(--gold); font-family: Atwood, Georgia, serif; font-size: 1.65rem; }
+.offer-notes span { color: var(--muted); font-size: .85rem; line-height: 1.45; }
+
+.lead-form {
+  display: grid;
+  gap: 17px;
+  padding: clamp(26px, 5vw, 46px);
+  border-radius: 24px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+}
+.lead-form label { display: grid; gap: 8px; color: var(--ink); font-size: .84rem; font-weight: 700; }
+.lead-form label span { color: var(--muted); font-weight: 400; }
+.lead-form input,
+.lead-form select {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 15px;
+  border: 1px solid #cfcab9;
+  border-radius: 9px;
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 400;
+}
+.lead-form input:focus,
+.lead-form select:focus { outline: 3px solid rgba(217,183,72,.24); border-color: var(--gold); }
+.lead-form button {
+  min-height: 56px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--ink);
+  color: var(--white);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+.lead-form button:disabled { cursor: wait; opacity: .7; }
+.privacy-note { color: var(--muted); text-align: center; line-height: 1.5; }
+.form-error { margin: 0; color: #a51e1e; font-size: .88rem; font-weight: 700; }
+
+.trust-section {
+  margin-top: 120px;
+  display: grid;
+  grid-template-columns: .7fr 1.3fr;
+  gap: clamp(46px, 8vw, 100px);
+  align-items: center;
+  padding: 70px;
+  border-radius: 28px;
+  background: var(--blue);
+  color: var(--white);
+}
+.doctor-card { display: grid; justify-items: center; text-align: center; }
+.doctor-card img { width: 210px; height: 210px; object-fit: cover; border: 6px solid rgba(255,255,255,.16); border-radius: 50%; }
+.doctor-card strong,
+.doctor-card span { display: block; }
+.doctor-card strong { margin-top: 18px; font-family: Atwood, Georgia, serif; font-size: 1.35rem; font-weight: 500; }
+.doctor-card span { margin-top: 6px; color: #c9d9e1; font-size: .8rem; }
+.trust-copy p:not(.eyebrow) { margin: 20px 0 0; color: #d8e3e9; }
+.review-link { display: inline-block; margin-top: 22px; color: #f4d978; font-weight: 700; text-decoration: none; }
+
+.services-section { margin-top: 120px; text-align: center; }
+.services-grid { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: left; }
+.service-card { min-height: 245px; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--white); }
+.service-card > span { color: var(--gold); font-size: .72rem; font-weight: 700; letter-spacing: .12em; }
+.service-card h3 { margin-top: 34px; font-size: 1.55rem; line-height: 1.15; }
+.service-card p { margin: 12px 0 0; color: var(--muted); font-size: .9rem; }
+
+.why-section {
+  margin-top: 120px;
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 80px;
+  padding: 76px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.why-grid { display: grid; gap: 0; }
+.why-grid article { padding: 24px 0; border-top: 1px solid var(--line); }
+.why-grid article:first-child { border-top: 0; padding-top: 0; }
+.why-grid strong { font-family: Atwood, Georgia, serif; font-size: 1.35rem; font-weight: 500; }
+.why-grid p { margin: 7px 0 0; color: var(--muted); }
+
+.insurance-section { margin-top: 120px; }
+.insurance-heading { display: grid; grid-template-columns: 1.25fr .75fr; gap: 70px; align-items: end; }
+.insurance-heading > p { margin: 0; color: var(--muted); }
+.insurance-list { margin-top: 42px; display: flex; flex-wrap: wrap; gap: 10px; }
+.insurance-list span { padding: 11px 15px; border: 1px solid var(--line); border-radius: 999px; color: #435064; background: var(--cream); font-size: .8rem; }
+.insurance-note { margin: 22px 0 0; color: var(--muted); }
+
+.location-section {
+  margin-top: 120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  border-radius: 28px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+}
+.location-section > img { width: 100%; height: 100%; min-height: 470px; object-fit: cover; }
+.location-copy { padding: clamp(42px, 7vw, 78px); }
+.location-copy address { margin-top: 24px; font-family: Atwood, Georgia, serif; font-size: 1.45rem; font-style: normal; line-height: 1.45; }
+.location-copy > p:not(.eyebrow) { margin: 20px 0 24px; color: var(--muted); }
+.directions-button { background: var(--ink); color: var(--white); }
+
+.final-cta {
+  margin-top: 120px;
+  margin-bottom: 80px;
+  padding: clamp(52px, 8vw, 90px);
+  border-radius: 28px;
+  background: var(--gold);
+  text-align: center;
+}
+.final-cta .eyebrow { color: var(--ink); opacity: .7; }
+.final-cta p:not(.eyebrow) { max-width: 650px; margin: 20px auto 0; }
+.final-actions { margin-top: 28px; display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; }
+.text-link { color: var(--ink); font-weight: 700; }
+
+.lp-footer {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 24px;
+  background: var(--ink);
+  color: #cfd5dd;
+  font-size: .78rem;
+  text-align: center;
+}
+.lp-footer span + span::before { content: "•"; margin-right: 22px; color: var(--gold); }
+.mobile-call-bar { display: none; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-image { min-height: 380px; order: -1; }
+  .hero-copy { padding: 56px 40px 84px; }
+  .form-section,
+  .trust-section,
+  .why-section,
+  .insurance-heading,
+  .location-section { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .trust-section { padding: 56px 36px; }
+  .why-section { gap: 44px; }
+  .location-section > img { min-height: 360px; }
+}
+
+@media (max-width: 640px) {
+  .lp-page { padding-bottom: 66px; }
+  .lp-header { min-height: 74px; width: calc(100% - 28px); }
+  .brand-mark { width: 40px; height: 40px; font-size: 1.35rem; }
+  .brand strong { font-size: 1.05rem; }
+  .brand small { display: none; }
+  .header-phone { display: none; }
+  .hero { width: 100%; border-radius: 0; }
+  .hero-image { min-height: 320px; }
+  .hero-copy { padding: 44px 24px 78px; }
+  .hero h1 { font-size: clamp(2.75rem, 14vw, 4rem); }
+  .hero-lead { font-size: 1rem; }
+  .hero-points { display: grid; }
+  .hero-badge { right: 16px; bottom: 16px; }
+  .call-strip { width: calc(100% - 28px); margin-top: -38px; padding: 24px; align-items: stretch; flex-direction: column; }
+  .call-strip .call-button { width: 100%; }
+  .form-section,
+  .trust-section,
+  .services-section,
+  .why-section,
+  .insurance-section,
+  .location-section,
+  .final-cta { width: calc(100% - 28px); margin-top: 84px; }
+  .form-section { gap: 34px; }
+  .offer-notes div { grid-template-columns: 64px 1fr; }
+  .lead-form { padding: 24px 18px; }
+  .trust-section { padding: 44px 22px; }
+  .doctor-card img { width: 170px; height: 170px; }
+  .services-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 34px; }
+  .service-card { min-height: 0; padding: 24px; }
+  .service-card h3 { margin-top: 20px; }
+  .why-section { padding: 58px 0; }
+  .insurance-heading { gap: 24px; }
+  .location-section { overflow: hidden; }
+  .location-section > img { min-height: 290px; }
+  .location-copy { padding: 36px 24px; }
+  .final-cta { margin-bottom: 28px; padding: 48px 22px; }
+  .final-actions { align-items: stretch; flex-direction: column; }
+  .final-actions .call-button { width: 100%; }
+  .lp-footer { flex-direction: column; gap: 8px; padding: 28px 20px; }
+  .lp-footer span + span::before { display: none; }
+  .mobile-call-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    min-height: 66px;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    box-sizing: border-box;
-  }
-  .bottom-row {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-  }
-  .bottom-row .secondary-btn {
-    width: 100%;
-    justify-content: center;
-    box-sizing: border-box;
-  }
-  .insurance-summary {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
-  }
-  .callback-form {
-    grid-template-columns: 1fr !important;
+    padding: 12px 18px;
+    background: var(--gold);
+    color: var(--ink);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 -8px 24px rgba(24,36,58,.16);
   }
 }
