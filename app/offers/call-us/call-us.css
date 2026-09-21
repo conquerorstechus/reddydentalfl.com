@@ -47,55 +47,141 @@ body { margin: 0; }
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
   color: var(--ink);
   text-decoration: none;
 }
 
-.brand-mark {
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-  color: var(--gold);
-  font-family: Atwood, Georgia, serif;
-  font-size: 1.65rem;
+.brand-logo {
+  display: block;
+  width: min(250px, 58vw);
+  height: auto;
 }
-
-.brand strong,
-.brand small { display: block; }
-.brand strong { font-family: Atwood, Georgia, serif; font-size: 1.25rem; font-weight: 500; }
-.brand small { margin-top: 3px; color: var(--muted); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
 
 .header-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
   color: var(--ink);
-  text-align: right;
   text-decoration: none;
+  box-shadow: 0 6px 18px rgba(24, 36, 58, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.header-phone small,
-.header-phone strong { display: block; }
-.header-phone small { color: var(--muted); font-size: .75rem; }
-.header-phone strong { margin-top: 3px; font-size: 1.08rem; }
 
-.hero {
-  width: min(1240px, calc(100% - 32px));
-  min-height: 620px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.08fr .92fr;
+.header-phone:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(24, 36, 58, 0.12);
+}
+
+.header-phone-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.header-phone strong {
+  font-size: 1.02rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.hero-banner {
+  position: relative;
+  width: 100%;
   overflow: hidden;
-  border-radius: 30px;
-  background: var(--ink);
+}
+
+.hero-banner-media {
+  position: relative;
+  min-height: clamp(500px, 72vh, 640px);
+  display: flex;
+  align-items: center;
+  padding: clamp(48px, 8vw, 96px) clamp(24px, 6vw, 80px) clamp(120px, 14vw, 160px);
+  overflow: hidden;
+}
+
+.hero-banner-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+}
+
+.hero-banner-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(24, 36, 58, 0.9) 0%, rgba(24, 36, 58, 0.62) 34%, rgba(24, 36, 58, 0.18) 62%, transparent 82%),
+    linear-gradient(180deg, rgba(24, 36, 58, 0.08) 0%, rgba(24, 36, 58, 0.22) 100%);
+}
+
+.hero-banner-overlay {
+  position: relative;
+  z-index: 2;
+  width: min(760px, 100%);
   color: var(--white);
 }
 
-.hero-copy {
-  padding: clamp(54px, 7vw, 96px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.hero-banner h1 {
+  margin: 0;
+  max-width: 700px;
+  font-size: clamp(2.2rem, 4.8vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.hero-subtitle {
+  margin: 18px 0 0;
+  max-width: 640px;
+  font-family: Atwood, Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.hero-description {
+  margin: 20px 0 0;
+  max-width: 640px;
+  color: #e8edf2;
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  line-height: 1.65;
+}
+
+.hero-banner .call-button {
+  margin-top: 28px;
+  min-height: 58px;
+  padding: 0 28px;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero-note {
+  margin: 18px 0 0;
+  color: var(--gold-light);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hero-banner-curve {
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  z-index: 2;
+  width: 110%;
+  height: clamp(60px, 8vw, 90px);
+  transform: translateX(-50%);
+  border-radius: 50% 50% 0 0;
+  background: var(--white);
+  pointer-events: none;
 }
 
 .eyebrow {
@@ -106,87 +192,6 @@ body { margin: 0; }
   letter-spacing: .16em;
   text-transform: uppercase;
 }
-
-.hero h1 {
-  max-width: 670px;
-  font-size: clamp(3rem, 5.7vw, 5.7rem);
-  line-height: .98;
-  letter-spacing: -.045em;
-}
-
-.hero-lead {
-  max-width: 650px;
-  margin: 28px 0 0;
-  color: #dce2ea;
-  font-size: 1.08rem;
-}
-
-.hero-points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 20px;
-  margin-top: 32px;
-}
-
-.hero-points span {
-  position: relative;
-  padding-left: 18px;
-  color: #f7f8fa;
-  font-size: .88rem;
-}
-
-.hero-points span::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: .4em;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--gold);
-}
-
-.hero-image {
-  position: relative;
-  min-height: 560px;
-  background:
-    linear-gradient(90deg, rgba(24,36,58,.35), transparent 40%),
-    url("/assets/Atwood-south-valley-dental/request-appt-callout-01.webp") center/cover no-repeat;
-}
-
-.hero-badge {
-  position: absolute;
-  right: 26px;
-  bottom: 26px;
-  padding: 17px 20px;
-  border: 1px solid rgba(255,255,255,.4);
-  border-radius: 14px;
-  background: rgba(255,255,255,.92);
-  color: var(--ink);
-  box-shadow: 0 12px 32px rgba(0,0,0,.2);
-}
-.hero-badge strong,
-.hero-badge span { display: block; }
-.hero-badge strong { font-family: Atwood, Georgia, serif; font-size: 1.2rem; }
-.hero-badge span { margin-top: 3px; color: var(--muted); font-size: .78rem; }
-
-.call-strip {
-  width: min(1060px, calc(100% - 40px));
-  margin: -42px auto 0;
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 28px 34px;
-  border: 1px solid rgba(24,36,58,.08);
-  border-radius: 20px;
-  background: var(--white);
-  box-shadow: 0 18px 50px rgba(24,36,58,.14);
-}
-.call-strip p { margin: 0 0 3px; color: var(--muted); font-size: .9rem; }
-.call-strip strong { font-family: Atwood, Georgia, serif; font-size: 1.45rem; font-weight: 500; }
 
 .call-button,
 .directions-button {
@@ -209,6 +214,8 @@ body { margin: 0; }
 .call-button-dark { background: var(--white); }
 
 .form-section,
+.reviews-section,
+.offer-services-section,
 .trust-section,
 .services-section,
 .why-section,
@@ -257,19 +264,21 @@ body { margin: 0; }
 .lead-form label { display: grid; gap: 8px; color: var(--ink); font-size: .84rem; font-weight: 700; }
 .lead-form label span { color: var(--muted); font-weight: 400; }
 .lead-form input,
-.lead-form select {
+.lead-form textarea {
   width: 100%;
   min-height: 54px;
-  padding: 0 15px;
+  padding: 12px 15px;
   border: 1px solid #cfcab9;
   border-radius: 9px;
   background: var(--white);
   color: var(--ink);
   font: inherit;
   font-weight: 400;
+  resize: vertical;
 }
+.lead-form input { padding: 0 15px; }
 .lead-form input:focus,
-.lead-form select:focus { outline: 3px solid rgba(217,183,72,.24); border-color: var(--gold); }
+.lead-form textarea:focus { outline: 3px solid rgba(217,183,72,.24); border-color: var(--gold); }
 .lead-form button {
   min-height: 56px;
   border: 0;
@@ -283,6 +292,166 @@ body { margin: 0; }
 .lead-form button:disabled { cursor: wait; opacity: .7; }
 .privacy-note { color: var(--muted); text-align: center; line-height: 1.5; }
 .form-error { margin: 0; color: #a51e1e; font-size: .88rem; font-weight: 700; }
+
+.reviews-section {
+  margin-top: 100px;
+}
+
+.reviews-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.reviews-header h2 {
+  margin-top: 8px;
+  font-size: clamp(2.35rem, 4.2vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.reviews-google-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.reviews-google-link span { color: #1a73e8; }
+
+.reviews-list {
+  margin-top: 34px;
+  display: grid;
+  gap: 18px;
+}
+
+.review-card {
+  padding: 24px 26px;
+  border: 1px solid #e8eaed;
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08);
+}
+
+.review-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.review-avatar {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.review-author strong,
+.review-author span { display: block; }
+
+.review-author strong {
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.review-author span {
+  margin-top: 2px;
+  color: #5f6368;
+  font-size: 0.78rem;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.review-stars {
+  color: #fbbc04;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+
+.review-date {
+  color: #5f6368;
+  font-size: 0.78rem;
+}
+
+.review-text {
+  margin: 14px 0 0;
+  color: #3c4043;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.review-photos {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.review-photos-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.review-photos-1 {
+  grid-template-columns: minmax(0, 220px);
+}
+
+.review-photos img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #e8eaed;
+}
+
+.offer-services-section {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.offer-services-section h2 {
+  margin-top: 8px;
+  font-size: clamp(2.35rem, 4.2vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.offer-services-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.offer-service-box {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--white);
+  box-shadow: 0 8px 24px rgba(24, 36, 58, 0.06);
+  color: var(--ink);
+  font-family: Atwood, Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.25;
+  text-align: center;
+}
 
 .trust-section {
   margin-top: 120px;
@@ -302,6 +471,7 @@ body { margin: 0; }
 .doctor-card strong { margin-top: 18px; font-family: Atwood, Georgia, serif; font-size: 1.35rem; font-weight: 500; }
 .doctor-card span { margin-top: 6px; color: #c9d9e1; font-size: .8rem; }
 .trust-copy p:not(.eyebrow) { margin: 20px 0 0; color: #d8e3e9; }
+.trust-bio { font-size: 1rem; line-height: 1.7; }
 .review-link { display: inline-block; margin-top: 22px; color: #f4d978; font-weight: 700; text-decoration: none; }
 
 .services-section { margin-top: 120px; text-align: center; }
@@ -326,7 +496,31 @@ body { margin: 0; }
 .why-grid strong { font-family: Atwood, Georgia, serif; font-size: 1.35rem; font-weight: 500; }
 .why-grid p { margin: 7px 0 0; color: var(--muted); }
 
-.insurance-section { margin-top: 120px; }
+.insurance-section {
+  margin-top: 100px;
+  padding: clamp(36px, 5vw, 56px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 12px 36px rgba(24, 36, 58, 0.06);
+}
+
+.insurance-section h2 {
+  margin-top: 8px;
+  font-size: clamp(2.35rem, 4.2vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.insurance-intro {
+  margin: 20px 0 0;
+  max-width: 720px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.insurance-offers { margin-top: 28px; }
+
 .insurance-heading { display: grid; grid-template-columns: 1.25fr .75fr; gap: 70px; align-items: end; }
 .insurance-heading > p { margin: 0; color: var(--muted); }
 .insurance-list { margin-top: 42px; display: flex; flex-wrap: wrap; gap: 10px; }
@@ -362,24 +556,88 @@ body { margin: 0; }
 .text-link { color: var(--ink); font-weight: 700; }
 
 .lp-footer {
-  min-height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  padding: 24px;
+  margin-top: 100px;
+  padding: clamp(48px, 7vw, 72px) clamp(24px, 5vw, 40px);
   background: var(--ink);
-  color: #cfd5dd;
-  font-size: .78rem;
-  text-align: center;
+  color: #dce2ea;
 }
-.lp-footer span + span::before { content: "•"; margin-right: 22px; color: var(--gold); }
+
+.lp-footer-inner {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+.lp-footer-label {
+  margin: 0 0 14px;
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.lp-footer-location strong {
+  display: block;
+  font-family: Atwood, Georgia, "Times New Roman", serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 500;
+  color: var(--white);
+}
+
+.lp-footer-location address,
+.lp-footer-location p {
+  margin: 14px 0 0;
+  color: #c9d4de;
+  font-style: normal;
+  line-height: 1.65;
+}
+
+.lp-footer-location a {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--gold-light);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.lp-footer-cta {
+  text-align: right;
+}
+
+.lp-footer-cta h2 {
+  margin: 0;
+  max-width: 420px;
+  margin-left: auto;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--white);
+}
+
+.lp-footer-cta .call-button {
+  margin-top: 24px;
+  margin-left: auto;
+}
 .mobile-call-bar { display: none; }
 
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero-image { min-height: 380px; order: -1; }
-  .hero-copy { padding: 56px 40px 84px; }
+  .offer-services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-banner-media {
+    min-height: 520px;
+    padding: 56px 32px 120px;
+  }
+
+  .hero-banner-image { object-position: 72% center; }
+
+  .hero-banner-shade {
+    background:
+      linear-gradient(180deg, rgba(24, 36, 58, 0.84) 0%, rgba(24, 36, 58, 0.48) 42%, rgba(24, 36, 58, 0.2) 100%);
+  }
   .form-section,
   .trust-section,
   .why-section,
@@ -394,26 +652,31 @@ body { margin: 0; }
 @media (max-width: 640px) {
   .lp-page { padding-bottom: 66px; }
   .lp-header { min-height: 74px; width: calc(100% - 28px); }
-  .brand-mark { width: 40px; height: 40px; font-size: 1.35rem; }
-  .brand strong { font-size: 1.05rem; }
-  .brand small { display: none; }
+  .brand-logo { width: min(210px, 62vw); }
   .header-phone { display: none; }
-  .hero { width: 100%; border-radius: 0; }
-  .hero-image { min-height: 320px; }
-  .hero-copy { padding: 44px 24px 78px; }
-  .hero h1 { font-size: clamp(2.75rem, 14vw, 4rem); }
-  .hero-lead { font-size: 1rem; }
-  .hero-points { display: grid; }
-  .hero-badge { right: 16px; bottom: 16px; }
-  .call-strip { width: calc(100% - 28px); margin-top: -38px; padding: 24px; align-items: stretch; flex-direction: column; }
-  .call-strip .call-button { width: 100%; }
+  .hero-banner-media {
+    min-height: 480px;
+    padding: 44px 24px 108px;
+  }
+
+  .hero-banner-image { object-position: 80% center; }
+  .hero-banner h1 { font-size: clamp(2rem, 10vw, 2.75rem); }
+  .hero-subtitle { font-size: clamp(1.2rem, 5.5vw, 1.6rem); }
+  .hero-banner .call-button { width: 100%; white-space: normal; text-align: center; }
   .form-section,
+  .reviews-section,
+  .offer-services-section,
   .trust-section,
   .services-section,
   .why-section,
   .insurance-section,
   .location-section,
   .final-cta { width: calc(100% - 28px); margin-top: 84px; }
+  .reviews-header { align-items: flex-start; }
+  .review-photos-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .review-card { padding: 20px 18px; }
+  .offer-services-grid { grid-template-columns: 1fr; }
+  .offer-service-box { min-height: 88px; }
   .form-section { gap: 34px; }
   .offer-notes div { grid-template-columns: 64px 1fr; }
   .lead-form { padding: 24px 18px; }
@@ -430,8 +693,10 @@ body { margin: 0; }
   .final-cta { margin-bottom: 28px; padding: 48px 22px; }
   .final-actions { align-items: stretch; flex-direction: column; }
   .final-actions .call-button { width: 100%; }
-  .lp-footer { flex-direction: column; gap: 8px; padding: 28px 20px; }
-  .lp-footer span + span::before { display: none; }
+  .lp-footer-inner { grid-template-columns: 1fr; }
+  .lp-footer-cta { text-align: left; }
+  .lp-footer-cta h2 { margin-left: 0; }
+  .lp-footer-cta .call-button { margin-left: 0; width: 100%; }
   .mobile-call-bar {
     position: fixed;
     left: 0;

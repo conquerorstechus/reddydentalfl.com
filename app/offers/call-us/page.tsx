@@ -8,32 +8,51 @@ const PHONE_NUMBER = "727-377-3339";
 const PHONE_TEL = `tel:${PHONE_NUMBER}`;
 const CONTACT_ENDPOINT =
   "https://n8n.srv1393511.hstgr.cloud/webhook/8e9ccd83-8fbd-47f8-a088-044357d44c2e";
+const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/MmTH3GryrAqJzzqt9";
 
-const services = [
-  { title: "Emergency dental care", text: "Help for tooth pain, swelling, broken teeth, and other urgent concerns." },
-  { title: "Dental implants", text: "Thoughtfully planned tooth replacement with clear guidance at every step." },
-  { title: "Cleanings and prevention", text: "Routine care that helps protect your smile and catch concerns early." },
-  { title: "Crowns and restorative care", text: "Comfort-focused treatment to repair damaged or weakened teeth." },
-  { title: "Cosmetic dentistry", text: "Personalized options for a brighter, more confident smile." },
-  { title: "Dentures and bridges", text: "Practical choices to restore comfort, function, and confidence." },
+const googleReviews = [
+  {
+    name: "Dawn Bell",
+    meta: "1 review · 4 photos",
+    date: "4 months ago",
+    initial: "D",
+    avatarColor: "#5f6368",
+    text:
+      "I've worked with Dr Reddy's father for year's and have known him since he was a child. I came in today for my new patient exam and am impressed with the office. It is a brand new build out. All the equipment is state of the art. His assistant and front desk were so super friendly and he has an office dog named Happy who is the cutest thing ever. Im looking forward to coming back for my cleanings twice a year.",
+    photos: [
+      "/assets/images/7012daac-5613-4c92-82d3-34186ed8decf.webp",
+      "/assets/images/cc9dd7f4-8370-4099-b035-813b301525ec.webp",
+      "/assets/Radi-Dental/ot-5.webp",
+      "/assets/images/b12c04c7-eea9-4827-a202-13d9b6bbe5c4.webp",
+    ],
+  },
+  {
+    name: "Alyssa",
+    meta: "Local Guide · 26 reviews · 13 photos",
+    date: "2 months ago",
+    initial: "A",
+    avatarColor: "#1a73e8",
+    text:
+      "We recently went in for a second opinion for my husband, who needed a lot of dental work and I'm so glad we did. Dr. Reddy was incredibly kind and knowledgeable. He took his time explaining everything clearly, never rushed us and made the whole experience easy. He was also so sweet with our son, even letting him play with his adorable dog which made the visit feel extra comfortable. The office is spotless, the front staff is friendly, and the whole atmosphere is genuinely welcoming. We left feeling cared for and are grateful. Highly recommend.",
+  },
+  {
+    name: "Milan Patel",
+    meta: "3 reviews · 1 photo",
+    date: "2 months ago",
+    initial: "M",
+    avatarColor: "#e8710a",
+    text:
+      "I had a great experience at Reddy Dental! Nikki at the front desk was welcomed me and I was seen almost immediately after by Dr Reddy! It's nice seeing some place actually honor appointment times!! Big win! Dr Reddy made me feel comfortable and explained my options, he took his time. I'm excited to finally have a Dentist that is reliable and treats me like an individual.",
+    photos: ["/assets/images/cc9dd7f4-8370-4099-b035-813b301525ec.webp"],
+  },
 ];
 
-const insurancePlans = [
-  "Aetna PPO & Medicare",
-  "Always Care PPO",
-  "Ameritas Classic PPO",
-  "Anthem 300/Complete",
-  "Cigna Total DPPO",
-  "GEHA PPO",
-  "Humana PPO & Medicare",
-  "LFG PPO",
-  "DNoA PPO & Medicare",
-  "MetLife PDP Plus",
-  "Principal Preferred",
-  "United Concordia Elite Plus",
-  "United Healthcare PPO & Medicare",
-  "Delta Dental PPO & Premier",
-  "Florida Blue Access Max",
+const offerServices = [
+  "Preventive Dentistry",
+  "Restorative Dentistry",
+  "Cosmetic Dentistry",
+  "Implant Dentistry",
+  "Emergency Dental Care",
 ];
 
 type TrackingWindow = Window & {
@@ -77,7 +96,7 @@ export default function CallUsOfferPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [careNeed, setCareNeed] = useState("");
+  const [summary, setSummary] = useState("");
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "error">("idle");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -92,7 +111,7 @@ export default function CallUsOfferPage() {
           source: window.location.href,
           name: name.trim(),
           phoneNumber: phoneNumber.trim(),
-          careNeed,
+          summary: summary.trim(),
         }),
       });
 
@@ -100,7 +119,7 @@ export default function CallUsOfferPage() {
 
       sendGoogleEvent("generate_lead", {
         form_name: "google_ads_callback_request",
-        care_need: careNeed || "not_selected",
+        care_need: summary.trim() || "not_provided",
         page_location: window.location.href,
       });
       (window as TrackingWindow).fbq?.("track", "Lead", {
@@ -120,39 +139,44 @@ export default function CallUsOfferPage() {
     <main className="lp-page">
       <header className="lp-header">
         <a className="brand" href="/" aria-label="Reddy Dental home">
-          <span className="brand-mark" aria-hidden="true">R</span>
-          <span><strong>Reddy Dental</strong><small>General &amp; Implant Dentistry</small></span>
+          <img
+            src="/assets/images/reddy-dental-logo-light-bg.svg"
+            alt="Reddy Dental — General & Implant Dentistry"
+            className="brand-logo"
+            width={250}
+            height={50}
+          />
         </a>
-        <a className="header-phone" href={PHONE_TEL} data-google-call-tracking="true">
-          <small>Questions? Call us</small>
+        <a
+          className="header-phone"
+          href={PHONE_TEL}
+          data-google-call-tracking="true"
+          aria-label={`Call Reddy Dental at ${PHONE_NUMBER}`}
+        >
+          <span className="header-phone-icon" aria-hidden="true">☎</span>
           <strong>(727) 377-3339</strong>
         </a>
       </header>
 
-      <section className="hero" aria-labelledby="hero-heading">
-        <div className="hero-copy">
-          <p className="eyebrow">Your local St. Petersburg dentist</p>
-          <h1 id="hero-heading">Gentle dental care, with clear answers and no pressure.</h1>
-          <p className="hero-lead">
-            Dr. Anish Reddy takes time to listen, explain your options, and help you choose care that feels right for your health and your budget.
-          </p>
-          <div className="hero-points" aria-label="Practice benefits">
-            <span>New patients welcome</span>
-            <span>Insurance and self-pay options</span>
-            <span>Emergency appointments available</span>
+      <section className="hero-banner" aria-labelledby="hero-heading">
+        <div className="hero-banner-media">
+          <img
+            src="/assets/images/x-ray-large-01.webp"
+            alt="Dental team member positioning a patient for digital x-ray imaging"
+            className="hero-banner-image"
+          />
+          <div className="hero-banner-shade" aria-hidden="true" />
+          <div className="hero-banner-overlay">
+            <h1 id="hero-heading">Need a Dentist in St. Petersburg, FL?</h1>
+            <p className="hero-subtitle">Personalized Dental Care for New &amp; Existing Patients</p>
+            <p className="hero-description">
+              Preventive, restorative, cosmetic, implant and emergency dental care in a comfortable, patient-focused environment.
+            </p>
+            <CallButton label="Call now – 727-377-3339" />
+            <p className="hero-note">New Patients Welcome | St. Petersburg, FL</p>
           </div>
+          <div className="hero-banner-curve" aria-hidden="true" />
         </div>
-        <div className="hero-image" role="img" aria-label="A welcoming dental office reception">
-          <div className="hero-badge"><strong>5-star care</strong><span>from local patients</span></div>
-        </div>
-      </section>
-
-      <section className="call-strip" aria-label="Call Reddy Dental">
-        <div>
-          <p>Need a dentist in St. Petersburg?</p>
-          <strong>Speak with our friendly team now.</strong>
-        </div>
-        <CallButton />
       </section>
 
       <section className="form-section" id="request-callback" aria-labelledby="form-heading">
@@ -160,10 +184,6 @@ export default function CallUsOfferPage() {
           <p className="eyebrow">Prefer a callback?</p>
           <h2 id="form-heading">Tell us how to reach you.</h2>
           <p>Share a few details and our team will call during office hours. No pressure—just clear next steps.</p>
-          <div className="offer-notes">
-            <div><strong>$99</strong><span>New patient exam and X-rays for patients without insurance</span></div>
-            <div><strong>$59</strong><span>Focused exam and X-ray for a specific dental concern</span></div>
-          </div>
         </div>
         <form className="lead-form" onSubmit={handleSubmit}>
           <label>
@@ -186,16 +206,14 @@ export default function CallUsOfferPage() {
             />
           </label>
           <label>
-            How can we help? <span>(optional)</span>
-            <select value={careNeed} onChange={(event) => setCareNeed(event.target.value)} name="careNeed">
-              <option value="">Choose one</option>
-              <option>Tooth pain or emergency</option>
-              <option>Dental implants</option>
-              <option>New patient exam</option>
-              <option>Cleaning or routine care</option>
-              <option>Cosmetic dentistry</option>
-              <option>Something else</option>
-            </select>
+            Summary <span>(optional)</span>
+            <textarea
+              value={summary}
+              onChange={(event) => setSummary(event.target.value)}
+              name="summary"
+              rows={4}
+              placeholder="Tell us briefly what you need help with"
+            />
           </label>
           <button type="submit" disabled={formStatus === "loading"}>
             {formStatus === "loading" ? "Sending..." : "Request my callback"}
@@ -207,67 +225,76 @@ export default function CallUsOfferPage() {
         </form>
       </section>
 
-      <section className="trust-section" aria-labelledby="trust-heading">
-        <div className="doctor-card">
-          <img src="/assets/images/db2b95d2-3eae-40ea-8f30-eb6c3d577b91.webp" alt="Dr. Sajan Anish Reddy" />
-          <div><strong>Sajan “Anish” Reddy, DMD</strong><span>University of Florida graduate</span></div>
+      <section className="reviews-section" aria-labelledby="reviews-heading">
+        <div className="reviews-header">
+          <div>
+            <p className="eyebrow">Patient reviews</p>
+            <h2 id="reviews-heading">What patients are saying</h2>
+          </div>
+          <a className="reviews-google-link" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
+            <img src="/assets/google_stars.svg" alt="" width={130} height={24} />
+            <span>Read more on Google</span>
+          </a>
         </div>
-        <div className="trust-copy">
-          <p className="eyebrow">Trust is built first. Smiles follow.</p>
-          <h2 id="trust-heading">Care that feels personal from the first call.</h2>
-          <p>Patients choose Reddy Dental for an honest, welcoming experience where questions are encouraged and treatment is thoughtfully tailored.</p>
-          <a className="review-link" href="https://maps.app.goo.gl/MmTH3GryrAqJzzqt9" target="_blank" rel="noreferrer">★★★★★ Read our 5-star Google reviews</a>
-        </div>
-      </section>
-
-      <section className="services-section" aria-labelledby="services-heading">
-        <p className="eyebrow">Dental care for the whole family</p>
-        <h2 id="services-heading">How we can help</h2>
-        <div className="services-grid">
-          {services.map((service, index) => (
-            <article className="service-card" key={service.title}>
-              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              <h3>{service.title}</h3>
-              <p>{service.text}</p>
+        <div className="reviews-list">
+          {googleReviews.map((review) => (
+            <article className="review-card" key={review.name}>
+              <div className="review-top">
+                <div className="review-avatar" style={{ backgroundColor: review.avatarColor }} aria-hidden="true">
+                  {review.initial}
+                </div>
+                <div className="review-author">
+                  <strong>{review.name}</strong>
+                  <span>{review.meta}</span>
+                </div>
+              </div>
+              <div className="review-rating">
+                <span className="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+                <span className="review-date">{review.date}</span>
+              </div>
+              <p className="review-text">{review.text}</p>
+              {review.photos && (
+                <div className={`review-photos review-photos-${review.photos.length}`}>
+                  {review.photos.map((photo, index) => (
+                    <img key={`${review.name}-${index}`} src={photo} alt={`Photo shared by ${review.name}`} loading="lazy" />
+                  ))}
+                </div>
+              )}
             </article>
           ))}
         </div>
       </section>
 
-      <section className="why-section" aria-labelledby="why-heading">
-        <div>
-          <p className="eyebrow">Why Reddy Dental</p>
-          <h2 id="why-heading">A calmer, clearer dental experience.</h2>
+      <section className="offer-services-section" aria-labelledby="offer-services-heading">
+        <p className="eyebrow">Our services</p>
+        <h2 id="offer-services-heading">Comprehensive care for every smile</h2>
+        <div className="offer-services-grid">
+          {offerServices.map((service) => (
+            <div className="offer-service-box" key={service}>{service}</div>
+          ))}
         </div>
-        <div className="why-grid">
-          <article><strong>We listen first</strong><p>Your concerns, comfort, and goals guide the conversation.</p></article>
-          <article><strong>Options are explained clearly</strong><p>You will understand what we recommend, why, and what it may cost.</p></article>
-          <article><strong>No-pressure decisions</strong><p>Choose care on your timeline with support from a team that treats you like family.</p></article>
+      </section>
+
+      <section className="trust-section" aria-labelledby="trust-heading">
+        <div className="doctor-card">
+          <img src="/assets/images/db2b95d2-3eae-40ea-8f30-eb6c3d577b91.webp" alt="Dr. Sajan Anish Reddy" />
+          <div><strong>Dr. Sajan “Anish” Reddy, DMD</strong><span>University of Florida graduate</span></div>
+        </div>
+        <div className="trust-copy">
+          <p className="eyebrow">Trust is built first. Smiles follow.</p>
+          <p id="trust-heading" className="trust-bio">
+            Dr. Sajan Anish Reddy, DMD, was drawn to dentistry for its unique blend of precision, problem-solving, and the ability to make an immediate, meaningful impact on a person&apos;s confidence and quality of life. He earned his Doctor of Dental Medicine degree from the University of Florida and has over five years of clinical experience, including extensive hands-on patient care during his training. Dr. Reddy is licensed to practice in Florida, Georgia, Tennessee, Alabama, South Carolina, North Carolina, Missouri, and Wisconsin, and is an active member of the American Dental Association and Florida Dental Association.
+          </p>
         </div>
       </section>
 
       <section className="insurance-section" aria-labelledby="insurance-heading">
-        <div className="insurance-heading">
-          <div>
-            <p className="eyebrow">Insurance and self-pay welcome</p>
-            <h2 id="insurance-heading">We make the financial side easier to understand.</h2>
-          </div>
-          <p>Coverage varies by plan. Our team will gladly help verify your benefits before treatment.</p>
-        </div>
-        <div className="insurance-list">
-          {insurancePlans.map((plan) => <span key={plan}>{plan}</span>)}
-        </div>
-        <p className="insurance-note"><strong>No insurance?</strong> Ask about our $99 new patient exam and X-ray offer.</p>
-      </section>
-
-      <section className="location-section" aria-labelledby="location-heading">
-        <img src="/assets/images/8ce37db2-ec42-4161-a256-8e19d5808b7e.webp" alt="Map showing Reddy Dental in St. Petersburg" />
-        <div className="location-copy">
-          <p className="eyebrow">Conveniently located in St. Petersburg</p>
-          <h2 id="location-heading">Local care, close to home.</h2>
-          <address>6751 1st Ave S<br />St. Petersburg, FL 33707</address>
-          <p>Easy to reach from St. Pete Beach, Gulfport, South Pasadena, and nearby neighborhoods.</p>
-          <a className="directions-button" href="https://maps.app.goo.gl/MmTH3GryrAqJzzqt9" target="_blank" rel="noreferrer">Get directions</a>
+        <p className="eyebrow">Insurance and self-pay welcome</p>
+        <h2 id="insurance-heading">Affordable options for patients with and without insurance.</h2>
+        <p className="insurance-intro">Coverage varies by plan. Our team will gladly help verify your benefits before treatment.</p>
+        <div className="offer-notes insurance-offers">
+          <div><strong>$99</strong><span>New patient exam and X-rays for patients without insurance</span></div>
+          <div><strong>$59</strong><span>Focused exam and X-ray for a specific dental concern</span></div>
         </div>
       </section>
 
@@ -282,8 +309,23 @@ export default function CallUsOfferPage() {
       </section>
 
       <footer className="lp-footer">
-        <span>Reddy Dental · General &amp; Implant Dentistry</span>
-        <span>6751 1st Ave S, St. Petersburg, FL 33707</span>
+        <div className="lp-footer-inner">
+          <div className="lp-footer-location">
+            <p className="lp-footer-label">Location</p>
+            <strong>Reddy Dental</strong>
+            <address>
+              6751 1st Ave S
+              <br />
+              St. Petersburg, FL 33707
+            </address>
+            <p>Monday–Sunday | 9 AM–5 PM</p>
+            <a href={PHONE_TEL} data-google-call-tracking="true">727-377-3339</a>
+          </div>
+          <div className="lp-footer-cta">
+            <h2>Ready to Take Care of Your Smile?</h2>
+            <CallButton label="Call Reddy Dental Today" />
+          </div>
+        </div>
       </footer>
 
       <a className="mobile-call-bar" href={PHONE_TEL} data-google-call-tracking="true">Call Reddy Dental · (727) 377-3339</a>
