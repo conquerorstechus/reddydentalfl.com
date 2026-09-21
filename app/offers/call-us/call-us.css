@@ -222,7 +222,9 @@ body { margin: 0; }
 }
 
 .form-section {
-  margin-top: 100px;
+  position: relative;
+  z-index: 3;
+  margin-top: clamp(-72px, -8vw, -48px);
 }
 
 .form-intro {
@@ -484,11 +486,6 @@ body { margin: 0; }
   line-height: 1.25;
 }
 
-.offer-service-box:nth-child(2) .offer-service-number { background: #e8f2f8; color: var(--blue); }
-.offer-service-box:nth-child(3) .offer-service-number { background: #fff3c4; color: #8a6d12; }
-.offer-service-box:nth-child(4) .offer-service-number { background: #dce9f2; color: #1d4f6d; }
-.offer-service-box:nth-child(5) .offer-service-number { background: #fbe3e3; color: #8f3434; }
-
 .section-cta {
   margin-top: 36px;
   display: flex;
@@ -523,12 +520,30 @@ body { margin: 0; }
   margin-top: 120px;
   display: grid;
   grid-template-columns: .7fr 1.3fr;
-  gap: clamp(46px, 8vw, 100px);
+  gap: clamp(20px, 3vw, 28px) clamp(46px, 8vw, 100px);
   align-items: center;
-  padding: 70px;
+  padding: clamp(40px, 5vw, 56px) 70px 70px;
   border-radius: 28px;
   background: var(--blue);
   color: var(--white);
+}
+
+.trust-section-header {
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.trust-section-header h2 {
+  margin: 0;
+  font-size: clamp(2.35rem, 4.2vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--white);
+}
+
+.trust-section-header .eyebrow {
+  margin: 10px 0 0;
 }
 .doctor-card { display: grid; justify-items: center; text-align: center; }
 .doctor-card img { width: 210px; height: 210px; object-fit: cover; border: 6px solid rgba(255,255,255,.16); border-radius: 50%; }
@@ -536,7 +551,7 @@ body { margin: 0; }
 .doctor-card span { display: block; }
 .doctor-card strong { margin-top: 18px; font-family: Atwood, Georgia, serif; font-size: 1.35rem; font-weight: 500; }
 .doctor-card span { margin-top: 6px; color: #c9d9e1; font-size: .8rem; }
-.trust-copy p:not(.eyebrow) { margin: 20px 0 0; color: #d8e3e9; }
+.trust-copy p:not(.eyebrow) { margin: 0; color: #d8e3e9; }
 .trust-bio { font-size: 1rem; line-height: 1.7; }
 .review-link { display: inline-block; margin-top: 22px; color: #f4d978; font-weight: 700; text-decoration: none; }
 
@@ -750,7 +765,7 @@ body { margin: 0; }
   .hero-banner h1 { font-size: clamp(2rem, 10vw, 2.75rem); }
   .hero-subtitle { font-size: clamp(1.2rem, 5.5vw, 1.6rem); }
   .hero-banner .call-button { width: 100%; white-space: normal; text-align: center; }
-  .form-section,
+  .form-section { margin-top: clamp(-56px, -7vw, -36px); }
   .reviews-section,
   .offer-services-section,
   .trust-section,

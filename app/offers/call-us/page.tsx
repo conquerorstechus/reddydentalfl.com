@@ -183,12 +183,7 @@ export default function CallUsOfferPage() {
         <div className="hero-banner-curve" aria-hidden="true" />
       </section>
 
-      <section className="form-section" id="request-callback" aria-labelledby="form-heading">
-        <div className="form-intro">
-          <p className="eyebrow">Prefer a callback?</p>
-          <h2 id="form-heading">Tell us how to reach you.</h2>
-          <p>Share a few details and our team will call during office hours. No pressure—just clear next steps.</p>
-        </div>
+      <section className="form-section" id="request-callback" aria-label="Request a callback">
         <form className="lead-form" onSubmit={handleSubmit}>
           <div className="lead-form-row">
             <label>
@@ -283,13 +278,16 @@ export default function CallUsOfferPage() {
       </section>
 
       <section className="trust-section" aria-labelledby="trust-heading">
+        <div className="trust-section-header">
+          <h2 id="trust-heading">About Us</h2>
+          <p className="eyebrow">Trust is built first. Smiles follow.</p>
+        </div>
         <div className="doctor-card">
           <img src="/assets/images/db2b95d2-3eae-40ea-8f30-eb6c3d577b91.webp" alt="Dr. Sajan Anish Reddy" />
           <div><strong>Dr. Sajan “Anish” Reddy, DMD</strong><span>University of Florida graduate</span></div>
         </div>
         <div className="trust-copy">
-          <p className="eyebrow">Trust is built first. Smiles follow.</p>
-          <p id="trust-heading" className="trust-bio">
+          <p className="trust-bio">
             Dr. Sajan Anish Reddy, DMD, was drawn to dentistry for its unique blend of precision, problem-solving, and the ability to make an immediate, meaningful impact on a person&apos;s confidence and quality of life. He earned his Doctor of Dental Medicine degree from the University of Florida and has over five years of clinical experience, including extensive hands-on patient care during his training. Dr. Reddy is licensed to practice in Florida, Georgia, Tennessee, Alabama, South Carolina, North Carolina, Missouri, and Wisconsin, and is an active member of the American Dental Association and Florida Dental Association.
           </p>
         </div>
