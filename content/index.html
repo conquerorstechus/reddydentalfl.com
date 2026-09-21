@@ -1307,6 +1307,60 @@
           font-size: 21.200000000000003px;
         }
       }
+
+      /* ── Mobile responsiveness fixes ── */
+
+      /* Service cards: prevent overflow on narrow viewports */
+      @media (max-width: 359px) {
+        .w-\[288px\] {
+          width: 100%;
+          max-width: 288px;
+        }
+        .h-\[330px\] {
+          height: auto;
+          min-height: 330px;
+        }
+        /* Footer map */
+        .w-\[280px\] {
+          width: 100%;
+          max-width: 280px;
+        }
+        .h-\[200px\].w-\[280px\] {
+          height: auto;
+        }
+        /* Nav phone number */
+        #phoneNumber {
+          font-size: 20px;
+        }
+      }
+
+      /* Hero phone callout row: allow text to wrap on small screens */
+      @media (max-width: 639px) {
+        .font-heroCallout2 {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        /* Footer map: let it be full-width on mobile */
+        a[class*="h-[200px]"] {
+          width: 100%;
+          max-width: 280px;
+        }
+        a[class*="h-[200px]"] img {
+          width: 100%;
+          max-width: 280px;
+          height: auto;
+        }
+        /* Uninsured care plan button: scale down on small screens */
+        .w-\[220px\] {
+          width: 100%;
+          max-width: 220px;
+        }
+        /* About doctor button */
+        a.w-\[280px\] {
+          width: 100%;
+          max-width: 280px;
+        }
+      }
     </style>
   </head>
   <body>

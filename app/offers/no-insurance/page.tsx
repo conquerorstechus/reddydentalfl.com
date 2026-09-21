@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "./no-insurance.css";
 
 const includedServices = [
   "Comprehensive dental exam",
@@ -13,12 +14,12 @@ export default function NoInsuranceOfferPage() {
       <section style={styles.hero}>
         <div style={styles.kicker}>Uninsured patient offer</div>
 
-        <div style={styles.topRow}>
+        <div style={styles.topRow} className="top-row">
           <div>
             <p style={styles.eyebrow}>Reddy Dental</p>
             <h1 style={styles.title}>No Insurance? Get a full exam and x-rays for just $99.</h1>
           </div>
-          <a href="tel:7273773339" style={styles.primaryButton}>
+          <a href="tel:7273773339" style={styles.primaryButton} className="primary-btn">
             Call (727) 377-3339
           </a>
         </div>
@@ -53,9 +54,9 @@ export default function NoInsuranceOfferPage() {
           </div>
         </div>
 
-        <div style={styles.bottomRow}>
+        <div style={styles.bottomRow} className="bottom-row">
           <p style={styles.bottomText}>Need answers before you book? Speak with our team today.</p>
-          <a href="tel:7273773339" style={styles.secondaryButton}>
+          <a href="tel:7273773339" style={styles.secondaryButton} className="secondary-btn">
             Call the office now
           </a>
         </div>
@@ -105,6 +106,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    flexWrap: "wrap",
     gap: "20px",
     marginTop: "18px",
   },
@@ -214,6 +216,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    flexWrap: "wrap",
     gap: "20px",
     marginTop: "30px",
     paddingTop: "24px",

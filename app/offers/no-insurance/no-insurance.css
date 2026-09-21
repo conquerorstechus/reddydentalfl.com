@@ -1,0 +1,20 @@
+@media (max-width: 600px) {
+  .top-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .top-row .primary-btn {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .bottom-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .bottom-row .secondary-btn {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
