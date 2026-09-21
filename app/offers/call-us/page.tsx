@@ -81,7 +81,7 @@ function formatPhoneInput(value: string) {
   return value.replace(/\D/g, "").slice(0, 10);
 }
 
-function CallButton({ dark = false, label = "Call (727) 377-3339" }: { dark?: boolean; label?: string }) {
+function CallButton({ dark = false, label = "Call now" }: { dark?: boolean; label?: string }) {
   return (
     <a
       href={PHONE_TEL}
@@ -157,14 +157,14 @@ export default function CallUsOfferPage() {
           aria-label={`Call Reddy Dental at ${PHONE_NUMBER}`}
         >
           <span className="header-phone-icon" aria-hidden="true">☎</span>
-          <strong>(727) 377-3339</strong>
+          <strong>Call now</strong>
         </a>
       </header>
 
       <section className="hero-banner" aria-labelledby="hero-heading">
         <div className="hero-banner-inner">
           <div className="hero-banner-copy">
-            <h1 id="hero-heading">Need a Dentist in St. Petersburg, FL?</h1>
+            <h1 id="hero-heading">Need a Dentist in St.&nbsp;Petersburg, FL?</h1>
             <p className="hero-subtitle">Personalized Dental Care for New &amp; Existing Patients</p>
             <p className="hero-description">
               Preventive, restorative, cosmetic, implant and emergency dental care in a comfortable, patient-focused environment.
@@ -311,7 +311,7 @@ export default function CallUsOfferPage() {
         <h2 id="final-heading">Let’s take the next step together.</h2>
         <p>Call now to ask a question or request an appointment. We’ll help you understand what comes next.</p>
         <div className="final-actions">
-          <CallButton dark label="Call now: (727) 377-3339" />
+          <CallButton dark />
           <a className="text-link" href="#request-callback">Request a callback instead</a>
         </div>
       </section>
@@ -343,7 +343,7 @@ export default function CallUsOfferPage() {
         </div>
       </footer>
 
-      <a className="mobile-call-bar" href={PHONE_TEL} data-google-call-tracking="true">Call Reddy Dental · (727) 377-3339</a>
+      <a className="mobile-call-bar" href={PHONE_TEL} data-google-call-tracking="true">Call now</a>
     </main>
   );
 }
