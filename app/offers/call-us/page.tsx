@@ -19,12 +19,6 @@ const googleReviews = [
     avatarColor: "#5f6368",
     text:
       "I've worked with Dr Reddy's father for year's and have known him since he was a child. I came in today for my new patient exam and am impressed with the office. It is a brand new build out. All the equipment is state of the art. His assistant and front desk were so super friendly and he has an office dog named Happy who is the cutest thing ever. Im looking forward to coming back for my cleanings twice a year.",
-    photos: [
-      "/assets/images/7012daac-5613-4c92-82d3-34186ed8decf.webp",
-      "/assets/images/cc9dd7f4-8370-4099-b035-813b301525ec.webp",
-      "/assets/Radi-Dental/ot-5.webp",
-      "/assets/images/b12c04c7-eea9-4827-a202-13d9b6bbe5c4.webp",
-    ],
   },
   {
     name: "Alyssa",
@@ -43,8 +37,17 @@ const googleReviews = [
     avatarColor: "#e8710a",
     text:
       "I had a great experience at Reddy Dental! Nikki at the front desk was welcomed me and I was seen almost immediately after by Dr Reddy! It's nice seeing some place actually honor appointment times!! Big win! Dr Reddy made me feel comfortable and explained my options, he took his time. I'm excited to finally have a Dentist that is reliable and treats me like an individual.",
-    photos: ["/assets/images/cc9dd7f4-8370-4099-b035-813b301525ec.webp"],
   },
+];
+
+const officeHours = [
+  { day: "Monday", hours: "9:00am - 5:00pm" },
+  { day: "Tuesday", hours: "9:00am - 5:00pm" },
+  { day: "Wednesday", hours: "9:00am - 5:00pm" },
+  { day: "Thursday", hours: "9:00am - 5:00pm" },
+  { day: "Friday", hours: "9:00am - 5:00pm" },
+  { day: "Saturday", hours: "9:00am - 5:00pm" },
+  { day: "Sunday", hours: "9:00am - 5:00pm" },
 ];
 
 const offerServices = [
@@ -159,24 +162,25 @@ export default function CallUsOfferPage() {
       </header>
 
       <section className="hero-banner" aria-labelledby="hero-heading">
-        <div className="hero-banner-media">
-          <img
-            src="/assets/images/x-ray-large-01.webp"
-            alt="Dental team member positioning a patient for digital x-ray imaging"
-            className="hero-banner-image"
-          />
-          <div className="hero-banner-shade" aria-hidden="true" />
-          <div className="hero-banner-overlay">
+        <div className="hero-banner-inner">
+          <div className="hero-banner-copy">
             <h1 id="hero-heading">Need a Dentist in St. Petersburg, FL?</h1>
             <p className="hero-subtitle">Personalized Dental Care for New &amp; Existing Patients</p>
             <p className="hero-description">
               Preventive, restorative, cosmetic, implant and emergency dental care in a comfortable, patient-focused environment.
             </p>
-            <CallButton label="Call now – 727-377-3339" />
+            <CallButton label="Call now" />
             <p className="hero-note">New Patients Welcome | St. Petersburg, FL</p>
           </div>
-          <div className="hero-banner-curve" aria-hidden="true" />
+          <div className="hero-banner-image-wrap">
+            <img
+              src="/assets/images/x-ray-large-01.webp"
+              alt="Dental team member positioning a patient for digital x-ray imaging"
+              className="hero-banner-image"
+            />
+          </div>
         </div>
+        <div className="hero-banner-curve" aria-hidden="true" />
       </section>
 
       <section className="form-section" id="request-callback" aria-labelledby="form-heading">
@@ -186,38 +190,40 @@ export default function CallUsOfferPage() {
           <p>Share a few details and our team will call during office hours. No pressure—just clear next steps.</p>
         </div>
         <form className="lead-form" onSubmit={handleSubmit}>
-          <label>
-            Name
-            <input required value={name} onChange={(event) => setName(event.target.value)} name="name" type="text" autoComplete="name" />
-          </label>
-          <label>
-            Phone number
-            <input
-              required
-              value={phoneNumber}
-              onChange={(event) => setPhoneNumber(formatPhoneInput(event.target.value))}
-              name="phoneNumber"
-              type="tel"
-              inputMode="numeric"
-              autoComplete="tel"
-              maxLength={10}
-              pattern="[0-9]{10}"
-              title="Enter a 10-digit phone number"
-            />
-          </label>
-          <label>
-            Summary <span>(optional)</span>
-            <textarea
-              value={summary}
-              onChange={(event) => setSummary(event.target.value)}
-              name="summary"
-              rows={4}
-              placeholder="Tell us briefly what you need help with"
-            />
-          </label>
-          <button type="submit" disabled={formStatus === "loading"}>
-            {formStatus === "loading" ? "Sending..." : "Request my callback"}
-          </button>
+          <div className="lead-form-row">
+            <label>
+              Name
+              <input required value={name} onChange={(event) => setName(event.target.value)} name="name" type="text" autoComplete="name" />
+            </label>
+            <label>
+              Phone number
+              <input
+                required
+                value={phoneNumber}
+                onChange={(event) => setPhoneNumber(formatPhoneInput(event.target.value))}
+                name="phoneNumber"
+                type="tel"
+                inputMode="numeric"
+                autoComplete="tel"
+                maxLength={10}
+                pattern="[0-9]{10}"
+                title="Enter a 10-digit phone number"
+              />
+            </label>
+            <label className="lead-form-summary">
+              Summary <span>(optional)</span>
+              <textarea
+                value={summary}
+                onChange={(event) => setSummary(event.target.value)}
+                name="summary"
+                rows={1}
+                placeholder="Tell us briefly what you need help with"
+              />
+            </label>
+            <button className="lead-form-submit" type="submit" disabled={formStatus === "loading"}>
+              {formStatus === "loading" ? "Sending..." : "Request my callback"}
+            </button>
+          </div>
           <small className="privacy-note">Your information is used only to contact you about dental care.</small>
           {formStatus === "error" && (
             <p role="alert" className="form-error">We could not send your request. Please call (727) 377-3339.</p>
@@ -253,13 +259,6 @@ export default function CallUsOfferPage() {
                 <span className="review-date">{review.date}</span>
               </div>
               <p className="review-text">{review.text}</p>
-              {review.photos && (
-                <div className={`review-photos review-photos-${review.photos.length}`}>
-                  {review.photos.map((photo, index) => (
-                    <img key={`${review.name}-${index}`} src={photo} alt={`Photo shared by ${review.name}`} loading="lazy" />
-                  ))}
-                </div>
-              )}
             </article>
           ))}
         </div>
@@ -268,10 +267,18 @@ export default function CallUsOfferPage() {
       <section className="offer-services-section" aria-labelledby="offer-services-heading">
         <p className="eyebrow">Our services</p>
         <h2 id="offer-services-heading">Comprehensive care for every smile</h2>
-        <div className="offer-services-grid">
-          {offerServices.map((service) => (
-            <div className="offer-service-box" key={service}>{service}</div>
-          ))}
+        <div className="offer-services-panel">
+          <div className="offer-services-grid">
+            {offerServices.map((service, index) => (
+              <div className="offer-service-box" key={service}>
+                <span className="offer-service-number">{String(index + 1).padStart(2, "0")}</span>
+                <span className="offer-service-title">{service}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="section-cta">
+          <a className="book-button" href="#request-callback">Book an Appointment</a>
         </div>
       </section>
 
@@ -296,6 +303,9 @@ export default function CallUsOfferPage() {
           <div><strong>$99</strong><span>New patient exam and X-rays for patients without insurance</span></div>
           <div><strong>$59</strong><span>Focused exam and X-ray for a specific dental concern</span></div>
         </div>
+        <div className="section-cta">
+          <a className="book-button" href="#request-callback">Book an Appointment</a>
+        </div>
       </section>
 
       <section className="final-cta" aria-labelledby="final-heading">
@@ -318,12 +328,19 @@ export default function CallUsOfferPage() {
               <br />
               St. Petersburg, FL 33707
             </address>
-            <p>Monday–Sunday | 9 AM–5 PM</p>
             <a href={PHONE_TEL} data-google-call-tracking="true">727-377-3339</a>
           </div>
-          <div className="lp-footer-cta">
-            <h2>Ready to Take Care of Your Smile?</h2>
-            <CallButton label="Call Reddy Dental Today" />
+          <div className="lp-footer-hours">
+            <h2>Office Hours</h2>
+            <div className="lp-footer-hours-divider" aria-hidden="true" />
+            <ul className="lp-footer-hours-list">
+              {officeHours.map((entry) => (
+                <li key={entry.day}>
+                  <span>{entry.day}</span>
+                  <span>{entry.hours}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </footer>
