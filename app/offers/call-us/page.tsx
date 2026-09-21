@@ -1,12 +1,40 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import "./call-us.css";
 
 const PHONE_NUMBER = "727-377-3339";
 const PHONE_TEL = `tel:${PHONE_NUMBER}`;
+const CONTACT_ENDPOINT =
+  "https://n8n.srv1393511.hstgr.cloud/webhook/8e9ccd83-8fbd-47f8-a088-044357d44c2e";
+
+const services = [
+  { title: "Emergency dental care", text: "Help for tooth pain, swelling, broken teeth, and other urgent concerns." },
+  { title: "Dental implants", text: "Thoughtfully planned tooth replacement with clear guidance at every step." },
+  { title: "Cleanings and prevention", text: "Routine care that helps protect your smile and catch concerns early." },
+  { title: "Crowns and restorative care", text: "Comfort-focused treatment to repair damaged or weakened teeth." },
+  { title: "Cosmetic dentistry", text: "Personalized options for a brighter, more confident smile." },
+  { title: "Dentures and bridges", text: "Practical choices to restore comfort, function, and confidence." },
+];
+
+const insurancePlans = [
+  "Aetna PPO & Medicare",
+  "Always Care PPO",
+  "Ameritas Classic PPO",
+  "Anthem 300/Complete",
+  "Cigna Total DPPO",
+  "GEHA PPO",
+  "Humana PPO & Medicare",
+  "LFG PPO",
+  "DNoA PPO & Medicare",
+  "MetLife PDP Plus",
+  "Principal Preferred",
+  "United Concordia Elite Plus",
+  "United Healthcare PPO & Medicare",
+  "Delta Dental PPO & Premier",
+  "Florida Blue Access Max",
+];
 
 type TrackingWindow = Window & {
   dataLayer?: unknown[];
@@ -19,44 +47,37 @@ function getGtag() {
   trackingWindow.dataLayer = trackingWindow.dataLayer || [];
   trackingWindow.gtag =
     trackingWindow.gtag ||
-    ((...args: unknown[]) => {
-      trackingWindow.dataLayer?.push(args);
-    });
+    ((...args: unknown[]) => trackingWindow.dataLayer?.push(args));
   return trackingWindow.gtag;
 }
 
 function sendGoogleEvent(eventName: string, parameters: Record<string, unknown>) {
   getGtag()("event", eventName, parameters);
 }
-const CONTACT_ENDPOINT =
-  "https://n8n.srv1393511.hstgr.cloud/webhook/8e9ccd83-8fbd-47f8-a088-044357d44c2e";
-
-const insurancePlans = [
-  { carrier: "Aetna", plans: "PPO and Medicare" },
-  { carrier: "Always Care", plans: "PPO" },
-  { carrier: "Ameritas", plans: "Classic PPO" },
-  { carrier: "Anthem", plans: "300/Complete" },
-  { carrier: "Cigna", plans: "Total DPPO" },
-  { carrier: "GEHA", plans: "PPO" },
-  { carrier: "Humana", plans: "PPO and Medicare" },
-  { carrier: "LFG", plans: "PPO plans" },
-  { carrier: "DNoA", plans: "PPO and Medicare" },
-  { carrier: "MetLife", plans: "PDP Plus" },
-  { carrier: "Principal", plans: "Principal Preferred" },
-  { carrier: "United Concordia", plans: "Elite Plus" },
-  { carrier: "United Healthcare", plans: "Medicare and PPO" },
-  { carrier: "Delta Dental", plans: "PPO and Premier" },
-  { carrier: "Florida Blue", plans: "BlueDental Access Max" },
-];
 
 function formatPhoneInput(value: string) {
   return value.replace(/\D/g, "").slice(0, 10);
+}
+
+function CallButton({ dark = false, label = "Call (727) 377-3339" }: { dark?: boolean; label?: string }) {
+  return (
+    <a
+      href={PHONE_TEL}
+      data-google-call-tracking="true"
+      className={`call-button ${dark ? "call-button-dark" : ""}`}
+      aria-label={`Call Reddy Dental at ${PHONE_NUMBER}`}
+    >
+      <span aria-hidden="true">☎</span>
+      {label}
+    </a>
+  );
 }
 
 export default function CallUsOfferPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [careNeed, setCareNeed] = useState("");
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "error">("idle");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -66,447 +87,206 @@ export default function CallUsOfferPage() {
     try {
       const response = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({
           source: window.location.href,
           name: name.trim(),
           phoneNumber: phoneNumber.trim(),
+          careNeed,
         }),
       });
 
-      if (response.ok) {
-        sendGoogleEvent("generate_lead", {
-          form_name: "callback_request",
-          page_location: window.location.href,
-        });
-        (window as TrackingWindow).fbq?.("track", "Lead", {
-          content_name: "callback_request",
-        });
-        const currentPath = window.location.pathname.endsWith("/")
-          ? window.location.pathname
-          : `${window.location.pathname}/`;
-        router.push(`${currentPath}thank-you/`);
-        return;
-      } else {
-        setFormStatus("error");
-      }
+      if (!response.ok) throw new Error("Request failed");
+
+      sendGoogleEvent("generate_lead", {
+        form_name: "google_ads_callback_request",
+        care_need: careNeed || "not_selected",
+        page_location: window.location.href,
+      });
+      (window as TrackingWindow).fbq?.("track", "Lead", {
+        content_name: "google_ads_callback_request",
+      });
+
+      const currentPath = window.location.pathname.endsWith("/")
+        ? window.location.pathname
+        : `${window.location.pathname}/`;
+      router.push(`${currentPath}thank-you/`);
     } catch {
       setFormStatus("error");
     }
   }
 
   return (
-    <main style={styles.page}>
-      <section style={styles.hero}>
-        <div style={styles.kicker}>Dental offers</div>
+    <main className="lp-page">
+      <header className="lp-header">
+        <a className="brand" href="/" aria-label="Reddy Dental home">
+          <span className="brand-mark" aria-hidden="true">R</span>
+          <span><strong>Reddy Dental</strong><small>General &amp; Implant Dentistry</small></span>
+        </a>
+        <a className="header-phone" href={PHONE_TEL} data-google-call-tracking="true">
+          <small>Questions? Call us</small>
+          <strong>(727) 377-3339</strong>
+        </a>
+      </header>
 
-        <div style={styles.topRow} className="top-row">
-          <div>
-            <p style={styles.eyebrow}>Reddy Dental</p>
-            <h1 style={styles.title}>Whether you have insurance or not, you&apos;re in caring hands.</h1>
-          </div>
-          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.primaryButton} className="primary-btn">
-            Call the office
-          </a>
-        </div>
-
-        <p style={styles.subtitle}>
-          We take the time to listen, explain every procedure patiently, and help you choose care that feels right for your health and your budget.
-        </p>
-
-        <details style={styles.insuranceSection}>
-          <summary style={styles.insuranceSummary} className="insurance-summary">
-            <span>
-              <span style={styles.cardLabel}>Insurance patients</span>
-              <span id="insurance-heading" style={styles.sectionTitle}>Insurance plans we accept</span>
-            </span>
-            <span style={styles.summaryHint}>View accepted plans</span>
-          </summary>
-          <p style={styles.effectiveNote}>Coverage can vary by plan. We&apos;ll gladly help verify your benefits.</p>
-          <div style={styles.tableWrap}>
-            <table style={styles.table}>
-              <thead><tr><th scope="col" style={styles.th}>Carrier</th><th scope="col" style={styles.th}>Plans we accept</th></tr></thead>
-              <tbody>{insurancePlans.map((plan) => <tr key={plan.carrier}><th scope="row" style={styles.td}>{plan.carrier}</th><td style={styles.td}>{plan.plans}</td></tr>)}</tbody>
-            </table>
-          </div>
-        </details>
-
-        <section style={styles.offerBanner} className="offer-banner" aria-labelledby="no-insurance-heading">
-          <div style={styles.price} className="offer-price">$99</div>
-          <div style={styles.offerCopy}>
-            <p style={styles.cardLabel}>No insurance? No problem.</p>
-            <h2 id="no-insurance-heading" style={styles.sectionTitle}>
-              New patient exam and X-rays
-            </h2>
-            <p style={styles.cardText}>
-              New patients without dental insurance can receive a complete exam, including X-rays, for just $99. We&apos;ll listen to your concerns, check your oral health, and explain your options clearly.
-            </p>
-          </div>
-          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.claimButton} className="offer-claim-btn">
-            Call the office
-          </a>
-        </section>
-
-        <section style={styles.offerBannerSecond} className="offer-banner" aria-labelledby="limited-exam-heading">
-          <div style={styles.price} className="offer-price">$59</div>
-          <div style={styles.offerCopy}>
-            <p style={styles.cardLabel}>Need care now?</p>
-            <h2 id="limited-exam-heading" style={styles.sectionTitle}>
-              Focused exam and X-ray
-            </h2>
-            <p style={styles.cardText}>
-              Have a specific dental concern? Start with a focused exam and X-ray for just $59. We&apos;ll identify the issue, explain the next steps, and, when appropriate, call in an antibiotic for an infection.
-            </p>
-          </div>
-          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.claimButton} className="offer-claim-btn">
-            Call the office
-          </a>
-        </section>
-
-        <div style={styles.bottomRow} className="bottom-row">
-          <p style={styles.bottomText}>
-            Questions at any hour? Call now for an appointment as early as tomorrow.
+      <section className="hero" aria-labelledby="hero-heading">
+        <div className="hero-copy">
+          <p className="eyebrow">Your local St. Petersburg dentist</p>
+          <h1 id="hero-heading">Gentle dental care, with clear answers and no pressure.</h1>
+          <p className="hero-lead">
+            Dr. Anish Reddy takes time to listen, explain your options, and help you choose care that feels right for your health and your budget.
           </p>
-          <a href={PHONE_TEL} data-google-call-tracking="true" style={styles.secondaryButton} className="secondary-btn">
-            Call the office now
-          </a>
+          <div className="hero-points" aria-label="Practice benefits">
+            <span>New patients welcome</span>
+            <span>Insurance and self-pay options</span>
+            <span>Emergency appointments available</span>
+          </div>
         </div>
-
-        <section style={styles.callbackSection} aria-labelledby="callback-heading">
-          <p style={styles.cardLabel}>Prefer a callback?</p>
-          <h2 id="callback-heading" style={{ ...styles.sectionTitle, ...styles.callbackTitle }}>Tell us where to reach you.</h2>
-          <p style={{ ...styles.cardText, ...styles.callbackText }}>Share your name and phone number and our team will get back to you.</p>
-          <form onSubmit={handleSubmit} style={styles.callbackForm} className="callback-form">
-            <label style={styles.fieldLabel}>
-              Name
-              <input required value={name} onChange={(event) => setName(event.target.value)} style={styles.input} name="name" type="text" autoComplete="name" suppressHydrationWarning />
-            </label>
-            <label style={styles.fieldLabel}>
-              Phone number
-              <input
-                required
-                value={phoneNumber}
-                onChange={(event) => setPhoneNumber(formatPhoneInput(event.target.value))}
-                style={styles.input}
-                name="phoneNumber"
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel"
-                maxLength={10}
-                pattern="[0-9]{10}"
-                title="Enter a 10-digit phone number"
-                suppressHydrationWarning
-              />
-            </label>
-            <button type="submit" style={styles.submitButton} disabled={formStatus === "loading"} suppressHydrationWarning>
-              {formStatus === "loading" ? "Sending..." : "Request a callback"}
-            </button>
-          </form>
-          {formStatus === "error" && <p role="alert" style={styles.errorMessage}>Something went wrong. Please call us at 727-377-3339.</p>}
-        </section>
-
-        <div style={styles.footerLinkRow}>
-          <Link href="/" style={styles.backLink}>
-            Back to home
-          </Link>
+        <div className="hero-image" role="img" aria-label="A welcoming dental office reception">
+          <div className="hero-badge"><strong>5-star care</strong><span>from local patients</span></div>
         </div>
       </section>
+
+      <section className="call-strip" aria-label="Call Reddy Dental">
+        <div>
+          <p>Need a dentist in St. Petersburg?</p>
+          <strong>Speak with our friendly team now.</strong>
+        </div>
+        <CallButton />
+      </section>
+
+      <section className="form-section" id="request-callback" aria-labelledby="form-heading">
+        <div className="form-intro">
+          <p className="eyebrow">Prefer a callback?</p>
+          <h2 id="form-heading">Tell us how to reach you.</h2>
+          <p>Share a few details and our team will call during office hours. No pressure—just clear next steps.</p>
+          <div className="offer-notes">
+            <div><strong>$99</strong><span>New patient exam and X-rays for patients without insurance</span></div>
+            <div><strong>$59</strong><span>Focused exam and X-ray for a specific dental concern</span></div>
+          </div>
+        </div>
+        <form className="lead-form" onSubmit={handleSubmit}>
+          <label>
+            Name
+            <input required value={name} onChange={(event) => setName(event.target.value)} name="name" type="text" autoComplete="name" />
+          </label>
+          <label>
+            Phone number
+            <input
+              required
+              value={phoneNumber}
+              onChange={(event) => setPhoneNumber(formatPhoneInput(event.target.value))}
+              name="phoneNumber"
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel"
+              maxLength={10}
+              pattern="[0-9]{10}"
+              title="Enter a 10-digit phone number"
+            />
+          </label>
+          <label>
+            How can we help? <span>(optional)</span>
+            <select value={careNeed} onChange={(event) => setCareNeed(event.target.value)} name="careNeed">
+              <option value="">Choose one</option>
+              <option>Tooth pain or emergency</option>
+              <option>Dental implants</option>
+              <option>New patient exam</option>
+              <option>Cleaning or routine care</option>
+              <option>Cosmetic dentistry</option>
+              <option>Something else</option>
+            </select>
+          </label>
+          <button type="submit" disabled={formStatus === "loading"}>
+            {formStatus === "loading" ? "Sending..." : "Request my callback"}
+          </button>
+          <small className="privacy-note">Your information is used only to contact you about dental care.</small>
+          {formStatus === "error" && (
+            <p role="alert" className="form-error">We could not send your request. Please call (727) 377-3339.</p>
+          )}
+        </form>
+      </section>
+
+      <section className="trust-section" aria-labelledby="trust-heading">
+        <div className="doctor-card">
+          <img src="/assets/images/db2b95d2-3eae-40ea-8f30-eb6c3d577b91.webp" alt="Dr. Sajan Anish Reddy" />
+          <div><strong>Sajan “Anish” Reddy, DMD</strong><span>University of Florida graduate</span></div>
+        </div>
+        <div className="trust-copy">
+          <p className="eyebrow">Trust is built first. Smiles follow.</p>
+          <h2 id="trust-heading">Care that feels personal from the first call.</h2>
+          <p>Patients choose Reddy Dental for an honest, welcoming experience where questions are encouraged and treatment is thoughtfully tailored.</p>
+          <a className="review-link" href="https://maps.app.goo.gl/MmTH3GryrAqJzzqt9" target="_blank" rel="noreferrer">★★★★★ Read our 5-star Google reviews</a>
+        </div>
+      </section>
+
+      <section className="services-section" aria-labelledby="services-heading">
+        <p className="eyebrow">Dental care for the whole family</p>
+        <h2 id="services-heading">How we can help</h2>
+        <div className="services-grid">
+          {services.map((service, index) => (
+            <article className="service-card" key={service.title}>
+              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{service.title}</h3>
+              <p>{service.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="why-section" aria-labelledby="why-heading">
+        <div>
+          <p className="eyebrow">Why Reddy Dental</p>
+          <h2 id="why-heading">A calmer, clearer dental experience.</h2>
+        </div>
+        <div className="why-grid">
+          <article><strong>We listen first</strong><p>Your concerns, comfort, and goals guide the conversation.</p></article>
+          <article><strong>Options are explained clearly</strong><p>You will understand what we recommend, why, and what it may cost.</p></article>
+          <article><strong>No-pressure decisions</strong><p>Choose care on your timeline with support from a team that treats you like family.</p></article>
+        </div>
+      </section>
+
+      <section className="insurance-section" aria-labelledby="insurance-heading">
+        <div className="insurance-heading">
+          <div>
+            <p className="eyebrow">Insurance and self-pay welcome</p>
+            <h2 id="insurance-heading">We make the financial side easier to understand.</h2>
+          </div>
+          <p>Coverage varies by plan. Our team will gladly help verify your benefits before treatment.</p>
+        </div>
+        <div className="insurance-list">
+          {insurancePlans.map((plan) => <span key={plan}>{plan}</span>)}
+        </div>
+        <p className="insurance-note"><strong>No insurance?</strong> Ask about our $99 new patient exam and X-ray offer.</p>
+      </section>
+
+      <section className="location-section" aria-labelledby="location-heading">
+        <img src="/assets/images/8ce37db2-ec42-4161-a256-8e19d5808b7e.webp" alt="Map showing Reddy Dental in St. Petersburg" />
+        <div className="location-copy">
+          <p className="eyebrow">Conveniently located in St. Petersburg</p>
+          <h2 id="location-heading">Local care, close to home.</h2>
+          <address>6751 1st Ave S<br />St. Petersburg, FL 33707</address>
+          <p>Easy to reach from St. Pete Beach, Gulfport, South Pasadena, and nearby neighborhoods.</p>
+          <a className="directions-button" href="https://maps.app.goo.gl/MmTH3GryrAqJzzqt9" target="_blank" rel="noreferrer">Get directions</a>
+        </div>
+      </section>
+
+      <section className="final-cta" aria-labelledby="final-heading">
+        <p className="eyebrow">Ready when you are</p>
+        <h2 id="final-heading">Let’s take the next step together.</h2>
+        <p>Call now to ask a question or request an appointment. We’ll help you understand what comes next.</p>
+        <div className="final-actions">
+          <CallButton dark label="Call now: (727) 377-3339" />
+          <a className="text-link" href="#request-callback">Request a callback instead</a>
+        </div>
+      </section>
+
+      <footer className="lp-footer">
+        <span>Reddy Dental · General &amp; Implant Dentistry</span>
+        <span>6751 1st Ave S, St. Petersburg, FL 33707</span>
+      </footer>
+
+      <a className="mobile-call-bar" href={PHONE_TEL} data-google-call-tracking="true">Call Reddy Dental · (727) 377-3339</a>
     </main>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    padding: "32px 20px 72px",
-    background: "linear-gradient(180deg, #f4f9ff 0%, #edf4fb 100%)",
-    color: "#11233d",
-    fontFamily: "Arial, Helvetica, sans-serif",
-  },
-  hero: {
-    width: "100%",
-    maxWidth: "1120px",
-    background: "#fff",
-    borderRadius: "26px",
-    border: "1px solid rgba(17,35,61,0.08)",
-    boxShadow: "0 24px 60px rgba(17,35,61,0.08)",
-    padding: "36px 28px",
-  },
-  kicker: {
-    display: "inline-flex",
-    background: "#eaf3ff",
-    color: "#184d8c",
-    borderRadius: "999px",
-    padding: "8px 16px",
-    fontSize: "12px",
-    fontWeight: 700,
-    letterSpacing: "0.14em",
-    textTransform: "uppercase",
-  },
-  topRow: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: "20px",
-    marginTop: "18px",
-  },
-  eyebrow: {
-    margin: 0,
-    color: "#4672a8",
-    fontSize: "12px",
-    fontWeight: 700,
-    letterSpacing: "0.12em",
-    textTransform: "uppercase",
-  },
-  title: {
-    margin: "10px 0 0",
-    maxWidth: "760px",
-    fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-    lineHeight: 1.02,
-    letterSpacing: "-0.06em",
-  },
-  primaryButton: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: "58px",
-    padding: "0 28px",
-    borderRadius: "999px",
-    background: "linear-gradient(180deg, #ffd75c 0%, #f7c948 100%)",
-    color: "#1b2d3d",
-    textDecoration: "none",
-    fontWeight: 800,
-    boxShadow: "0 12px 26px rgba(247, 201, 73, 0.35)",
-    whiteSpace: "nowrap",
-  },
-  subtitle: {
-    margin: "26px 0 0",
-    maxWidth: "800px",
-    color: "#465d79",
-    fontSize: "1.08rem",
-    lineHeight: 1.7,
-  },
-  insuranceSection: {
-    marginTop: "34px",
-  },
-  insuranceSummary: {
-    display: "flex",
-    alignItems: "end",
-    justifyContent: "space-between",
-    gap: "18px",
-    cursor: "pointer",
-    listStyle: "none",
-    padding: "20px 22px",
-    border: "1px solid #dbe9f7",
-    borderRadius: "16px",
-    background: "#f8fbff",
-  },
-  summaryHint: {
-    color: "#1d5aa7",
-    fontSize: "0.9rem",
-    fontWeight: 700,
-    whiteSpace: "nowrap",
-  },
-  insuranceHeader: {
-    display: "flex",
-    alignItems: "end",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: "12px",
-  },
-  cardLabel: {
-    margin: 0,
-    color: "#4672a8",
-    fontSize: "12px",
-    fontWeight: 800,
-    letterSpacing: "0.12em",
-    textTransform: "uppercase",
-  },
-  sectionTitle: {
-    display: "block",
-    margin: "8px 0 0",
-    color: "#10263f",
-    fontSize: "clamp(1.6rem, 3vw, 2.35rem)",
-    lineHeight: 1.1,
-    letterSpacing: "-0.04em",
-  },
-  effectiveNote: {
-    margin: 0,
-    color: "#617894",
-    fontSize: "0.9rem",
-  },
-  tableWrap: {
-    marginTop: "18px",
-    overflowX: "auto",
-    border: "1px solid rgba(17,35,61,0.1)",
-    borderRadius: "16px",
-  },
-  table: {
-    width: "100%",
-    minWidth: "520px",
-    borderCollapse: "collapse",
-    color: "#304c6b",
-    fontSize: "0.95rem",
-  },
-  th: {
-    padding: "15px 14px",
-    background: "#10263f",
-    color: "#fff",
-    textAlign: "left",
-    fontSize: "0.76rem",
-    letterSpacing: "0.08em",
-    textTransform: "uppercase",
-  },
-  td: {
-    padding: "13px 14px",
-    borderTop: "1px solid rgba(17,35,61,0.08)",
-    textAlign: "left",
-    lineHeight: 1.4,
-  },
-  offerBanner: {
-    display: "grid",
-    gridTemplateColumns: "auto 1fr auto",
-    alignItems: "center",
-    gap: "22px",
-    marginTop: "30px",
-    padding: "24px",
-    borderRadius: "20px",
-    background: "#f8fbff",
-    border: "1px solid #dbe9f7",
-  },
-  offerBannerSecond: {
-    display: "grid",
-    gridTemplateColumns: "auto 1fr auto",
-    alignItems: "center",
-    gap: "22px",
-    marginTop: "16px",
-    padding: "24px",
-    borderRadius: "20px",
-    background: "#f8fbff",
-    border: "1px solid #dbe9f7",
-  },
-  price: {
-    color: "#0d5bb5",
-    fontSize: "clamp(2.5rem, 6vw, 4.25rem)",
-    fontWeight: 800,
-    letterSpacing: "-0.06em",
-  },
-  offerCopy: {
-    minWidth: 0,
-  },
-  cardText: {
-    margin: "12px 0 0",
-    color: "#455d79",
-    lineHeight: 1.6,
-  },
-  claimButton: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: "50px",
-    padding: "0 20px",
-    borderRadius: "999px",
-    background: "#0f213a",
-    color: "#fff",
-    textDecoration: "none",
-    fontWeight: 700,
-    whiteSpace: "nowrap",
-  },
-  bottomRow: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: "20px",
-    marginTop: "30px",
-    paddingTop: "24px",
-    borderTop: "1px solid rgba(17,35,61,0.08)",
-  },
-  bottomText: {
-    margin: 0,
-    color: "#2d4866",
-    fontSize: "1.02rem",
-    fontWeight: 600,
-  },
-  secondaryButton: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: "52px",
-    padding: "0 22px",
-    borderRadius: "999px",
-    background: "#0f213a",
-    color: "#fff",
-    textDecoration: "none",
-    fontWeight: 700,
-    whiteSpace: "nowrap",
-  },
-  callbackSection: {
-    marginTop: "34px",
-    padding: "26px 24px",
-    borderRadius: "20px",
-    background: "#10263f",
-    color: "#fff",
-  },
-  callbackForm: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-    alignItems: "end",
-    gap: "14px",
-    marginTop: "20px",
-  },
-  fieldLabel: {
-    display: "grid",
-    gap: "7px",
-    color: "#dce9f7",
-    fontSize: "0.82rem",
-    fontWeight: 700,
-  },
-  input: {
-    minHeight: "48px",
-    padding: "0 13px",
-    border: "1px solid #b8cee4",
-    borderRadius: "8px",
-    background: "#fff",
-    color: "#10263f",
-    font: "inherit",
-    fontWeight: 400,
-  },
-  submitButton: {
-    minHeight: "48px",
-    padding: "0 20px",
-    border: 0,
-    borderRadius: "8px",
-    background: "#ffd75c",
-    color: "#1b2d3d",
-    font: "inherit",
-    fontWeight: 800,
-    cursor: "pointer",
-    whiteSpace: "nowrap",
-  },
-  callbackTitle: {
-    color: "#fff",
-  },
-  callbackText: {
-    color: "#dce9f7",
-  },
-  errorMessage: {
-    margin: "16px 0 0",
-    color: "#ffd5d5",
-    fontWeight: 600,
-  },
-  footerLinkRow: {
-    marginTop: "22px",
-  },
-  backLink: {
-    color: "#1d5aa7",
-    textDecoration: "none",
-    fontWeight: 700,
-  },
-};
