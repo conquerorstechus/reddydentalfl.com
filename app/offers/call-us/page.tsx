@@ -174,8 +174,8 @@ export default function CallUsOfferPage() {
           </div>
           <div className="hero-banner-image-wrap">
             <img
-              src="/assets/images/x-ray-large-01.webp"
-              alt="Dental team member positioning a patient for digital x-ray imaging"
+              src="/assets/images/img_8775.webp"
+              alt="Modern dental operatory at Reddy Dental in St. Petersburg, FL"
               className="hero-banner-image"
             />
           </div>
@@ -283,7 +283,7 @@ export default function CallUsOfferPage() {
           <p className="eyebrow">Trust is built first. Smiles follow.</p>
         </div>
         <div className="doctor-card">
-          <img src="/assets/images/db2b95d2-3eae-40ea-8f30-eb6c3d577b91.webp" alt="Dr. Sajan Anish Reddy" />
+          <img src="/assets/images/img_8777.webp" alt="Dr. Sajan Anish Reddy" />
           <div><strong>Dr. Sajan “Anish” Reddy, DMD</strong><span>University of Florida graduate</span></div>
         </div>
         <div className="trust-copy">
