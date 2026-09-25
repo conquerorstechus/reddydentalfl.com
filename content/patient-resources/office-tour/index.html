@@ -1177,6 +1177,29 @@
           text-align: start;
         }
       }
+      .office-tour-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+      }
+      .office-tour-grid img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        object-position: center;
+      }
+      @media (min-width: 768px) {
+        .office-tour-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+      @media (min-width: 1024px) {
+        .office-tour-grid {
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+      }
     </style>
   </head>
   <body>
@@ -1572,21 +1595,31 @@
       </div>
 
       <div class="px-sm py-sm bg-neutral flex w-full justify-center">
-        <div class="max-w-content gap-x-md gap-y-md flex w-full flex-wrap justify-center">
-          <div>
+        <div class="max-w-content w-full">
             <h3 class="font-subtitle3 font-[500] capitalize text-[16px] text-neutralHighlight mb-sm">
               Visit Our State-of-the Art Office
             </h3>
-            <div class="grid grid-cols-1 gap-2 sm:w-[580px] sm:grid-cols-2">
-              <img src="../../assets/images/cc9dd7f4-8370-4099-b035-813b301525ec.webp" alt="Office photo" width="280" height="158" class="h-auto w-full object-cover">
+            <div class="office-tour-grid">
+              <img loading="lazy" src="../../assets/images/cc9dd7f4-8370-4099-b035-813b301525ec.webp" alt="Dental operatory at Reddy Dental" width="280" height="158">
 
-              <img src="../../assets/images/7012daac-5613-4c92-82d3-34186ed8decf.webp" alt="Office photo" width="280" height="158" class="h-auto w-full object-cover">
+              <img loading="lazy" src="../../assets/images/7012daac-5613-4c92-82d3-34186ed8decf.webp" alt="Waiting area at Reddy Dental" width="280" height="158">
 
-              <img src="../../assets/images/b12c04c7-eea9-4827-a202-13d9b6bbe5c4.webp" alt="Office photo" width="280" height="158" class="h-auto w-full object-cover">
+              <img loading="lazy" src="../../assets/images/b12c04c7-eea9-4827-a202-13d9b6bbe5c4.webp" alt="Reception area at Reddy Dental" width="280" height="158">
 
-              <img src="../../assets/images/a27eb0ab-b3f3-417c-8091-b8236e44a22c.webp" alt="Office photo" width="280" height="158" class="h-auto w-full object-cover">
+              <img loading="lazy" src="../../assets/images/a27eb0ab-b3f3-417c-8091-b8236e44a22c.webp" alt="Reddy Dental office sign" width="280" height="158">
+
+              <img loading="lazy" src="../../assets/images/office-tour-hallway.jpg" alt="Hallway at Reddy Dental with sliding doors and waiting area" width="280" height="158">
+
+              <img loading="lazy" src="../../assets/images/office-tour-exam-rooms.jpg" alt="Modern exam rooms at Reddy Dental" width="280" height="158">
+
+              <img loading="lazy" src="../../assets/images/office-tour-operatory.jpg" alt="Dental operatory with patient chair and monitor at Reddy Dental" width="280" height="158">
+
+              <img loading="lazy" src="../../assets/images/office-tour-consultation.jpg" alt="Consultation office with panoramic x-ray display at Reddy Dental" width="280" height="158">
+
+              <img loading="lazy" src="../../assets/images/office-tour-dental-chair.jpg" alt="Dental chair and treatment room at Reddy Dental" width="280" height="158">
+
+              <img loading="lazy" src="../../assets/images/office-tour-exterior-aerial.jpg" alt="Aerial view of Reddy Dental at 6751 1st Ave S, St. Petersburg, FL" width="280" height="158">
             </div>
-          </div>
         </div>
       </div>
 

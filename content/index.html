@@ -1361,6 +1361,32 @@
           max-width: 280px;
         }
       }
+      .brand-values-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px;
+        align-items: start;
+      }
+      .brand-values-image {
+        display: flex;
+        justify-content: center;
+      }
+      .brand-values-photo {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        border-radius: 18px;
+        object-fit: contain;
+        object-position: center top;
+        box-shadow: 0 16px 40px rgba(24, 36, 58, 0.12);
+      }
+      @media (min-width: 1024px) {
+        .brand-values-layout {
+          grid-template-columns: 0.95fr 1.35fr;
+          gap: 48px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1901,7 +1927,11 @@
             <span><b>Trusted, Personalized Dentistry</b> in St. Petersburg, FL—<br>Where
               Comfort and Integrity Come First</span>
           </h2>
-          <div class="grid-cols mb-md max-w-content grid lg:grid-cols-2 grid-cols-1">
+          <div class="brand-values-layout mb-md max-w-content w-full">
+            <div class="brand-values-image">
+              <img loading="lazy" src="assets/images/reddy-dental-consultation.jpg" alt="Dr. Anish Reddy consulting with a patient at Reddy Dental" class="brand-values-photo" width="1024" height="682">
+            </div>
+            <div class="grid-cols grid lg:grid-cols-2 grid-cols-1">
             <div class="py-sm lg:px-sm">
               <div class="flex gap-x-4">
                 <div class="flex-none">
@@ -1986,6 +2016,7 @@
                     valued—every visit.</span>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>

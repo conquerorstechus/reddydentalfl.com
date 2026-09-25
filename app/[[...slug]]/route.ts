@@ -1,5 +1,5 @@
+import { getBlogSource } from "@/lib/blog";
 import { listSitePages, readSiteHtml } from "@/lib/site-pages";
-import { opinly } from "@/lib/opinly";
 
 export async function generateStaticParams() {
   const pages = await listSitePages();
@@ -25,9 +25,9 @@ export async function GET(request: Request, context: RouteContext) {
     });
   }
 
-  // Opinly posts are served under /blog; send matching root slugs there.
+  // Blog posts are served under /blog; send matching root slugs there.
   if (slug?.length === 1) {
-    const post = await opinly.post(slug[0]);
+    const post = await getBlogSource().getPostBySlug(slug[0]);
     if (post) {
       return Response.redirect(new URL(`/blog/${slug[0]}/`, request.url), 308);
     }

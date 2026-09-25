@@ -1,0 +1,20 @@
+{
+  "slug": "your-post-slug",
+  "title": "Your Blog Post Title",
+  "description": "A short summary shown on the blog index and used as a fallback meta description.",
+  "metaTitle": "SEO Title (optional)",
+  "metaDescription": "SEO meta description (optional)",
+  "firstPublishedAt": "2026-01-01T12:00:00.000Z",
+  "modifiedAt": "2026-01-01T12:00:00.000Z",
+  "draft": true,
+  "author": null,
+  "category": null,
+  "tags": [],
+  "titleImage": {
+    "src": "/blog-images/your-post-slug/hero.webp",
+    "alt": "Describe the hero image",
+    "title": null,
+    "caption": null
+  },
+  "faqs": []
+}

@@ -2,6 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import BrandValuesSection from "./brand-values-section";
+import GoogleTrustSection from "./google-trust-section";
+import LanguageToggle from "./language-toggle";
+import { useLanguage } from "./language-provider";
 import "./call-us.css";
 
 const PHONE_NUMBER = "727-377-3339";
@@ -40,24 +44,6 @@ const googleReviews = [
   },
 ];
 
-const officeHours = [
-  { day: "Monday", hours: "9:00am - 5:00pm" },
-  { day: "Tuesday", hours: "9:00am - 5:00pm" },
-  { day: "Wednesday", hours: "9:00am - 5:00pm" },
-  { day: "Thursday", hours: "9:00am - 5:00pm" },
-  { day: "Friday", hours: "9:00am - 5:00pm" },
-  { day: "Saturday", hours: "9:00am - 5:00pm" },
-  { day: "Sunday", hours: "9:00am - 5:00pm" },
-];
-
-const offerServices = [
-  "Preventive Dentistry",
-  "Restorative Dentistry",
-  "Cosmetic Dentistry",
-  "Implant Dentistry",
-  "Emergency Dental Care",
-];
-
 type TrackingWindow = Window & {
   dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
@@ -81,13 +67,19 @@ function formatPhoneInput(value: string) {
   return value.replace(/\D/g, "").slice(0, 10);
 }
 
-function CallButton({ dark = false, label = "Call now" }: { dark?: boolean; label?: string }) {
+type CallButtonProps = {
+  dark?: boolean;
+  label: string;
+  ariaLabel: string;
+};
+
+function CallButton({ dark = false, label, ariaLabel }: CallButtonProps) {
   return (
     <a
       href={PHONE_TEL}
       data-google-call-tracking="true"
       className={`call-button ${dark ? "call-button-dark" : ""}`}
-      aria-label={`Call Reddy Dental at ${PHONE_NUMBER}`}
+      aria-label={ariaLabel}
     >
       <span aria-hidden="true">☎</span>
       {label}
@@ -97,6 +89,7 @@ function CallButton({ dark = false, label = "Call now" }: { dark?: boolean; labe
 
 export default function CallUsOfferPage() {
   const router = useRouter();
+  const { toggleLanguage, t } = useLanguage();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [summary, setSummary] = useState("");
@@ -141,41 +134,42 @@ export default function CallUsOfferPage() {
   return (
     <main className="lp-page">
       <header className="lp-header">
-        <a className="brand" href="/" aria-label="Reddy Dental home">
+        <a className="brand" href="/" aria-label={t.brandHomeAriaLabel}>
           <img
             src="/assets/images/reddy-dental-logo-light-bg.svg"
-            alt="Reddy Dental — General & Implant Dentistry"
+            alt={t.brandLogoAlt}
             className="brand-logo"
             width={250}
             height={50}
           />
         </a>
-        <a
-          className="header-phone"
-          href={PHONE_TEL}
-          data-google-call-tracking="true"
-          aria-label={`Call Reddy Dental at ${PHONE_NUMBER}`}
-        >
-          <span className="header-phone-icon" aria-hidden="true">☎</span>
-          <strong>Call now</strong>
-        </a>
+        <div className="header-actions">
+          <LanguageToggle label={t.languageToggleLabel} onToggle={toggleLanguage} />
+          <a
+            className="header-phone"
+            href={PHONE_TEL}
+            data-google-call-tracking="true"
+            aria-label={t.callAriaLabel}
+          >
+            <span className="header-phone-icon" aria-hidden="true">☎</span>
+            <strong>{t.callNow}</strong>
+          </a>
+        </div>
       </header>
 
       <section className="hero-banner" aria-labelledby="hero-heading">
         <div className="hero-banner-inner">
           <div className="hero-banner-copy">
-            <h1 id="hero-heading">Need a Dentist in St.&nbsp;Petersburg, FL?</h1>
-            <p className="hero-subtitle">Personalized Dental Care for New &amp; Existing Patients</p>
-            <p className="hero-description">
-              Preventive, restorative, cosmetic, implant and emergency dental care in a comfortable, patient-focused environment.
-            </p>
-            <CallButton label="Call now" />
-            <p className="hero-note">New Patients Welcome | St. Petersburg, FL</p>
+            <h1 id="hero-heading">{t.heroHeading}</h1>
+            <p className="hero-subtitle">{t.heroSubtitle}</p>
+            <p className="hero-description">{t.heroDescription}</p>
+            <CallButton label={t.callNow} ariaLabel={t.callAriaLabel} />
+            <p className="hero-note">{t.heroNote}</p>
           </div>
           <div className="hero-banner-image-wrap">
             <img
               src="/assets/images/img_8775.webp"
-              alt="Modern dental operatory at Reddy Dental in St. Petersburg, FL"
+              alt={t.heroImageAlt}
               className="hero-banner-image"
             />
           </div>
@@ -183,15 +177,17 @@ export default function CallUsOfferPage() {
         <div className="hero-banner-curve" aria-hidden="true" />
       </section>
 
-      <section className="form-section" id="request-callback" aria-label="Request a callback">
+      <GoogleTrustSection />
+
+      <section className="form-section" id="request-callback" aria-label={t.formSectionAriaLabel}>
         <form className="lead-form" onSubmit={handleSubmit}>
           <div className="lead-form-row">
             <label>
-              Name
+              {t.formNameLabel}
               <input required value={name} onChange={(event) => setName(event.target.value)} name="name" type="text" autoComplete="name" />
             </label>
             <label>
-              Phone number
+              {t.formPhoneLabel}
               <input
                 required
                 value={phoneNumber}
@@ -202,26 +198,26 @@ export default function CallUsOfferPage() {
                 autoComplete="tel"
                 maxLength={10}
                 pattern="[0-9]{10}"
-                title="Enter a 10-digit phone number"
+                title={t.formPhoneTitle}
               />
             </label>
             <label className="lead-form-summary">
-              Summary <span>(optional)</span>
+              {t.formSummaryLabel} <span>{t.formSummaryOptional}</span>
               <textarea
                 value={summary}
                 onChange={(event) => setSummary(event.target.value)}
                 name="summary"
                 rows={1}
-                placeholder="Tell us briefly what you need help with"
+                placeholder={t.formSummaryPlaceholder}
               />
             </label>
             <button className="lead-form-submit" type="submit" disabled={formStatus === "loading"}>
-              {formStatus === "loading" ? "Sending..." : "Request my callback"}
+              {formStatus === "loading" ? t.formSubmitLoading : t.formSubmitIdle}
             </button>
           </div>
-          <small className="privacy-note">Your information is used only to contact you about dental care.</small>
+          <small className="privacy-note">{t.formPrivacyNote}</small>
           {formStatus === "error" && (
-            <p role="alert" className="form-error">We could not send your request. Please call (727) 377-3339.</p>
+            <p role="alert" className="form-error">{t.formError}</p>
           )}
         </form>
       </section>
@@ -229,12 +225,12 @@ export default function CallUsOfferPage() {
       <section className="reviews-section" aria-labelledby="reviews-heading">
         <div className="reviews-header">
           <div>
-            <p className="eyebrow">Patient reviews</p>
-            <h2 id="reviews-heading">What patients are saying</h2>
+            <p className="eyebrow">{t.reviewsEyebrow}</p>
+            <h2 id="reviews-heading">{t.reviewsHeading}</h2>
           </div>
           <a className="reviews-google-link" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
             <img src="/assets/google_stars.svg" alt="" width={130} height={24} />
-            <span>Read more on Google</span>
+            <span>{t.reviewsGoogleLink}</span>
           </a>
         </div>
         <div className="reviews-list">
@@ -250,7 +246,7 @@ export default function CallUsOfferPage() {
                 </div>
               </div>
               <div className="review-rating">
-                <span className="review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+                <span className="review-stars" aria-label={t.reviewStarsAriaLabel}>★★★★★</span>
                 <span className="review-date">{review.date}</span>
               </div>
               <p className="review-text">{review.text}</p>
@@ -260,11 +256,11 @@ export default function CallUsOfferPage() {
       </section>
 
       <section className="offer-services-section" aria-labelledby="offer-services-heading">
-        <p className="eyebrow">Our services</p>
-        <h2 id="offer-services-heading">Comprehensive care for every smile</h2>
+        <p className="eyebrow">{t.servicesEyebrow}</p>
+        <h2 id="offer-services-heading">{t.servicesHeading}</h2>
         <div className="offer-services-panel">
           <div className="offer-services-grid">
-            {offerServices.map((service, index) => (
+            {t.services.map((service, index) => (
               <div className="offer-service-box" key={service}>
                 <span className="offer-service-number">{String(index + 1).padStart(2, "0")}</span>
                 <span className="offer-service-title">{service}</span>
@@ -273,66 +269,81 @@ export default function CallUsOfferPage() {
           </div>
         </div>
         <div className="section-cta">
-          <a className="book-button" href="#request-callback">Book an Appointment</a>
+          <a className="book-button" href="#request-callback">{t.bookAppointment}</a>
         </div>
       </section>
 
+      <BrandValuesSection />
+
       <section className="trust-section" aria-labelledby="trust-heading">
         <div className="trust-section-header">
-          <h2 id="trust-heading">About Us</h2>
-          <p className="eyebrow">Trust is built first. Smiles follow.</p>
+          <h2 id="trust-heading">{t.aboutHeading}</h2>
+          <p className="eyebrow">{t.aboutEyebrow}</p>
         </div>
         <div className="doctor-card">
           <img src="/assets/images/img_8777.webp" alt="Dr. Sajan Anish Reddy" />
-          <div><strong>Dr. Sajan “Anish” Reddy, DMD</strong><span>University of Florida graduate</span></div>
+          <div>
+            <strong>Dr. Sajan “Anish” Reddy, DMD</strong>
+            <span>{t.doctorCredential}</span>
+          </div>
         </div>
         <div className="trust-copy">
-          <p className="trust-bio">
-            Dr. Sajan Anish Reddy, DMD, was drawn to dentistry for its unique blend of precision, problem-solving, and the ability to make an immediate, meaningful impact on a person&apos;s confidence and quality of life. He earned his Doctor of Dental Medicine degree from the University of Florida and has over five years of clinical experience, including extensive hands-on patient care during his training. Dr. Reddy is licensed to practice in Florida, Georgia, Tennessee, Alabama, South Carolina, North Carolina, Missouri, and Wisconsin, and is an active member of the American Dental Association and Florida Dental Association.
-          </p>
+          <p className="trust-bio">{t.doctorBio}</p>
         </div>
       </section>
 
       <section className="insurance-section" aria-labelledby="insurance-heading">
-        <p className="eyebrow">Insurance and self-pay welcome</p>
-        <h2 id="insurance-heading">Affordable options for patients with and without insurance.</h2>
-        <p className="insurance-intro">Coverage varies by plan. Our team will gladly help verify your benefits before treatment.</p>
-        <div className="offer-notes insurance-offers">
-          <div><strong>$99</strong><span>New patient exam and X-rays for patients without insurance</span></div>
-          <div><strong>$59</strong><span>Focused exam and X-ray for a specific dental concern</span></div>
-        </div>
-        <div className="section-cta">
-          <a className="book-button" href="#request-callback">Book an Appointment</a>
+        <div className="insurance-section-inner">
+          <div className="insurance-image-wrap">
+            <img
+              src="/assets/images/reddy-dental-exterior.jpg"
+              alt={t.insuranceImageAlt}
+              className="insurance-image"
+              loading="lazy"
+            />
+          </div>
+          <div className="insurance-copy">
+            <p className="eyebrow">{t.insuranceEyebrow}</p>
+            <h2 id="insurance-heading">{t.insuranceHeading}</h2>
+            <p className="insurance-intro">{t.insuranceIntro}</p>
+            <div className="offer-notes insurance-offers">
+              <div><strong>$99</strong><span>{t.offer99Description}</span></div>
+              <div><strong>$59</strong><span>{t.offer59Description}</span></div>
+            </div>
+            <div className="section-cta">
+              <a className="book-button" href="#request-callback">{t.bookAppointment}</a>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="final-cta" aria-labelledby="final-heading">
-        <p className="eyebrow">Ready when you are</p>
-        <h2 id="final-heading">Let’s take the next step together.</h2>
-        <p>Call now to ask a question or request an appointment. We’ll help you understand what comes next.</p>
+        <p className="eyebrow">{t.finalEyebrow}</p>
+        <h2 id="final-heading">{t.finalHeading}</h2>
+        <p>{t.finalDescription}</p>
         <div className="final-actions">
-          <CallButton dark />
-          <a className="text-link" href="#request-callback">Request a callback instead</a>
+          <CallButton dark label={t.callNow} ariaLabel={t.callAriaLabel} />
+          <a className="text-link" href="#request-callback">{t.requestCallbackInstead}</a>
         </div>
       </section>
 
       <footer className="lp-footer">
         <div className="lp-footer-inner">
           <div className="lp-footer-location">
-            <p className="lp-footer-label">Location</p>
+            <p className="lp-footer-label">{t.footerLocationLabel}</p>
             <strong>Reddy Dental</strong>
             <address>
               6751 1st Ave S
               <br />
               St. Petersburg, FL 33707
             </address>
-            <a href={PHONE_TEL} data-google-call-tracking="true">727-377-3339</a>
+            <a href={PHONE_TEL} data-google-call-tracking="true">{PHONE_NUMBER}</a>
           </div>
           <div className="lp-footer-hours">
-            <h2>Office Hours</h2>
+            <h2>{t.footerOfficeHours}</h2>
             <div className="lp-footer-hours-divider" aria-hidden="true" />
             <ul className="lp-footer-hours-list">
-              {officeHours.map((entry) => (
+              {t.officeHours.map((entry) => (
                 <li key={entry.day}>
                   <span>{entry.day}</span>
                   <span>{entry.hours}</span>
@@ -343,7 +354,7 @@ export default function CallUsOfferPage() {
         </div>
       </footer>
 
-      <a className="mobile-call-bar" href={PHONE_TEL} data-google-call-tracking="true">Call now</a>
+      <a className="mobile-call-bar" href={PHONE_TEL} data-google-call-tracking="true">{t.callNow}</a>
     </main>
   );
 }

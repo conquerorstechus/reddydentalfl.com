@@ -57,6 +57,39 @@ body { margin: 0; }
   height: auto;
 }
 
+.header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.language-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(24, 36, 58, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.language-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(24, 36, 58, 0.12);
+}
+
 .header-phone {
   display: inline-flex;
   align-items: center;
@@ -132,7 +165,7 @@ body { margin: 0; }
 
 @media (min-width: 901px) {
   .hero-banner h1 {
-    white-space: nowrap;
+    white-space: normal;
   }
 }
 
@@ -184,6 +217,82 @@ body { margin: 0; }
   pointer-events: none;
 }
 
+.google-trust-section {
+  position: relative;
+  z-index: 4;
+  width: min(1120px, calc(100% - 40px));
+  margin: clamp(-28px, -3vw, -12px) auto 0;
+  padding: clamp(20px, 3vw, 28px) 0 clamp(8px, 1.5vw, 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 2.5vw, 24px);
+  background: var(--white);
+}
+
+.google-trust-badge,
+.google-trust-rating {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.google-trust-badge:hover,
+.google-trust-rating:hover {
+  opacity: 0.82;
+}
+
+.google-trust-badge {
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.google-trust-badge-stars {
+  display: block;
+  width: min(130px, 34vw);
+  height: auto;
+}
+
+.google-trust-badge-label {
+  color: #4b5563;
+  font-size: clamp(0.95rem, 1.4vw, 1rem);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.google-trust-rating {
+  flex-direction: column;
+  gap: 6px;
+  min-width: 120px;
+}
+
+.google-trust-score {
+  color: var(--ink);
+  font-family: Atwood, Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 2.35rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.google-trust-stars {
+  color: #fcab00;
+  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+
+.google-trust-count {
+  color: #6b7280;
+  font-size: clamp(0.92rem, 1.3vw, 1rem);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
 .eyebrow {
   margin: 0 0 16px;
   color: var(--gold);
@@ -216,6 +325,7 @@ body { margin: 0; }
 .form-section,
 .reviews-section,
 .offer-services-section,
+.brand-values-section,
 .trust-section,
 .services-section,
 .why-section,
@@ -230,7 +340,7 @@ body { margin: 0; }
 .form-section {
   position: relative;
   z-index: 3;
-  margin-top: clamp(-72px, -8vw, -48px);
+  margin-top: clamp(8px, 1.5vw, 16px);
 }
 
 .form-intro {
@@ -583,6 +693,94 @@ body { margin: 0; }
 .why-grid strong { font-family: Atwood, Georgia, serif; font-size: 1.35rem; font-weight: 500; }
 .why-grid p { margin: 7px 0 0; color: var(--muted); }
 
+.brand-values-section {
+  margin-top: 100px;
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px);
+  border-radius: 24px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+}
+
+.brand-values-heading {
+  margin: 0 auto clamp(32px, 5vw, 48px);
+  max-width: 920px;
+  text-align: center;
+  font-family: Atwood, Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 2.8vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.brand-values-heading strong {
+  font-weight: 700;
+}
+
+.brand-values-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.35fr);
+  gap: clamp(28px, 4vw, 48px);
+  align-items: start;
+}
+
+.brand-values-image-wrap {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.brand-values-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 18px;
+  object-fit: contain;
+  object-position: center top;
+  box-shadow: 0 16px 40px rgba(24, 36, 58, 0.12);
+}
+
+.brand-values-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 28px) clamp(18px, 2.5vw, 28px);
+}
+
+.brand-values-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.brand-values-icon {
+  flex: 0 0 70px;
+  width: 70px;
+  height: 70px;
+}
+
+.brand-values-copy {
+  min-width: 0;
+}
+
+.brand-values-title {
+  margin: 0;
+  color: var(--gold);
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.brand-values-text {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
 .insurance-section {
   margin-top: 100px;
   padding: 0;
@@ -595,27 +793,38 @@ body { margin: 0; }
 
 .insurance-section-inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: center;
+}
+
+.insurance-image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8edf2;
 }
 
 .insurance-copy {
-  padding: clamp(36px, 5vw, 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(32px, 5vw, 52px);
 }
 
 .insurance-image {
+  display: block;
   width: 100%;
-  height: 100%;
-  min-height: 420px;
-  object-fit: cover;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
   object-position: center;
 }
 
 .insurance-section h2 {
   margin-top: 8px;
-  font-size: clamp(2.35rem, 4.2vw, 4.25rem);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
 }
 
 .insurance-intro {
@@ -772,28 +981,42 @@ body { margin: 0; }
   .form-section,
   .trust-section,
   .why-section,
+  .brand-values-inner { grid-template-columns: 1fr; }
+  .brand-values-grid { grid-template-columns: 1fr; }
   .insurance-section-inner,
   .insurance-heading,
   .location-section { grid-template-columns: 1fr; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .trust-section { padding: 56px 36px; }
   .why-section { gap: 44px; }
-  .insurance-image { min-height: 320px; }
 }
 
 @media (max-width: 640px) {
   .lp-page { padding-bottom: 66px; }
   .lp-header { min-height: 74px; width: calc(100% - 28px); }
   .brand-logo { width: min(210px, 62vw); }
+  .header-actions { gap: 8px; }
+  .language-toggle {
+    min-height: 42px;
+    padding: 0 12px;
+    font-size: 0.88rem;
+  }
   .header-phone { display: none; }
   .hero-banner-copy { padding: 44px 24px 72px; }
   .hero-banner-image-wrap { min-height: 280px; }
   .hero-banner h1 { font-size: clamp(2rem, 10vw, 2.75rem); }
   .hero-subtitle { font-size: clamp(1.2rem, 5.5vw, 1.6rem); }
   .hero-banner .call-button { width: 100%; white-space: normal; text-align: center; }
-  .form-section { margin-top: clamp(-56px, -7vw, -36px); }
+  .form-section { margin-top: 12px; }
+  .google-trust-section {
+    width: calc(100% - 28px);
+    margin-top: -8px;
+    padding-top: 18px;
+    gap: 16px;
+  }
   .reviews-section,
   .offer-services-section,
+  .brand-values-section,
   .trust-section,
   .services-section,
   .why-section,
@@ -818,6 +1041,7 @@ body { margin: 0; }
   .service-card h3 { margin-top: 20px; }
   .why-section { padding: 58px 0; }
   .insurance-heading { gap: 24px; }
+  .insurance-copy { padding: 28px 22px 32px; }
   .location-section { overflow: hidden; }
   .location-section > img { min-height: 290px; }
   .location-copy { padding: 36px 24px; }

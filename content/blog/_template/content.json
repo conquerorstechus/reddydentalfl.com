@@ -1,0 +1,33 @@
+{
+  "type": "doc",
+  "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Write your introduction paragraph here."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2 },
+      "content": [
+        {
+          "type": "text",
+          "text": "Section Heading"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Add more paragraphs under each heading."
+        }
+      ]
+    }
+  ]
+}

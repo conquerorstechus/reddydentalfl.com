@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { GTM_CONTAINER_ID } from "@/lib/analytics";
+import { LanguageProvider } from "../call-us/language-provider";
 
 const title = "Dental Clinic in St. Petersburg, FL | Reddy Dental";
 const description =
@@ -46,7 +47,7 @@ export default function DentalClinicOfferLayout({ children }: { children: ReactN
           title="Google Tag Manager"
         />
       </noscript>
-      {children}
+      <LanguageProvider>{children}</LanguageProvider>
     </>
   );
 }

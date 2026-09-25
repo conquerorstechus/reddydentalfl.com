@@ -175,6 +175,134 @@
   outline: none;
 }
 
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.heroFigure {
+  margin: 0;
+}
+
+.heroImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+  border: 1px solid var(--blog-border);
+}
+
+.heroCaption {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--blog-muted);
+}
+
+.articleHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.articleTitle {
+  margin: 0;
+  font-family: Montserrat, system-ui, sans-serif;
+  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--blog-navy);
+}
+
+.articleDescription {
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--blog-muted);
+}
+
+.articleBody {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--blog-navy);
+}
+
+.articleBody h2,
+.articleBody h3,
+.articleBody h4 {
+  font-family: Montserrat, system-ui, sans-serif;
+  color: var(--blog-navy);
+}
+
+.articleBody a {
+  color: #1d6fa5;
+}
+
+.articleBody img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+}
+
+.faqSection {
+  margin-top: 12px;
+  padding-top: 28px;
+  border-top: 1px solid var(--blog-border);
+}
+
+.faqTitle {
+  margin: 0 0 20px;
+  font-family: Montserrat, system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--blog-navy);
+}
+
+.faqList {
+  margin: 0;
+}
+
+.faqItem {
+  margin-bottom: 20px;
+  padding: 20px 24px;
+  border: 1px solid var(--blog-border);
+  border-radius: 20px;
+  background: var(--blog-card-bg);
+}
+
+.faqQuestion {
+  margin: 0 0 8px;
+  font-family: Montserrat, system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--blog-navy);
+}
+
+.faqAnswer {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--blog-muted);
+}
+
+.authorImage {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.authorList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 @media (max-width: 768px) {
   .inner {
     width: min(100%, calc(100% - 32px));
