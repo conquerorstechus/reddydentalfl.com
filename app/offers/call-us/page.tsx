@@ -2,8 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import BrandValuesSection from "./brand-values-section";
-import GoogleTrustSection from "./google-trust-section";
 import LanguageToggle from "./language-toggle";
 import { useLanguage } from "./language-provider";
 import "./call-us.css";
@@ -177,7 +175,38 @@ export default function CallUsOfferPage() {
         <div className="hero-banner-curve" aria-hidden="true" />
       </section>
 
-      <GoogleTrustSection />
+      <section className="reviews-section" aria-labelledby="reviews-heading">
+        <div className="reviews-header">
+          <div>
+            <p className="eyebrow">{t.reviewsEyebrow}</p>
+            <h2 id="reviews-heading">{t.reviewsHeading}</h2>
+          </div>
+          <a className="reviews-google-link" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
+            <img src="/assets/google_stars.svg" alt="" width={130} height={24} />
+            <span>{t.reviewsGoogleLink}</span>
+          </a>
+        </div>
+        <div className="reviews-list">
+          {googleReviews.map((review) => (
+            <article className="review-card" key={review.name}>
+              <div className="review-top">
+                <div className="review-avatar" style={{ backgroundColor: review.avatarColor }} aria-hidden="true">
+                  {review.initial}
+                </div>
+                <div className="review-author">
+                  <strong>{review.name}</strong>
+                  <span>{review.meta}</span>
+                </div>
+              </div>
+              <div className="review-rating">
+                <span className="review-stars" aria-label={t.reviewStarsAriaLabel}>★★★★★</span>
+                <span className="review-date">{review.date}</span>
+              </div>
+              <p className="review-text">{review.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="form-section" id="request-callback" aria-label={t.formSectionAriaLabel}>
         <form className="lead-form" onSubmit={handleSubmit}>
@@ -222,39 +251,6 @@ export default function CallUsOfferPage() {
         </form>
       </section>
 
-      <section className="reviews-section" aria-labelledby="reviews-heading">
-        <div className="reviews-header">
-          <div>
-            <p className="eyebrow">{t.reviewsEyebrow}</p>
-            <h2 id="reviews-heading">{t.reviewsHeading}</h2>
-          </div>
-          <a className="reviews-google-link" href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
-            <img src="/assets/google_stars.svg" alt="" width={130} height={24} />
-            <span>{t.reviewsGoogleLink}</span>
-          </a>
-        </div>
-        <div className="reviews-list">
-          {googleReviews.map((review) => (
-            <article className="review-card" key={review.name}>
-              <div className="review-top">
-                <div className="review-avatar" style={{ backgroundColor: review.avatarColor }} aria-hidden="true">
-                  {review.initial}
-                </div>
-                <div className="review-author">
-                  <strong>{review.name}</strong>
-                  <span>{review.meta}</span>
-                </div>
-              </div>
-              <div className="review-rating">
-                <span className="review-stars" aria-label={t.reviewStarsAriaLabel}>★★★★★</span>
-                <span className="review-date">{review.date}</span>
-              </div>
-              <p className="review-text">{review.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section className="offer-services-section" aria-labelledby="offer-services-heading">
         <p className="eyebrow">{t.servicesEyebrow}</p>
         <h2 id="offer-services-heading">{t.servicesHeading}</h2>
@@ -272,8 +268,6 @@ export default function CallUsOfferPage() {
           <a className="book-button" href="#request-callback">{t.bookAppointment}</a>
         </div>
       </section>
-
-      <BrandValuesSection />
 
       <section className="trust-section" aria-labelledby="trust-heading">
         <div className="trust-section-header">

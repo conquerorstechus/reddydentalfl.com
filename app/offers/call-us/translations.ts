@@ -36,11 +36,6 @@ export type CallUsTranslations = {
   servicesHeading: string;
   services: string[];
   bookAppointment: string;
-  valuesHeadingLead: string;
-  valuesHeadingLocation: string;
-  valuesHeadingTagline: string;
-  valuesImageAlt: string;
-  valuesItems: { title: string; body: string }[];
   aboutHeading: string;
   aboutEyebrow: string;
   doctorCredential: string;
@@ -108,37 +103,6 @@ export const translations: Record<Language, CallUsTranslations> = {
       "Emergency Dental Care",
     ],
     bookAppointment: "Book an Appointment",
-    valuesHeadingLead: "Trusted, Personalized Dentistry",
-    valuesHeadingLocation: "in St. Petersburg, FL—",
-    valuesHeadingTagline: "Where Comfort and Integrity Come First",
-    valuesImageAlt: "Dr. Anish Reddy consulting with a patient at Reddy Dental",
-    valuesItems: [
-      {
-        title: "1. Integrity Without Pressure:",
-        body:
-          "At Reddy Dental, trust comes first. Every recommendation is honest, unrushed, and never sales-driven. Dr. Reddy treats patients the way he'd treat his own family—only necessary care, guided by comfort, health, and long-term well-being.",
-      },
-      {
-        title: "2. Calm, Elevated Experience:",
-        body:
-          "Reddy Dental is designed to feel different. A warm, modern space and unhurried care create a calm, welcoming environment that eases anxiety. Every detail is intentional—so you feel relaxed, comfortable, and cared for from the moment you arrive.",
-      },
-      {
-        title: "3. Clarity That Builds Confidence:",
-        body:
-          "Great care starts with understanding. Dr. Reddy clearly explains the why behind each recommendation, with transparent clinical and financial details. Patients feel informed, empowered, and confident—never rushed or confused.",
-      },
-      {
-        title: "4. Precision, Personalized to You:",
-        body:
-          "Dr. Reddy blends advanced technology with meticulous attention to detail to deliver precise, personalized dentistry. Every treatment is thoughtfully tailored for long-lasting results—so patients know their care is done right the first time.",
-      },
-      {
-        title: "5. Dentistry That Feels Like Home:",
-        body:
-          "At Reddy Dental, patients are treated like family. You're greeted by name, truly listened to, and cared for with intention. Our team builds genuine relationships in a welcoming space where patients feel comfortable, known, and valued—every visit.",
-      },
-    ],
     aboutHeading: "About Us",
     aboutEyebrow: "Trust is built first. Smiles follow.",
     doctorCredential: "University of Florida graduate",
@@ -216,37 +180,6 @@ export const translations: Record<Language, CallUsTranslations> = {
       "Atención dental de emergencia",
     ],
     bookAppointment: "Reservar una cita",
-    valuesHeadingLead: "Odontología de confianza y personalizada",
-    valuesHeadingLocation: "en St. Petersburg, FL—",
-    valuesHeadingTagline: "Donde la comodidad y la integridad son lo primero",
-    valuesImageAlt: "El Dr. Anish Reddy consultando con un paciente en Reddy Dental",
-    valuesItems: [
-      {
-        title: "1. Integridad sin presión:",
-        body:
-          "En Reddy Dental, la confianza es lo primero. Cada recomendación es honesta, sin prisas y nunca orientada a la venta. El Dr. Reddy trata a los pacientes como trataría a su propia familia: solo la atención necesaria, guiada por la comodidad, la salud y el bienestar a largo plazo.",
-      },
-      {
-        title: "2. Una experiencia tranquila y elevada:",
-        body:
-          "Reddy Dental está diseñado para sentirse diferente. Un espacio cálido y moderno, junto con una atención sin prisas, crea un entorno acogedor que reduce la ansiedad. Cada detalle es intencional para que se sienta relajado, cómodo y bien atendido desde el momento en que llega.",
-      },
-      {
-        title: "3. Claridad que genera confianza:",
-        body:
-          "Una gran atención comienza con la comprensión. El Dr. Reddy explica claramente el porqué de cada recomendación, con detalles clínicos y financieros transparentes. Los pacientes se sienten informados, seguros y con confianza, nunca presionados ni confundidos.",
-      },
-      {
-        title: "4. Precisión, personalizada para usted:",
-        body:
-          "El Dr. Reddy combina tecnología avanzada con una atención meticulosa al detalle para ofrecer odontología precisa y personalizada. Cada tratamiento se adapta cuidadosamente para lograr resultados duraderos, para que los pacientes sepan que su atención se hace bien desde la primera vez.",
-      },
-      {
-        title: "5. Odontología que se siente como en casa:",
-        body:
-          "En Reddy Dental, los pacientes son tratados como familia. Se le recibe por su nombre, se le escucha de verdad y se le atiende con intención. Nuestro equipo construye relaciones genuinas en un espacio acogedor donde los pacientes se sienten cómodos, conocidos y valorados en cada visita.",
-      },
-    ],
     aboutHeading: "Sobre nosotros",
     aboutEyebrow: "La confianza se construye primero. Las sonrisas siguen.",
     doctorCredential: "Graduado de la Universidad de Florida",

@@ -325,7 +325,6 @@ body { margin: 0; }
 .form-section,
 .reviews-section,
 .offer-services-section,
-.brand-values-section,
 .trust-section,
 .services-section,
 .why-section,
@@ -340,7 +339,7 @@ body { margin: 0; }
 .form-section {
   position: relative;
   z-index: 3;
-  margin-top: clamp(8px, 1.5vw, 16px);
+  margin-top: clamp(24px, 4vw, 40px);
 }
 
 .form-intro {
@@ -424,7 +423,7 @@ body { margin: 0; }
 .form-error { margin: 0; color: #a51e1e; font-size: .88rem; font-weight: 700; }
 
 .reviews-section {
-  margin-top: 100px;
+  margin-top: clamp(32px, 5vw, 56px);
 }
 
 .reviews-header {
@@ -693,94 +692,6 @@ body { margin: 0; }
 .why-grid strong { font-family: Atwood, Georgia, serif; font-size: 1.35rem; font-weight: 500; }
 .why-grid p { margin: 7px 0 0; color: var(--muted); }
 
-.brand-values-section {
-  margin-top: 100px;
-  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px);
-  border-radius: 24px;
-  background: var(--cream);
-  border: 1px solid var(--line);
-}
-
-.brand-values-heading {
-  margin: 0 auto clamp(32px, 5vw, 48px);
-  max-width: 920px;
-  text-align: center;
-  font-family: Atwood, Georgia, "Times New Roman", serif;
-  font-size: clamp(1.45rem, 2.8vw, 1.85rem);
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-}
-
-.brand-values-heading strong {
-  font-weight: 700;
-}
-
-.brand-values-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.35fr);
-  gap: clamp(28px, 4vw, 48px);
-  align-items: start;
-}
-
-.brand-values-image-wrap {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.brand-values-image {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  border-radius: 18px;
-  object-fit: contain;
-  object-position: center top;
-  box-shadow: 0 16px 40px rgba(24, 36, 58, 0.12);
-}
-
-.brand-values-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(20px, 3vw, 28px) clamp(18px, 2.5vw, 28px);
-}
-
-.brand-values-item {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.brand-values-icon {
-  flex: 0 0 70px;
-  width: 70px;
-  height: 70px;
-}
-
-.brand-values-copy {
-  min-width: 0;
-}
-
-.brand-values-title {
-  margin: 0;
-  color: var(--gold);
-  font-family: "Roboto", Arial, sans-serif;
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.45;
-  text-transform: uppercase;
-}
-
-.brand-values-text {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.65;
-}
-
 .insurance-section {
   margin-top: 100px;
   padding: 0;
@@ -980,9 +891,7 @@ body { margin: 0; }
   }
   .form-section,
   .trust-section,
-  .why-section,
-  .brand-values-inner { grid-template-columns: 1fr; }
-  .brand-values-grid { grid-template-columns: 1fr; }
+  .why-section { grid-template-columns: 1fr; }
   .insurance-section-inner,
   .insurance-heading,
   .location-section { grid-template-columns: 1fr; }
@@ -1016,7 +925,6 @@ body { margin: 0; }
   }
   .reviews-section,
   .offer-services-section,
-  .brand-values-section,
   .trust-section,
   .services-section,
   .why-section,
