@@ -19,7 +19,7 @@ export default function DentalClinicThankYouPage() {
         </section>
         <div style={styles.footerLinkRow}>
           <Link href="/offers/dental-clinic/" style={styles.backLink}>Back to the dental clinic offer</Link>
-          <Link href="/" style={styles.backLink}>Back to home</Link>
+          <a href="/" style={styles.backLink}>Back to home</a>
         </div>
       </section>
     </main>

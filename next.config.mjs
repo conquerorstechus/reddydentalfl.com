@@ -1,7 +1,16 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import { withOpinlyConfig } from "@opinly/next";
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Avoid picking C:\Users\CAB\package-lock.json as the monorepo root (breaks dev/build).
+  outputFileTracingRoot: projectRoot,
+  turbopack: {
+    root: projectRoot,
+  },
   trailingSlash: true,
   async redirects() {
     return [

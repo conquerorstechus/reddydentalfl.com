@@ -1,4 +1,3 @@
-import Link from "next/link";
 import "./no-insurance.css";
 
 const includedServices = [
@@ -62,7 +61,7 @@ export default function NoInsuranceOfferPage() {
         </div>
 
         <div style={styles.footerLinkRow}>
-          <Link href="/" style={styles.backLink}>← Back to home</Link>
+          <a href="/" style={styles.backLink}>← Back to home</a>
         </div>
       </section>
     </main>

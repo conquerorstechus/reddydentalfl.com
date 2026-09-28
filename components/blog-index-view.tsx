@@ -14,9 +14,9 @@ export function BlogIndexView({
   return (
     <main className={styles.page}>
       <div className={styles.inner}>
-        <Link href="/" className={styles.backLink}>
+        <a href="/" className={styles.backLink}>
           ← Back to Home
-        </Link>
+        </a>
         <header className={styles.header}>
           <h1 className={styles.title}>Reddy Dental Blog</h1>
           <p className={styles.subtitle}>

@@ -83,9 +83,9 @@ export default function ThankYouContent() {
           <Link href="/offers/call-us/" style={styles.backLink}>
             {t.thankYouBackToOffers}
           </Link>
-          <Link href="/" style={styles.backLink}>
+          <a href="/" style={styles.backLink}>
             {t.thankYouBackToHome}
-          </Link>
+          </a>
         </div>
       </section>
     </main>
