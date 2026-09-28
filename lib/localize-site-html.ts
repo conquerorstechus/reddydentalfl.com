@@ -119,11 +119,20 @@ function translateTextNodes(region: string, pairs: Array<[string, string]>): str
     const pattern = flexibleWhitespace(english);
     next = next.replaceAll(`aria-label="${english}"`, `aria-label="${escapeHtmlAttr(spanish)}"`);
     next = next.replaceAll(`alt="${english}"`, `alt="${escapeHtmlAttr(spanish)}"`);
-    next = next.replaceAll(`value="${english}"`, `value="${escapeHtmlAttr(spanish)}"`);
+    next = next.replaceAll(
+      `type="submit" value="${english}"`,
+      `type="submit" value="${escapeHtmlAttr(spanish)}"`,
+    );
+    if (english.includes(" ")) {
+      next = next.replaceAll(`value="${english}"`, `value="${escapeHtmlAttr(spanish)}"`);
+    }
     next = next.replace(
       new RegExp(`(>\\s*)${pattern}(\\s*<)`, "g"),
       `$1${escapeHtml(spanish)}$2`,
     );
+    if (english.length >= 24) {
+      next = next.replaceAll(`"${english}"`, `"${spanish.replaceAll('"', '\\"')}"`);
+    }
   }
   return next;
 }
