@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import GoogleCallTracking from "@/components/google-call-tracking";
 import MetaPixel from "@/components/meta-pixel";
 import { GA_MEASUREMENT_ID } from "@/lib/analytics";
@@ -17,42 +19,48 @@ function resolveMetadataBase(): URL {
   return new URL(PRODUCTION_SITE_URL);
 }
 
-export const metadata: Metadata = {
-  metadataBase: resolveMetadataBase(),
-  title: "Dentist Near Me in St. Petersburg, FL | Reddy Dental",
-  description:
-    "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.",
-  openGraph: {
-    type: "website",
-    siteName: "Reddy Dental",
-    locale: "en_US",
-    title: "Dentist Near Me in St. Petersburg, FL | Reddy Dental",
-    description:
-      "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Dentist Near Me in St. Petersburg, FL | Reddy Dental",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Dentist Near Me in St. Petersburg, FL | Reddy Dental",
-    description:
-      "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.",
-    images: ["/og-image.jpg"],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("metadata");
+  const locale = await getLocale();
+  const title = t("title");
+  const description = t("description");
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+  return {
+    metadataBase: resolveMetadataBase(),
+    title,
+    description,
+    openGraph: {
+      type: "website",
+      siteName: "Reddy Dental",
+      locale: locale === "es" ? "es_ES" : "en_US",
+      title,
+      description,
+      images: [
+        {
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: t("ogImageAlt"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-image.jpg"],
+    },
+  };
+}
+
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
   // GoogleAnalytics applies to React routes only (e.g. /blog).
   // Static HTML from app/[[...slug]]/route.ts bypasses this layout and
   // receives GA via lib/site-pages.ts → getGoogleAnalyticsHtml().
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
         <Script id="google-tag-bootstrap" strategy="beforeInteractive">
           {`
@@ -60,7 +68,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
           `}
         </Script>
-        {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
         <GoogleCallTracking />
         <MetaPixel />
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />

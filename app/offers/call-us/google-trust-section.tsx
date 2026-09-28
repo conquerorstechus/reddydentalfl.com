@@ -1,13 +1,13 @@
 "use client";
 
-import { useLanguage } from "./language-provider";
+import { useCallUsCopy } from "./use-call-us-copy";
 
 const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/MmTH3GryrAqJzzqt9";
 const GOOGLE_RATING = "5.0";
 const GOOGLE_REVIEW_COUNT = "61";
 
 export default function GoogleTrustSection() {
-  const { t } = useLanguage();
+  const t = useCallUsCopy();
 
   return (
     <section className="google-trust-section" aria-label={t.googleTrustAriaLabel}>

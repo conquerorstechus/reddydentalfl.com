@@ -1,16 +1,19 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { BlogAuthor, BlogAuthorView } from "@/lib/blog/types";
 import { blogSiteConfig } from "@/lib/blog/config";
 import { BlogPostList } from "@/components/blog-post-list";
+import { BlogToolbar } from "@/components/blog-toolbar";
 import styles from "@/app/blog/blog.module.css";
 
 export function BlogAuthorView({ author }: { author: BlogAuthorView }) {
   return (
     <main className={styles.page}>
       <div className={styles.inner}>
-        <Link href={`${blogSiteConfig.blogPrefix}/${blogSiteConfig.authorPrefix}/`} className={styles.backLink}>
-          ← Back to Authors
-        </Link>
+        <BlogToolbar
+          href={`${blogSiteConfig.blogPrefix}/${blogSiteConfig.authorPrefix}/`}
+          labelKey="backToAuthors"
+        />
         <header className={styles.header}>
           {author.image ? (
             <img
@@ -29,14 +32,14 @@ export function BlogAuthorView({ author }: { author: BlogAuthorView }) {
 }
 
 export function BlogAuthorsView({ authors }: { authors: BlogAuthor[] }) {
+  const t = useTranslations("blog");
+
   return (
     <main className={styles.page}>
       <div className={styles.inner}>
-        <Link href={blogSiteConfig.blogPrefix} className={styles.backLink}>
-          ← Back to Blog
-        </Link>
+        <BlogToolbar href={blogSiteConfig.blogPrefix} labelKey="backToBlog" />
         <header className={styles.header}>
-          <h1 className={styles.title}>Authors</h1>
+          <h1 className={styles.title}>{t("authors")}</h1>
         </header>
         <ul className={styles.authorList}>
           {authors.map((author) => (

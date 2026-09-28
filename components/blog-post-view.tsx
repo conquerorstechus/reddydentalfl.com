@@ -1,9 +1,9 @@
-import Link from "next/link";
 import type { BlogPost } from "@/lib/blog/types";
 import { blogSiteConfig } from "@/lib/blog/config";
 import { resolveStructuredData } from "@/lib/blog/structured-data";
 import { BlogFaqSection } from "@/components/blog-faq";
 import { BlogJsonLd } from "@/components/blog-json-ld";
+import { BlogToolbar } from "@/components/blog-toolbar";
 import { PostContent } from "@/components/post-content";
 import styles from "@/app/blog/blog.module.css";
 
@@ -14,9 +14,7 @@ export function BlogPostView({ post }: { post: BlogPost }) {
     <main className={styles.page}>
       <BlogJsonLd data={structuredData} />
       <div className={styles.inner}>
-        <Link href={blogSiteConfig.blogPrefix} className={styles.backLink}>
-          ← Back to Blog
-        </Link>
+        <BlogToolbar href={blogSiteConfig.blogPrefix} labelKey="backToBlog" />
         <article className={styles.article}>
           {post.titleImage?.src ? (
             <figure className={styles.heroFigure}>

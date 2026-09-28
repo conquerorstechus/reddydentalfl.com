@@ -1,8 +1,10 @@
 import type { Metadata, ResolvingMetadata } from "next";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { BlogRoute } from "./types";
 import { blogSiteConfig } from "./config";
 
-function resolveTitle(route: BlogRoute): string {
+async function resolveTitle(route: BlogRoute): Promise<string> {
+  const t = await getTranslations("blog");
   switch (route.type) {
     case "post":
       return route.data.metaTitle || route.data.title;
@@ -11,10 +13,10 @@ function resolveTitle(route: BlogRoute): string {
     case "author":
       return route.data.name;
     case "authors":
-      return "Authors";
+      return t("authors");
     case "home":
     default:
-      return "Reddy Dental Blog";
+      return t("title");
   }
 }
 
@@ -55,7 +57,7 @@ export async function generateBlogMetadata(
 ): Promise<Metadata> {
   if (route.type === "not-found") return {};
 
-  const title = resolveTitle(route);
+  const title = await resolveTitle(route);
   const description = resolveDescription(route);
   const image = resolveOgImage(route, title);
   const canonicalPath =
@@ -78,7 +80,7 @@ export async function generateBlogMetadata(
     openGraph: {
       type: route.type === "post" ? "article" : "website",
       siteName: blogSiteConfig.siteName,
-      locale: "en_US",
+      locale: (await getLocale()) === "es" ? "es_ES" : "en_US",
       title,
       ...(description ? { description } : {}),
       url: canonicalPath,

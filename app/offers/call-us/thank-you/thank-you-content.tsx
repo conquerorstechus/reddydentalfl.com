@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useLanguage } from "../language-provider";
+import { LanguageToggle } from "@/components/language-toggle";
+import { useCallUsCopy } from "../use-call-us-copy";
 
 const styles: Record<string, React.CSSProperties> = {
   page: {
@@ -66,11 +67,14 @@ const styles: Record<string, React.CSSProperties> = {
 };
 
 export default function ThankYouContent() {
-  const { t } = useLanguage();
+  const t = useCallUsCopy();
 
   return (
     <main style={styles.page}>
       <section style={styles.hero}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <LanguageToggle appearance="pill" />
+        </div>
         <div style={styles.kicker}>{t.thankYouKicker}</div>
 
         <section style={styles.thankYouSection} aria-labelledby="thank-you-heading">

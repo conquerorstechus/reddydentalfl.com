@@ -35,6 +35,18 @@
   padding: 64px 0 80px;
 }
 
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.toolbar .backLink {
+  margin-bottom: 0;
+}
+
 .backLink {
   display: inline-flex;
   align-items: center;

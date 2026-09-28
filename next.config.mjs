@@ -1,6 +1,9 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { withOpinlyConfig } from "@opinly/next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
@@ -23,10 +26,10 @@ const nextConfig = {
   },
 };
 
-export default withOpinlyConfig({
+export default withNextIntl(withOpinlyConfig({
   cdnNamespace: "Xlz6qeNMFahM1LnqEBkJU",
   siteUrl: "https://www.reddydentalfl.com",
   blogPath: "/blog",
   companyName: "Reddy Dental",
   imagesPath: "/images",
-})(nextConfig);
+})(nextConfig));

@@ -1,6 +1,8 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { getGoogleAnalyticsHtml, getMetaPixelHtml } from "@/lib/analytics";
+import type { AppLocale } from "@/i18n/routing";
+import { applySiteLocale, backLinkPrefix, translateBackLabel } from "@/lib/localize-site-html";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const PRODUCTION_SITE_URL = "https://www.reddydentalfl.com";
@@ -82,6 +84,7 @@ function injectOpenGraphTags(
   html: string,
   slug: string[],
   siteOrigin: string,
+  locale: AppLocale,
 ): string {
   if (/property=["']og:title["']/i.test(html)) {
     return html;
@@ -108,7 +111,7 @@ function injectOpenGraphTags(
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="${safeTitle}">
-    <meta property="og:locale" content="en_US">
+    <meta property="og:locale" content="${locale === "es" ? "es_ES" : "en_US"}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${safeTitle}">
     <meta name="twitter:description" content="${safeDescription}">
@@ -197,7 +200,7 @@ function injectMobileResponsiveFixes(html: string): string {
           font-size: clamp(12px, 3.5vw, 16px) !important;
           line-height: 1.15 !important;
           white-space: nowrap;
-          max-width: min(58vw, 11.5rem);
+          max-width: min(46vw, 9.25rem);
           overflow: hidden;
           text-overflow: ellipsis;
           flex-shrink: 1;
@@ -240,7 +243,7 @@ function injectMobileResponsiveFixes(html: string): string {
       @media (max-width: 480px) {
         #topNav a[href^="tel:"].lg\\:hidden,
         #topNav #phoneNumber {
-          max-width: min(52vw, 9.75rem);
+          max-width: min(40vw, 8rem);
         }
       }
     </style>
@@ -367,7 +370,7 @@ function resolveBackNav(slug: string[]): BackNavTarget | null {
  * clicking Learn More from a category listing. Matches the existing
  * `.back-to-services` pill used on category pages.
  */
-function injectPageBackNav(html: string, slug: string[]): string {
+function injectPageBackNav(html: string, slug: string[], locale: AppLocale): string {
   if (html.includes("data-page-back-nav")) {
     return html;
   }
@@ -431,7 +434,7 @@ function injectPageBackNav(html: string, slug: string[]): string {
     }
   }
 
-  const backLink = `<a href="${escapeHtmlAttr(target.href)}" target="_self" class="back-to-services" data-page-back-nav>← Back to ${escapeHtmlAttr(target.label)}</a>`;
+  const backLink = `<a href="${escapeHtmlAttr(target.href)}" target="_self" class="back-to-services" data-page-back-nav>${escapeHtmlAttr(backLinkPrefix(locale))} ${escapeHtmlAttr(translateBackLabel(target.label, locale))}</a>`;
 
   // Prefer the tertiary hero band (same placement as category pages).
   const heroInner =
@@ -590,7 +593,7 @@ function styleLearnMoreLinks(html: string): string {
   }
 
   return next.replace(
-    /<a\b([^>]*?)>(\s*Learn More\s*»\s*)<\/a>/gi,
+    /<a\b([^>]*?)>(\s*(?:Learn More|Más información)\s*»\s*)<\/a>/gi,
     (match, attrs: string, text: string) => {
       if (/\blearn-more-link\b/.test(attrs)) {
         return match;
@@ -610,16 +613,18 @@ function styleLearnMoreLinks(html: string): string {
 export async function readSiteHtml(
   slug: string[] = [],
   origin?: string,
+  locale: AppLocale = "en",
 ): Promise<string | null> {
   const filePath = path.join(CONTENT_DIR, ...slug, "index.html");
 
   try {
     const html = await fs.readFile(filePath, "utf8");
-    const withOg = injectOpenGraphTags(html, slug, resolveSiteOrigin(origin));
+    const localized = applySiteLocale(html, slug, locale);
+    const withOg = injectOpenGraphTags(localized, slug, resolveSiteOrigin(origin), locale);
     const withPhone = fixMobileHeaderPhone(withOg);
     const withMobile = injectMobileResponsiveFixes(withPhone);
     const withCallouts = fixCalloutBackgroundImages(withMobile);
-    const withBack = injectPageBackNav(withCallouts, slug);
+    const withBack = injectPageBackNav(withCallouts, slug, locale);
     const withLearnMore = styleLearnMoreLinks(withBack);
     return injectAnalytics(withLearnMore);
   } catch {

@@ -1,25 +1,35 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { LanguageToggle } from "@/components/language-toggle";
 
-export const metadata: Metadata = {
-  title: "Thank You | Reddy Dental",
-  description: "Your callback request has been received. Our team will get back to you shortly.",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("offers.dentalClinic.thankYou.metadata");
+  return {
+    title: t("title"),
+    description: t("description"),
+    robots: { index: false, follow: false },
+  };
+}
 
-export default function DentalClinicThankYouPage() {
+export default async function DentalClinicThankYouPage() {
+  const t = await getTranslations("offers.dentalClinic.thankYou");
+
   return (
     <main style={styles.page}>
       <section style={styles.hero}>
-        <div style={styles.kicker}>Reddy Dental</div>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <LanguageToggle appearance="pill" />
+        </div>
+        <div style={styles.kicker}>{t("kicker")}</div>
         <section style={styles.thankYouSection} aria-labelledby="thank-you-heading">
-          <h1 id="thank-you-heading" style={styles.thankYouTitle}>Thank you!</h1>
-          <p style={styles.thankYouText}>Your callback request was received. Our team will get back to you shortly.</p>
-          <a href="tel:727-377-3339" data-google-call-tracking="true" style={styles.callButton}>Call the office now</a>
+          <h1 id="thank-you-heading" style={styles.thankYouTitle}>{t("title")}</h1>
+          <p style={styles.thankYouText}>{t("body")}</p>
+          <a href="tel:727-377-3339" data-google-call-tracking="true" style={styles.callButton}>{t("callOffice")}</a>
         </section>
         <div style={styles.footerLinkRow}>
-          <Link href="/offers/dental-clinic/" style={styles.backLink}>Back to the dental clinic offer</Link>
-          <a href="/" style={styles.backLink}>Back to home</a>
+          <Link href="/offers/dental-clinic/" style={styles.backLink}>{t("backToOffer")}</Link>
+          <a href="/" style={styles.backLink}>{t("backToHome")}</a>
         </div>
       </section>
     </main>

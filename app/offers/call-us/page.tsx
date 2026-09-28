@@ -2,8 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import LanguageToggle from "./language-toggle";
-import { useLanguage } from "./language-provider";
+import { LanguageToggle } from "@/components/language-toggle";
+import { useCallUsCopy } from "./use-call-us-copy";
 import "./call-us.css";
 
 const PHONE_NUMBER = "727-377-3339";
@@ -11,36 +11,6 @@ const PHONE_TEL = `tel:${PHONE_NUMBER}`;
 const CONTACT_ENDPOINT =
   "https://n8n.srv1393511.hstgr.cloud/webhook/8e9ccd83-8fbd-47f8-a088-044357d44c2e";
 const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/MmTH3GryrAqJzzqt9";
-
-const googleReviews = [
-  {
-    name: "Dawn Bell",
-    meta: "1 review · 4 photos",
-    date: "4 months ago",
-    initial: "D",
-    avatarColor: "#5f6368",
-    text:
-      "I've worked with Dr Reddy's father for year's and have known him since he was a child. I came in today for my new patient exam and am impressed with the office. It is a brand new build out. All the equipment is state of the art. His assistant and front desk were so super friendly and he has an office dog named Happy who is the cutest thing ever. Im looking forward to coming back for my cleanings twice a year.",
-  },
-  {
-    name: "Alyssa",
-    meta: "Local Guide · 26 reviews · 13 photos",
-    date: "2 months ago",
-    initial: "A",
-    avatarColor: "#1a73e8",
-    text:
-      "We recently went in for a second opinion for my husband, who needed a lot of dental work and I'm so glad we did. Dr. Reddy was incredibly kind and knowledgeable. He took his time explaining everything clearly, never rushed us and made the whole experience easy. He was also so sweet with our son, even letting him play with his adorable dog which made the visit feel extra comfortable. The office is spotless, the front staff is friendly, and the whole atmosphere is genuinely welcoming. We left feeling cared for and are grateful. Highly recommend.",
-  },
-  {
-    name: "Milan Patel",
-    meta: "3 reviews · 1 photo",
-    date: "2 months ago",
-    initial: "M",
-    avatarColor: "#e8710a",
-    text:
-      "I had a great experience at Reddy Dental! Nikki at the front desk was welcomed me and I was seen almost immediately after by Dr Reddy! It's nice seeing some place actually honor appointment times!! Big win! Dr Reddy made me feel comfortable and explained my options, he took his time. I'm excited to finally have a Dentist that is reliable and treats me like an individual.",
-  },
-];
 
 type TrackingWindow = Window & {
   dataLayer?: unknown[];
@@ -87,7 +57,7 @@ function CallButton({ dark = false, label, ariaLabel }: CallButtonProps) {
 
 export default function CallUsOfferPage() {
   const router = useRouter();
-  const { toggleLanguage, t } = useLanguage();
+  const t = useCallUsCopy();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [summary, setSummary] = useState("");
@@ -142,7 +112,7 @@ export default function CallUsOfferPage() {
           />
         </a>
         <div className="header-actions">
-          <LanguageToggle label={t.languageToggleLabel} onToggle={toggleLanguage} />
+          <LanguageToggle appearance="pill" />
           <a
             className="header-phone"
             href={PHONE_TEL}
@@ -187,7 +157,7 @@ export default function CallUsOfferPage() {
           </a>
         </div>
         <div className="reviews-list">
-          {googleReviews.map((review) => (
+          {t.googleReviews.map((review) => (
             <article className="review-card" key={review.name}>
               <div className="review-top">
                 <div className="review-avatar" style={{ backgroundColor: review.avatarColor }} aria-hidden="true">
@@ -275,7 +245,7 @@ export default function CallUsOfferPage() {
           <p className="eyebrow">{t.aboutEyebrow}</p>
         </div>
         <div className="doctor-card">
-          <img src="/assets/images/img_8777.webp" alt="Dr. Sajan Anish Reddy" />
+          <img src="/assets/images/img_8777.webp" alt={t.doctorImageAlt} />
           <div>
             <strong>Dr. Sajan “Anish” Reddy, DMD</strong>
             <span>{t.doctorCredential}</span>

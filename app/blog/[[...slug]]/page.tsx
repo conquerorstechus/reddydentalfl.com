@@ -1,4 +1,5 @@
 import type { ResolvingMetadata } from "next";
+import { getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { BlogAuthorView, BlogAuthorsView } from "@/components/blog-author-view";
 import { BlogCategoryView } from "@/components/blog-category-view";
@@ -8,6 +9,7 @@ import {
   generateBlogMetadata,
   getBlogSource,
   isGithubBlogSource,
+  localizeBlogRoute,
 } from "@/lib/blog";
 
 export const revalidate = 3600;
@@ -25,14 +27,22 @@ export const generateMetadata = async (
   parent: ResolvingMetadata,
 ) => {
   const { slug } = await props.params;
-  const route = await getBlogSource().loadRoute(slug ?? []);
+  const locale = await getLocale();
+  const route = await localizeBlogRoute(
+    await getBlogSource().loadRoute(slug ?? []),
+    locale,
+  );
   if (route.type === "not-found") return {};
   return generateBlogMetadata(route, parent);
 };
 
 export default async function BlogPage(props: BlogPageProps) {
   const { slug } = await props.params;
-  const route = await getBlogSource().loadRoute(slug ?? []);
+  const locale = await getLocale();
+  const route = await localizeBlogRoute(
+    await getBlogSource().loadRoute(slug ?? []),
+    locale,
+  );
 
   switch (route.type) {
     case "home":

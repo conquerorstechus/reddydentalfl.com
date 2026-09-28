@@ -1,34 +1,34 @@
+import { getTranslations } from "next-intl/server";
+import { LanguageToggle } from "@/components/language-toggle";
 import "./no-insurance.css";
 
-const includedServices = [
-  "Comprehensive dental exam",
-  "Full digital x-rays",
-  "Treatment consultation and evaluation",
-  "Personalized care plan for uninsured patients",
-];
+export default async function NoInsuranceOfferPage() {
+  const t = await getTranslations("offers.noInsurance");
+  const included = t.raw("included") as string[];
+  const reasons = t.raw("reasons") as string[];
 
-export default function NoInsuranceOfferPage() {
   return (
     <main style={styles.page}>
       <section style={styles.hero}>
-        <div style={styles.kicker}>Uninsured patient offer</div>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
+          <LanguageToggle appearance="pill" />
+        </div>
+        <div style={styles.kicker}>{t("kicker")}</div>
 
         <div style={styles.topRow} className="top-row">
           <div>
-            <p style={styles.eyebrow}>Reddy Dental</p>
-            <h1 style={styles.title}>No Insurance? Get a full exam and x-rays for just $99.</h1>
+            <p style={styles.eyebrow}>{t("brand")}</p>
+            <h1 style={styles.title}>{t("title")}</h1>
           </div>
           <a href="tel:7273773339" style={styles.primaryButton} className="primary-btn">
-            Call (727) 377-3339
+            {t("call")}
           </a>
         </div>
 
-        <p style={styles.subtitle}>
-          Includes a full dental evaluation and digital x-rays so you can get a clear picture of your oral health without the surprise cost.
-        </p>
+        <p style={styles.subtitle}>{t("subtitle")}</p>
 
         <div style={styles.featuresGrid}>
-          {includedServices.map((item) => (
+          {included.map((item) => (
             <div key={item} style={styles.featureCard}>
               <span style={styles.check}>✓</span>
               <span>{item}</span>
@@ -38,30 +38,30 @@ export default function NoInsuranceOfferPage() {
 
         <div style={styles.cardRow}>
           <div style={styles.infoCard}>
-            <p style={styles.cardLabel}>Offer price</p>
-            <div style={styles.price}>$99</div>
-            <p style={styles.cardText}>For uninsured patients who want a straightforward, affordable starting point.</p>
+            <p style={styles.cardLabel}>{t("offerPriceLabel")}</p>
+            <div style={styles.price}>{t("price")}</div>
+            <p style={styles.cardText}>{t("offerPriceText")}</p>
           </div>
 
           <div style={styles.infoCard}>
-            <p style={styles.cardLabel}>Why patients choose us</p>
+            <p style={styles.cardLabel}>{t("whyLabel")}</p>
             <ul style={styles.bullets}>
-              <li>Comfort-focused care</li>
-              <li>Clear treatment recommendations</li>
-              <li>Flexible next steps for your budget</li>
+              {reasons.map((reason) => (
+                <li key={reason}>{reason}</li>
+              ))}
             </ul>
           </div>
         </div>
 
         <div style={styles.bottomRow} className="bottom-row">
-          <p style={styles.bottomText}>Need answers before you book? Speak with our team today.</p>
+          <p style={styles.bottomText}>{t("bottomText")}</p>
           <a href="tel:7273773339" style={styles.secondaryButton} className="secondary-btn">
-            Call the office now
+            {t("callOffice")}
           </a>
         </div>
 
         <div style={styles.footerLinkRow}>
-          <a href="/" style={styles.backLink}>← Back to home</a>
+          <a href="/" style={styles.backLink}>{t("backToHome")}</a>
         </div>
       </section>
     </main>

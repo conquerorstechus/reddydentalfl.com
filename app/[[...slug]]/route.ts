@@ -1,4 +1,6 @@
+import { cookies } from "next/headers";
 import { getBlogSource } from "@/lib/blog";
+import { isAppLocale, LOCALE_COOKIE } from "@/i18n/routing";
 import { listSitePages, readSiteHtml } from "@/lib/site-pages";
 
 export async function generateStaticParams() {
@@ -14,7 +16,10 @@ type RouteContext = {
 export async function GET(request: Request, context: RouteContext) {
   const { slug } = await context.params;
   const origin = new URL(request.url).origin;
-  const html = await readSiteHtml(slug ?? [], origin);
+  const store = await cookies();
+  const requested = store.get(LOCALE_COOKIE)?.value;
+  const locale = isAppLocale(requested) ? requested : "en";
+  const html = await readSiteHtml(slug ?? [], origin, locale);
 
   if (html) {
     return new Response(html, {

@@ -1,0 +1,73 @@
+.plain,
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  margin: 0;
+  font-family: Roboto, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.plain {
+  padding: 5px 10px;
+  border: 1px solid #d9b748;
+  border-radius: 999px;
+  background: #fff;
+  color: #1c1c1c;
+}
+
+.pill {
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--line, #d7e0ea);
+  border-radius: 999px;
+  background: var(--white, #fff);
+  color: var(--ink, #11233d);
+  box-shadow: 0 6px 18px rgba(24, 36, 58, 0.08);
+}
+
+.plain button,
+.pill button {
+  appearance: none;
+  margin: 0;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.plain button[aria-pressed="true"] {
+  color: #9a7b12;
+  font-weight: 700;
+}
+
+.pill button[aria-pressed="true"] {
+  color: #9a7b12;
+  font-weight: 700;
+}
+
+.plain button:focus-visible,
+.pill button:focus-visible {
+  outline: 1px solid #d9b748;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1023px) {
+  .plain,
+  .pill {
+    font-size: 13px;
+    gap: 0.2rem;
+  }
+
+  .pill {
+    min-height: 42px;
+    padding: 0 12px;
+  }
+}
