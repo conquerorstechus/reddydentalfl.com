@@ -12,7 +12,10 @@ import {
   localizeBlogRoute,
 } from "@/lib/blog";
 
-export const revalidate = 3600;
+// Locale comes from the NEXT_LOCALE cookie via next-intl. A static/ISR
+// render calls cookies() and production turns that into a 500
+// (DYNAMIC_SERVER_USAGE). Render this route per request instead.
+export const dynamic = "force-dynamic";
 
 type BlogPageProps = { params: Promise<{ slug?: string[] }> };
 
