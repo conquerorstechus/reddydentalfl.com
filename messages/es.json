@@ -59,16 +59,9 @@
       {
         "day": "Viernes",
         "hours": "9:00am - 5:00pm"
-      },
-      {
-        "day": "Sábado",
-        "hours": "9:00am - 5:00pm"
-      },
-      {
-        "day": "Domingo",
-        "hours": "9:00am - 5:00pm"
       }
     ],
+    "emergency": "Emergencia",
     "quickLinks": "Enlaces rápidos",
     "requestAppointment": "Solicitar una cita »",
     "dentalBlog": "Blog dental »",

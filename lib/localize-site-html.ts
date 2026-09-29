@@ -317,6 +317,7 @@ function localizeSpanish(html: string, slug: string[]): string {
         newPatientForms: enMessages.footer.newPatientForms,
         onlinePayment: enMessages.footer.onlinePayment,
         mapAlt: enMessages.footer.mapAlt,
+        emergency: enMessages.footer.emergency,
       },
       {
         contactInfo: esMessages.footer.contactInfo,
@@ -327,6 +328,7 @@ function localizeSpanish(html: string, slug: string[]): string {
         newPatientForms: esMessages.footer.newPatientForms,
         onlinePayment: esMessages.footer.onlinePayment,
         mapAlt: esMessages.footer.mapAlt,
+        emergency: esMessages.footer.emergency,
       },
     ),
     ...enMessages.footer.hours.map(
