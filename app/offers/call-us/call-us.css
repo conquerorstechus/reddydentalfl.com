@@ -848,16 +848,20 @@ body { margin: 0; }
 }
 
 .lp-footer-hours-list {
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  column-gap: 1.25rem;
+  justify-content: start;
   margin: 18px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .lp-footer-hours-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  align-items: baseline;
   padding: 7px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: #dce2ea;
@@ -868,9 +872,26 @@ body { margin: 0; }
   border-bottom: 0;
 }
 
-.lp-footer-hours-list li span:last-child {
+.lp-footer-hours-time,
+.lp-footer-hours-note {
   color: #c9d4de;
   white-space: nowrap;
+}
+
+.lp-footer-emergency {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  background: #d9b748;
+  color: #231f20;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
 }
 .mobile-call-bar { display: none; }
 

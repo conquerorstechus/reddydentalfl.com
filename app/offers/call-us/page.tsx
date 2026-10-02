@@ -310,10 +310,14 @@ export default function CallUsOfferPage() {
               {t.officeHours.map((entry) => (
                 <li key={entry.day}>
                   <span>{entry.day}</span>
-                  <span>{entry.hours}</span>
+                  <span className="lp-footer-hours-time">{entry.hours}</span>
+                  {entry.note ? <span className="lp-footer-hours-note">{entry.note}</span> : null}
                 </li>
               ))}
             </ul>
+            <a className="lp-footer-emergency" href="/contact/">
+              {t.emergencyCasesOnly}
+            </a>
           </div>
         </div>
       </footer>

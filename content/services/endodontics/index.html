@@ -1804,8 +1804,40 @@
 
     <div class="w-full">
       <div class="relative">
-        <div class="flex justify-center py-md px-sm text-primary bg-primary">
-          <div class="max-w-content w-full grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-16">
+        <style>
+      .office-hours-rows {
+        display: grid;
+        grid-template-columns: max-content max-content minmax(0, max-content);
+        column-gap: 1.25rem;
+        justify-content: start;
+        align-items: baseline;
+        max-width: 100%;
+      }
+      .office-hours-rows > div {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
+        align-items: baseline;
+      }
+      .office-hours-rows .hours-note {
+        text-transform: none;
+      }
+      @media (min-width: 1024px) {
+        .footer-columns {
+          grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr) minmax(400px, 1.2fr) minmax(220px, 0.85fr);
+          column-gap: 1.5rem;
+        }
+      }
+      @media (min-width: 1280px) {
+        .footer-columns {
+          max-width: 1320px;
+          grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.9fr) minmax(500px, 1.45fr) minmax(230px, 0.75fr);
+          column-gap: 1.25rem;
+        }
+      }
+    </style>
+    <div class="flex justify-center py-md px-sm text-primary bg-primary">
+          <div class="footer-columns max-w-content w-full grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-16">
             <div class="col-start-1 md:col-span-2">
               <h3 class="pb-2 border-b border-primary font-title font-[400] capitalize text-[20px] mb-10">
                 Contact Info
@@ -1846,6 +1878,7 @@
                 Office Hours
               </h3>
 
+              <div class="office-hours-rows">
               <div class="font-menuItems font-[300] capitalize text-[16px] flex justify-between">
                 <div>Monday</div>
                 <div>9:00am - 5:00pm</div>
@@ -1871,8 +1904,21 @@
                 <div>9:00am - 5:00pm</div>
               </div>
 
+              <div class="font-menuItems font-[300] capitalize text-[16px] flex justify-between">
+                <div>Saturday</div>
+                <div>9:00am - 5:00pm</div>
+                <div class="hours-note">Emergency dental calls only</div>
+              </div>
+
+              <div class="font-menuItems font-[300] capitalize text-[16px] flex justify-between">
+                <div>Sunday</div>
+                <div>9:00am - 5:00pm</div>
+                <div class="hours-note">Emergency dental calls only</div>
+              </div>
+              </div>
+
               <a href="/contact/" class="flex w-full items-center justify-center rounded-md py-2 text-center font-menuItems font-[600] capitalize text-[16px]" style="margin-top:16px;background-color:#d9b748;color:#231f20;">
-                Emergency
+                Emergency Cases Only
               </a>
             </div>
             <div>

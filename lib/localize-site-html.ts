@@ -335,6 +335,8 @@ function localizeSpanish(html: string, slug: string[]): string {
       (entry, index) =>
         [entry.day, esMessages.footer.hours[index]?.day ?? entry.day] as [string, string],
     ),
+    ["Emergency dental calls only", "Solo llamadas dentales de emergencia"] as [string, string],
+    ["9 AM–5 PM", "9 AM–5 PM"] as [string, string],
     ["All Rights Reserved.", "Todos los derechos reservados."] as [string, string],
   ].sort((a, b) => b[0].length - a[0].length);
 

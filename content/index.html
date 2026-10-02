@@ -951,6 +951,54 @@
         -o-object-position: center;
         object-position: center;
       }
+      .hero-banner-bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -10;
+        background-image: url("assets/images/hero-banner.webp");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+      }
+      .hero-banner-media {
+        z-index: -9;
+        -o-object-fit: cover;
+        object-fit: cover;
+        -o-object-position: center center;
+        object-position: center center;
+      }
+      #video.hero-banner-media {
+        max-width: none;
+        width: 100%;
+        height: 100%;
+      }
+      @media (min-width: 1024px) {
+        .hero-banner-bg {
+          background-size: cover;
+          background-position: center center;
+        }
+        .hero-banner-media {
+          -o-object-fit: cover;
+          object-fit: cover;
+          -o-object-position: center center;
+          object-position: center center;
+        }
+      }
+      @media (max-width: 1023px) {
+        .hero-banner-bg {
+          background-size: cover;
+          background-position: center center;
+        }
+        .hero-banner-media {
+          -o-object-fit: cover;
+          object-fit: cover;
+          -o-object-position: center center;
+          object-position: center center;
+        }
+      }
       .p-2 {
         padding: 0.5rem;
       }
@@ -1766,8 +1814,11 @@
 
       <div class="w-full">
         <div class="relative px-sm flex justify-center">
-          <img alt="Logo" height="640" width="560" fetchpriority="high" src="assets/images/mobile-hero-02-01.webp" class="block sm:hidden absolute -z-10 h-full w-full object-cover">
-          <video id="video" playsinline muted loop aria-hidden="true" class="hidden sm:block absolute -z-10 h-full w-full object-cover"></video>
+          <div class="hero-banner-bg" aria-hidden="true"></div>
+          <img alt="" width="1920" height="960" fetchpriority="high" src="assets/images/hero-banner.webp" class="hero-banner-media block sm:hidden absolute h-full w-full object-cover object-center">
+          <video id="video" autoplay playsinline muted loop preload="auto" poster="assets/images/hero-banner.webp" aria-hidden="true" class="hero-banner-media hidden sm:block absolute h-full w-full object-cover object-center">
+            <source id="videoSrc" src="assets/images/hero-banner.mp4" type="video/mp4">
+          </video>
 
           <div class="max-w-content w-full">
             <div class="max-w-content flex flex-col items-center pt-[140px] pb-[20px] min-h-[640px] text-center lg:text-center lg:items-center justify-end lg:pb-[100px] lg:h-[696px]">
@@ -1852,20 +1903,28 @@
             const hasSrc = Boolean(source);
 
             if (window.innerWidth < 640 && hasSrc) {
-              video.removeChild(source);
+              while (video.firstChild) {
+                video.removeChild(video.firstChild);
+              }
+              video.load();
+              return;
             }
 
             if (window.innerWidth >= 640 && !hasSrc) {
-              const newSource = document.createElement("source");
-              newSource.setAttribute(
-                "src",
-                "assets/images/e846ae67-4b48-4876-a7ef-a73230baad74.webm",
-              );
-              newSource.setAttribute("id", "videoSrc");
+              const mp4 = document.createElement("source");
+              mp4.setAttribute("src", "assets/images/hero-banner.mp4");
+              mp4.setAttribute("type", "video/mp4");
+              mp4.setAttribute("id", "videoSrc");
 
-              video.appendChild(newSource);
+              video.appendChild(mp4);
               video.load();
-              video.play();
+            }
+
+            if (window.innerWidth >= 640) {
+              const playPromise = video.play();
+              if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(function () {});
+              }
             }
           }
 
@@ -2210,8 +2269,40 @@
 
     <div class="w-full">
       <div class="relative">
-        <div class="flex justify-center py-md px-sm text-primary bg-primary">
-          <div class="max-w-content w-full grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-16">
+        <style>
+      .office-hours-rows {
+        display: grid;
+        grid-template-columns: max-content max-content minmax(0, max-content);
+        column-gap: 1.25rem;
+        justify-content: start;
+        align-items: baseline;
+        max-width: 100%;
+      }
+      .office-hours-rows > div {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
+        align-items: baseline;
+      }
+      .office-hours-rows .hours-note {
+        text-transform: none;
+      }
+      @media (min-width: 1024px) {
+        .footer-columns {
+          grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr) minmax(400px, 1.2fr) minmax(220px, 0.85fr);
+          column-gap: 1.5rem;
+        }
+      }
+      @media (min-width: 1280px) {
+        .footer-columns {
+          max-width: 1320px;
+          grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.9fr) minmax(500px, 1.45fr) minmax(230px, 0.75fr);
+          column-gap: 1.25rem;
+        }
+      }
+    </style>
+    <div class="flex justify-center py-md px-sm text-primary bg-primary">
+          <div class="footer-columns max-w-content w-full grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-16">
             <div class="col-start-1 md:col-span-2">
               <h3 class="pb-2 border-b border-primary font-title font-[400] capitalize text-[20px] mb-10">
                 Contact Info
@@ -2252,6 +2343,7 @@
                 Office Hours
               </h3>
 
+              <div class="office-hours-rows">
               <div class="font-menuItems font-[300] capitalize text-[16px] flex justify-between">
                 <div>Monday</div>
                 <div>9:00am - 5:00pm</div>
@@ -2277,8 +2369,21 @@
                 <div>9:00am - 5:00pm</div>
               </div>
 
+              <div class="font-menuItems font-[300] capitalize text-[16px] flex justify-between">
+                <div>Saturday</div>
+                <div>9:00am - 5:00pm</div>
+                <div class="hours-note">Emergency dental calls only</div>
+              </div>
+
+              <div class="font-menuItems font-[300] capitalize text-[16px] flex justify-between">
+                <div>Sunday</div>
+                <div>9:00am - 5:00pm</div>
+                <div class="hours-note">Emergency dental calls only</div>
+              </div>
+              </div>
+
               <a href="/contact/" class="flex w-full items-center justify-center rounded-md py-2 text-center font-menuItems font-[600] capitalize text-[16px]" style="margin-top:16px;background-color:#d9b748;color:#231f20;">
-                Emergency
+                Emergency Cases Only
               </a>
             </div>
             <div>

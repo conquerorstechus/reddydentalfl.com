@@ -59,9 +59,17 @@
       {
         "day": "Viernes",
         "hours": "9:00am - 5:00pm"
+      },
+      {
+        "day": "Sábado",
+        "hours": "9:00am - 5:00pm"
+      },
+      {
+        "day": "Domingo",
+        "hours": "9:00am - 5:00pm"
       }
     ],
-    "emergency": "Emergencia",
+    "emergency": "Solo casos de emergencia",
     "quickLinks": "Enlaces rápidos",
     "requestAppointment": "Solicitar una cita »",
     "dentalBlog": "Blog dental »",
@@ -370,6 +378,9 @@
       "requestCallbackInstead": "Solicitar una llamada en su lugar",
       "footerLocationLabel": "Ubicación",
       "footerOfficeHours": "Horario de atención",
+      "weekendHoursLead": "Sábado y domingo",
+      "weekendHours": "9 AM–5 PM",
+      "emergencyCasesOnly": "Solo casos de emergencia",
       "officeHours": [
         {
           "day": "Lunes",
@@ -393,11 +404,13 @@
         },
         {
           "day": "Sábado",
-          "hours": "9:00am - 5:00pm"
+          "hours": "9:00am - 5:00pm",
+          "note": "Solo llamadas dentales de emergencia"
         },
         {
           "day": "Domingo",
-          "hours": "9:00am - 5:00pm"
+          "hours": "9:00am - 5:00pm",
+          "note": "Solo llamadas dentales de emergencia"
         }
       ],
       "thankYouKicker": "Ofertas dentales",
@@ -1240,6 +1253,8 @@
     "s304": "Conocido por su actitud serena y segura, el Dr. Reddy se toma el tiempo de explicar a fondo las opciones de tratamiento para que los pacientes se sientan informados y cómodos en cada paso. Lo más gratificante de su trabajo es ayudar a los pacientes a recuperar la confianza, ya sea sonreír con libertad otra vez, comer con comodidad o superar la ansiedad dental. Generar confianza y ver mejoras duraderas en la salud de los pacientes es lo que alimenta su pasión por la odontología.",
     "s305": "El Dr. Reddy se compromete con el aprendizaje continuo y se mantiene al día con los avances en odontología digital, implantología, técnicas quirúrgicas y atención restauradora. Ejercer en Reddy Dental le permite ofrecer odontología de la manera correcta, sin prisas ni presión, y con un fuerte énfasis en la tecnología y la experiencia del paciente. Fuera de la consulta, disfruta del ejercicio y el entrenamiento, pasar tiempo con su familia, viajar y explorar restaurantes nuevos, intereses que reflejan su creencia en una odontología que cuida tanto la función como la estética de una sonrisa sana y segura. También disfruta trabajar en autos, conducirlos y competir con ellos, una pasión que refleja su aprecio por la precisión, el rendimiento y la artesanía.",
     "s306": "Entre a Reddy Dental y vea qué hace diferente a nuestra oficina de St. Petersburg. Nuestra galería de fotos le muestra nuestro espacio limpio y moderno, la tecnología avanzada y el ambiente cálido y acogedor que hemos creado para que cada visita se sienta cómoda, relajada y sin estrés.",
-    "s307": "Recorrido por la oficina"
+    "s307": "Recorrido por la oficina",
+    "s308": "Sábado 9:00am - 5:00pm Solo llamadas dentales de emergencia",
+    "s309": "Solo casos de emergencia"
   }
 }
