@@ -988,6 +988,10 @@
         opacity: 0 !important;
         pointer-events: none;
       }
+      .hero-still {
+        z-index: -8;
+        pointer-events: none;
+      }
       @media (min-width: 1024px) {
         .hero-banner-bg {
           background-size: cover;
@@ -1828,9 +1832,8 @@
       <div class="w-full">
         <div class="relative px-sm flex justify-center">
           <div class="hero-banner-bg" aria-hidden="true"></div>
-          <video id="video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/images/hero-banner.webp" disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noremoteplayback" onloadedmetadata="this.muted=true;this.playsInline=true;this.play()" aria-hidden="true" class="hero-banner-media block absolute h-full w-full object-cover object-center">
-            <source id="videoSrc" src="assets/images/hero-banner.mp4" type="video/mp4">
-          </video>
+          <video id="video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true" class="hero-banner-media block absolute h-full w-full object-cover object-center"></video>
+          <img id="heroStill" alt="" width="1920" height="960" fetchpriority="high" src="assets/images/hero-banner.webp" class="hero-still absolute h-full w-full object-cover object-center">
 
           <div class="max-w-content w-full">
             <div class="max-w-content flex flex-col items-center pt-[140px] pb-[20px] min-h-[640px] text-center lg:text-center lg:items-center justify-end lg:pb-[100px] lg:h-[696px]">
@@ -1910,40 +1913,43 @@
 
         if (true) {
           const video = document.getElementById("video");
+          const still = document.getElementById("heroStill");
+
+          const reveal = () => {
+            if (still) still.style.display = "none";
+          };
 
           const tryPlay = () => {
-            if (!video || !video.paused) return;
+            if (!video) return;
             video.controls = false;
             video.muted = true;
             video.defaultMuted = true;
             video.playsInline = true;
-            video.setAttribute("autoplay", "");
-            video.setAttribute("muted", "");
-            video.setAttribute("playsinline", "");
-            video.setAttribute("webkit-playsinline", "");
-
+            if (!video.paused) {
+              reveal();
+              return;
+            }
             const playPromise = video.play();
-            if (playPromise && typeof playPromise.catch === "function") {
-              playPromise.catch(function () {});
+            if (playPromise && typeof playPromise.then === "function") {
+              playPromise.then(reveal).catch(function () {});
             }
           };
 
           if (video) {
+            video.muted = true;
+            video.defaultMuted = true;
+            video.playsInline = true;
+            video.setAttribute("muted", "");
+            video.setAttribute("playsinline", "");
+            video.setAttribute("webkit-playsinline", "");
+            video.addEventListener("playing", reveal);
+            video.src = window.matchMedia("(max-width: 1023px)").matches
+              ? "assets/images/hero-banner-mobile.mp4"
+              : "assets/images/hero-banner.mp4";
+
             tryPlay();
-            video.addEventListener("loadedmetadata", tryPlay);
             video.addEventListener("loadeddata", tryPlay);
             video.addEventListener("canplay", tryPlay);
-            video.addEventListener("canplaythrough", tryPlay);
-
-            let attempts = 0;
-            const retry = window.setInterval(function () {
-              attempts += 1;
-              if (!video.paused || attempts > 20) {
-                window.clearInterval(retry);
-                return;
-              }
-              tryPlay();
-            }, 250);
 
             document.addEventListener("visibilitychange", function () {
               if (!document.hidden) tryPlay();
