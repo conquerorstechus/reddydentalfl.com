@@ -974,11 +974,8 @@
         max-width: none;
         width: 100%;
         height: 100%;
-        opacity: 0;
-        pointer-events: none;
-      }
-      #video.hero-banner-media.is-playing {
         opacity: 1;
+        pointer-events: none;
       }
       #video::-webkit-media-controls,
       #video::-webkit-media-controls-enclosure,
@@ -1831,7 +1828,7 @@
       <div class="w-full">
         <div class="relative px-sm flex justify-center">
           <div class="hero-banner-bg" aria-hidden="true"></div>
-          <video id="video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/images/hero-banner.webp" disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noremoteplayback" aria-hidden="true" class="hero-banner-media block absolute h-full w-full object-cover object-center">
+          <video id="video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/images/hero-banner.webp" disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noremoteplayback" onloadedmetadata="this.muted=true;this.playsInline=true;this.play()" aria-hidden="true" class="hero-banner-media block absolute h-full w-full object-cover object-center">
             <source id="videoSrc" src="assets/images/hero-banner.mp4" type="video/mp4">
           </video>
 
@@ -1914,48 +1911,44 @@
         if (true) {
           const video = document.getElementById("video");
 
-          const showWhenPlaying = () => {
-            if (video && !video.paused && video.readyState >= 2) {
-              video.classList.add("is-playing");
-            }
-          };
-
           const tryPlay = () => {
-            if (!video) return;
+            if (!video || !video.paused) return;
             video.controls = false;
             video.muted = true;
             video.defaultMuted = true;
             video.playsInline = true;
+            video.setAttribute("autoplay", "");
             video.setAttribute("muted", "");
             video.setAttribute("playsinline", "");
             video.setAttribute("webkit-playsinline", "");
 
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === "function") {
-              playPromise.catch(function () {
-                const resume = () => {
-                  video.play().catch(function () {});
-                  window.removeEventListener("touchstart", resume);
-                  window.removeEventListener("click", resume);
-                };
-                window.addEventListener("touchstart", resume, { once: true, passive: true });
-                window.addEventListener("click", resume, { once: true });
-              });
+              playPromise.catch(function () {});
             }
           };
 
           if (video) {
-            video.addEventListener("playing", showWhenPlaying);
             tryPlay();
-            showWhenPlaying();
-            video.addEventListener("loadeddata", function () {
-              if (video.paused) tryPlay();
-              else showWhenPlaying();
-            });
+            video.addEventListener("loadedmetadata", tryPlay);
+            video.addEventListener("loadeddata", tryPlay);
+            video.addEventListener("canplay", tryPlay);
+            video.addEventListener("canplaythrough", tryPlay);
+
+            let attempts = 0;
+            const retry = window.setInterval(function () {
+              attempts += 1;
+              if (!video.paused || attempts > 20) {
+                window.clearInterval(retry);
+                return;
+              }
+              tryPlay();
+            }, 250);
 
             document.addEventListener("visibilitychange", function () {
-              if (!document.hidden && video.paused) tryPlay();
+              if (!document.hidden) tryPlay();
             });
+            window.addEventListener("pageshow", tryPlay);
           }
         }
       </script>
