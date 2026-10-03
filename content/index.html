@@ -1815,8 +1815,7 @@
       <div class="w-full">
         <div class="relative px-sm flex justify-center">
           <div class="hero-banner-bg" aria-hidden="true"></div>
-          <img alt="" width="1920" height="960" fetchpriority="high" src="assets/images/hero-banner.webp" class="hero-banner-media block sm:hidden absolute h-full w-full object-cover object-center">
-          <video id="video" autoplay playsinline muted loop preload="auto" poster="assets/images/hero-banner.webp" aria-hidden="true" class="hero-banner-media hidden sm:block absolute h-full w-full object-cover object-center">
+          <video id="video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/images/hero-banner.webp" aria-hidden="true" class="hero-banner-media block absolute h-full w-full object-cover object-center">
             <source id="videoSrc" src="assets/images/hero-banner.mp4" type="video/mp4">
           </video>
 
@@ -1897,40 +1896,41 @@
         window.addEventListener("scroll", handler, { passive: true });
 
         if (true) {
-          function videoHandler() {
-            const video = document.getElementById("video");
-            const source = document.getElementById("videoSrc");
-            const hasSrc = Boolean(source);
+          const video = document.getElementById("video");
 
-            if (window.innerWidth < 640 && hasSrc) {
-              while (video.firstChild) {
-                video.removeChild(video.firstChild);
-              }
-              video.load();
-              return;
+          const tryPlay = () => {
+            if (!video) return;
+            video.muted = true;
+            video.defaultMuted = true;
+            video.playsInline = true;
+            video.setAttribute("muted", "");
+            video.setAttribute("playsinline", "");
+            video.setAttribute("webkit-playsinline", "");
+
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+              playPromise.catch(function () {
+                const resume = () => {
+                  video.play().catch(function () {});
+                  window.removeEventListener("touchstart", resume);
+                  window.removeEventListener("click", resume);
+                };
+                window.addEventListener("touchstart", resume, { once: true, passive: true });
+                window.addEventListener("click", resume, { once: true });
+              });
             }
+          };
 
-            if (window.innerWidth >= 640 && !hasSrc) {
-              const mp4 = document.createElement("source");
-              mp4.setAttribute("src", "assets/images/hero-banner.mp4");
-              mp4.setAttribute("type", "video/mp4");
-              mp4.setAttribute("id", "videoSrc");
+          if (video) {
+            tryPlay();
+            video.addEventListener("loadeddata", function () {
+              if (video.paused) tryPlay();
+            });
 
-              video.appendChild(mp4);
-              video.load();
-            }
-
-            if (window.innerWidth >= 640) {
-              const playPromise = video.play();
-              if (playPromise && typeof playPromise.catch === "function") {
-                playPromise.catch(function () {});
-              }
-            }
+            document.addEventListener("visibilitychange", function () {
+              if (!document.hidden && video.paused) tryPlay();
+            });
           }
-
-          videoHandler();
-
-          window.addEventListener("resize", videoHandler);
         }
       </script>
 
