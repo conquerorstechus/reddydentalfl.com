@@ -34,6 +34,7 @@
     "insuranceOptions": "Opciones de seguro",
     "smileSavingsPlan": "Plan de Ahorro para la Sonrisa",
     "blog": "Blog",
+    "specialOffer": "Oferta especial",
     "contact": "Contacto"
   },
   "footer": {
@@ -405,12 +406,12 @@
         {
           "day": "Sábado",
           "hours": "9:00am - 5:00pm",
-          "note": "Solo llamadas dentales de emergencia"
+          "note": "(Solo llamadas dentales de emergencia)"
         },
         {
           "day": "Domingo",
           "hours": "9:00am - 5:00pm",
-          "note": "Solo llamadas dentales de emergencia"
+          "note": "(Solo llamadas dentales de emergencia)"
         }
       ],
       "thankYouKicker": "Ofertas dentales",
@@ -1255,6 +1256,7 @@
     "s306": "Entre a Reddy Dental y vea qué hace diferente a nuestra oficina de St. Petersburg. Nuestra galería de fotos le muestra nuestro espacio limpio y moderno, la tecnología avanzada y el ambiente cálido y acogedor que hemos creado para que cada visita se sienta cómoda, relajada y sin estrés.",
     "s307": "Recorrido por la oficina",
     "s308": "Sábado 9:00am - 5:00pm Solo llamadas dentales de emergencia",
-    "s309": "Solo casos de emergencia"
+    "s309": "Solo casos de emergencia",
+    "s310": "¿Sin seguro y no está seguro del plan de tratamiento dental?"
   }
 }

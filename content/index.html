@@ -992,6 +992,44 @@
         z-index: -8;
         pointer-events: none;
       }
+      .hero-frame {
+        overflow: hidden;
+      }
+      .hero-frame .hero-banner-bg,
+      .hero-frame .hero-banner-media,
+      .hero-frame .hero-still,
+      .hero-frame #video.hero-banner-media {
+        transform: scale(1.34);
+        transform-origin: center 24%;
+      }
+      .hero-copy {
+        align-items: flex-start;
+        text-align: left;
+        width: 100%;
+      }
+      .hero-copy h1,
+      .hero-copy h2 {
+        max-width: 14em;
+        text-wrap: balance;
+      }
+      .hero-copy .hero-callout {
+        align-items: flex-start;
+        max-width: 100%;
+        text-align: left;
+      }
+      .hero-copy .hero-callout-phone {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        row-gap: 4px;
+      }
+      @media (max-width: 1023px) {
+        .hero-copy h2 {
+          font-size: 34px;
+        }
+        .hero-copy h1 {
+          font-size: 22px;
+        }
+      }
       @media (min-width: 1024px) {
         .hero-banner-bg {
           background-size: cover;
@@ -1670,6 +1708,11 @@
               Blog
             </a>
           </div>
+            <div class="pl-2">
+              <a onclick="return true" class="hover:text-primaryHover block rounded-md py-2" href="/offers/call-us/" target="_self">
+                Special Offer
+              </a>
+            </div>
 <div class="pl-2">
               <a onclick="if (dropdown === 'link' || !document.getElementById('4_mobile_dropdown').classList.contains('hidden')) {
                                                     return true
@@ -1809,6 +1852,11 @@
               </a>
             </div>
             <div>
+              <a href="/offers/call-us/" target="_self" class="menuChild font-menuItems font-[300] capitalize text-[16px] hover:text-imageHover block">
+                Special Offer
+              </a>
+            </div>
+            <div>
               <a onmouseenter="if ('dropdown' === 'dropdown') {
                                         document.getElementById('4_dropdown').classList.remove('hidden')
                                     }" onmouseleave="if ('dropdown' === 'dropdown') {
@@ -1830,24 +1878,24 @@
       </div>
 
       <div class="w-full">
-        <div class="relative px-sm flex justify-center">
+        <div class="hero-frame relative px-sm flex justify-center">
           <div class="hero-banner-bg" aria-hidden="true"></div>
           <video id="video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true" class="hero-banner-media block absolute h-full w-full object-cover object-center"></video>
           <img id="heroStill" alt="" width="1920" height="960" fetchpriority="high" src="assets/images/hero-banner.webp" class="hero-still absolute h-full w-full object-cover object-center">
 
           <div class="max-w-content w-full">
-            <div class="max-w-content flex flex-col items-center pt-[140px] pb-[20px] min-h-[640px] text-center lg:text-center lg:items-center justify-end lg:pb-[100px] lg:h-[696px]">
+            <div class="hero-copy max-w-content flex flex-col pt-[140px] pb-[20px] min-h-[640px] justify-end lg:pb-[100px] lg:h-[696px]">
               <h2 class="text-[#ffffff] font-heroSubtitle1 font-[600] capitalize text-[40px] md:text-[52px] mb-3">
                 Reddy for your best smile.
               </h2>
               <h1 class="text-[#ffffff] font-heroTitle font-[300] capitalize text-[27.3px] md:text-[35.7px] mb-md leading-tight">
                 Dentistry where trust is built first, and smiles follow.
               </h1>
-              <div class="bg-transparent border border-image text-image gap-x-sm px-sm flex w-fit flex-col items-center rounded-md py-3 lg:flex-row">
+              <div class="hero-callout bg-transparent border border-image text-image gap-x-sm px-sm flex w-fit flex-col rounded-md py-3 lg:flex-row">
                 <a href="/contact/" target="_self" class="font-heroCallout1 font-[400] capitalize text-[16.96px] lg:text-[21.200000000000003px] hover:text-imageHover">Now Accepting New Patients!</a>
 
                 <div class="border-r-[.5px] border-image h-sm hidden lg:block"></div>
-                <div class="font-heroCallout2 font-[500] capitalize text-[16.4px] md:text-[21.32px] gap-x-sm flex flex-row">
+                <div class="hero-callout-phone font-heroCallout2 font-[500] capitalize text-[16.4px] md:text-[21.32px] gap-x-sm flex flex-row">
                   <div class="">Call Today!</div>
 
                   <a class="block hover:text-imageHover" href="tel:727-377-3339">
@@ -1959,7 +2007,7 @@
         }
       </script>
 
-      <div class="py-md bg-texture px-sm flex w-full justify-center">
+      <div class="py-md bg-texture px-sm flex w-full flex-col items-center justify-center">
         <div class="max-w-content divide-texture grid w-full grid-cols-1 lg:grid-cols-3 lg:divide-x">
           <a class="text-texture hover:text-textureHover" href="/contact/" target="_self"><div class="py-sm gap-x-sm flex items-center">
               <div class="border-texture flex-none overflow-hidden rounded-full border-4">
@@ -2003,6 +2051,7 @@
               </div>
             </div></a>
         </div>
+        <a class="coverage-learn-more" href="/patient-resources/smile-savings-plan/"><span class="coverage-learn-more-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" fill="#2a2825"/><g fill="none" stroke="#d7b546" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M60 24 88 36v22c0 20-12 34-28 42-16-8-28-22-28-42V36z"/><path d="M46 60l10 10 18-22"/></g></svg></span><span>Uninsured and not sure of the dental treatment plan?</span></a>
       </div>
 
       <div class="section" id="brand">
@@ -2397,13 +2446,13 @@
               <div class="font-menuItems font-[300] capitalize text-[16px] flex justify-between">
                 <div>Saturday</div>
                 <div>9:00am - 5:00pm</div>
-                <div class="hours-note">Emergency dental calls only</div>
+                <div class="hours-note">(Emergency dental calls only)</div>
               </div>
 
               <div class="font-menuItems font-[300] capitalize text-[16px] flex justify-between">
                 <div>Sunday</div>
                 <div>9:00am - 5:00pm</div>
-                <div class="hours-note">Emergency dental calls only</div>
+                <div class="hours-note">(Emergency dental calls only)</div>
               </div>
               </div>
 

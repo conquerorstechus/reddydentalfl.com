@@ -188,6 +188,53 @@ function injectMobileResponsiveFixes(html: string): string {
         max-width: 100%;
       }
 
+      /* Homepage hero: white nav labels sit on a light photo */
+      #menuBar.bg-transparent > .max-w-content > div:last-child {
+        background-color: #231f20;
+        border-radius: 999px;
+        padding: 10px 22px;
+      }
+
+      .coverage-learn-more {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin: 6px 0 10px;
+        padding: 8px 22px 8px 8px;
+        border-radius: 999px;
+        background: #d9b748;
+        color: #231f20;
+        font-family: Roboto, system-ui, sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.35;
+        text-align: left;
+        text-decoration: none;
+        max-width: min(100%, 760px);
+      }
+
+      .coverage-learn-more:hover {
+        background: #e6c865;
+        color: #231f20;
+      }
+
+      .coverage-learn-more-icon {
+        display: flex;
+        flex: none;
+        width: 72px;
+        height: 72px;
+        overflow: hidden;
+        border: 4px solid #918c85;
+        border-radius: 999px;
+      }
+
+      .coverage-learn-more-icon svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
       /* Mobile top bar: keep menu + phone + book icon on one row */
       @media (max-width: 1023px) {
         #topNav .max-w-content {

@@ -34,6 +34,7 @@
     "insuranceOptions": "Insurance Options",
     "smileSavingsPlan": "Smile Savings Plan",
     "blog": "Blog",
+    "specialOffer": "Special Offer",
     "contact": "Contact"
   },
   "footer": {
@@ -405,12 +406,12 @@
         {
           "day": "Saturday",
           "hours": "9:00am - 5:00pm",
-          "note": "Emergency dental calls only"
+          "note": "(Emergency dental calls only)"
         },
         {
           "day": "Sunday",
           "hours": "9:00am - 5:00pm",
-          "note": "Emergency dental calls only"
+          "note": "(Emergency dental calls only)"
         }
       ],
       "thankYouKicker": "Dental offers",
@@ -1254,7 +1255,8 @@
     "s305": "Dr. Reddy is committed to continued learning and stays current with advancements in digital dentistry, implant dentistry, surgical techniques, and restorative care. Practicing at Reddy Dental allows him to provide dentistry the right way—without rushing or pressure, and with a strong emphasis on technology and patient experience. Outside the office, he enjoys fitness and training, spending time with family, traveling, and exploring new restaurants—interests that reflect his belief in dentistry that supports both the function and aesthetics of a healthy, confident smile. He also enjoys working on, driving, and racing cars—a passion that mirrors his appreciation for precision, performance, and craftsmanship.",
     "s306": "Step inside Reddy Dental and see what makes our St. Petersburg office feel different. Our photo gallery gives you a look at our clean, modern space, advanced technology, and the warm, welcoming environment we’ve created so every visit feels comfortable, relaxed, and stress-free.",
     "s307": "Office Tour",
-    "s308": "Saturday 9:00am - 5:00pm Emergency dental calls only",
-    "s309": "Emergency Cases Only"
+    "s308": "Saturday 9:00am - 5:00pm (Emergency dental calls only)",
+    "s309": "Emergency Cases Only",
+    "s310": "Uninsured and not sure of the dental treatment plan?"
   }
 }
