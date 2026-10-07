@@ -8,7 +8,7 @@ import "./call-us.css";
 
 const PHONE_NUMBER = "727-377-3339";
 const PHONE_TEL = `tel:${PHONE_NUMBER}`;
-const CONTACT_ENDPOINT = process.env.CALL_US_WEBHOOK_URL;
+const CALLBACK_API = "/api/offers/call-us/";
 const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/MmTH3GryrAqJzzqt9";
 
 type TrackingWindow = Window & {
@@ -64,15 +64,10 @@ export default function CallUsOfferPage() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!CONTACT_ENDPOINT) {
-      setFormStatus("error");
-      return;
-    }
-
     setFormStatus("loading");
 
     try {
-      const response = await fetch(CONTACT_ENDPOINT, {
+      const response = await fetch(CALLBACK_API, {
         method: "POST",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({
