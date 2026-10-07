@@ -23,11 +23,21 @@ export function LanguageToggle({ appearance = "plain" }: LanguageToggleProps) {
       role="group"
       aria-label={locale === "es" ? "Idioma" : "Language"}
     >
-      <button type="button" aria-pressed={locale === "en"} onClick={() => select("en")}>
+      <button
+        type="button"
+        aria-pressed={locale === "en"}
+        onClick={() => select("en")}
+        suppressHydrationWarning
+      >
         EN
       </button>
       <span aria-hidden="true">|</span>
-      <button type="button" aria-pressed={locale === "es"} onClick={() => select("es")}>
+      <button
+        type="button"
+        aria-pressed={locale === "es"}
+        onClick={() => select("es")}
+        suppressHydrationWarning
+      >
         ES
       </button>
     </div>
