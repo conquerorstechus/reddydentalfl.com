@@ -8,7 +8,6 @@ import { BlogPostView } from "@/components/blog-post-view";
 import {
   generateBlogMetadata,
   getBlogSource,
-  isGithubBlogSource,
   localizeBlogRoute,
 } from "@/lib/blog";
 
@@ -20,9 +19,7 @@ export const dynamic = "force-dynamic";
 type BlogPageProps = { params: Promise<{ slug?: string[] }> };
 
 export async function generateStaticParams() {
-  if (!isGithubBlogSource()) return [];
-  const source = getBlogSource();
-  return source.listStaticParams();
+  return getBlogSource().listStaticParams();
 }
 
 export const generateMetadata = async (

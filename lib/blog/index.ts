@@ -1,18 +1,27 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { blogPaths, getBlogSourceName, isGithubBlogSource } from "./config";
+import { blogPaths } from "./config";
+import { markdownToContent } from "./markdown";
 import { githubBlogSource } from "./source-github";
-import { opinlyBlogSource } from "./source-opinly";
 import type { BlogPost, BlogPostSummary, BlogRoute, BlogSource } from "./types";
 
 export function getBlogSource(): BlogSource {
-  return getBlogSourceName() === "github" ? githubBlogSource : opinlyBlogSource;
+  return githubBlogSource;
 }
 
 async function readSpanishJson<T>(slug: string, fileName: string): Promise<T | null> {
   try {
     const raw = await fs.readFile(path.join(blogPaths.posts, slug, fileName), "utf8");
     return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+async function readSpanishMarkdown(slug: string): Promise<BlogPost["content"] | null> {
+  try {
+    const raw = await fs.readFile(path.join(blogPaths.posts, slug, "content.es.md"), "utf8");
+    return markdownToContent(raw);
   } catch {
     return null;
   }
@@ -46,7 +55,7 @@ async function overlayPost(post: BlogPost): Promise<BlogPost> {
     post.slug,
     "meta.es.json",
   );
-  const content = await readSpanishJson<BlogPost["content"]>(post.slug, "content.es.json");
+  const content = await readSpanishMarkdown(post.slug);
   return {
     ...post,
     ...summary,
@@ -96,7 +105,7 @@ export async function localizeBlogRoute(route: BlogRoute, locale: string): Promi
   return route;
 }
 
-export { getBlogSourceName, isGithubBlogSource, blogSiteConfig } from "./config";
+export { blogSiteConfig } from "./config";
 export { generateBlogMetadata } from "./metadata";
 export { resolveStructuredData } from "./structured-data";
 export type {

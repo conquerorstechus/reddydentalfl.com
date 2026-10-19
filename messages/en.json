@@ -327,7 +327,11 @@
       "formSubmitLoading": "Sending...",
       "formSubmitIdle": "Request my callback",
       "formPrivacyNote": "Your information is used only to contact you about dental care.",
+      "privacyPolicy": "Privacy Policy",
       "formError": "We could not send your request. Please call (727) 377-3339.",
+      "captchaQuestion": "What is {left} + {right}?",
+      "captchaError": "Please enter the correct answer.",
+      "captchaRefresh": "New question",
       "reviewsEyebrow": "Patient reviews",
       "reviewsHeading": "What patients are saying",
       "reviewsGoogleLink": "Read more on Google",
@@ -463,7 +467,8 @@
       ],
       "bottomText": "Need answers before you book? Speak with our team today.",
       "callOffice": "Call the office now",
-      "backToHome": "← Back to home"
+      "backToHome": "← Back to home",
+      "privacyPolicy": "Privacy Policy"
     }
   },
   "copy": {

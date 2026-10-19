@@ -1,42 +1,52 @@
-import {
-  buildBlogPostingJsonLd,
-  buildFaqJsonLd,
-  type OpinlyNode,
-} from "@opinly/shared";
+import { dentistSchemaId } from "@/lib/dentist-schema";
 import { blogSiteConfig } from "./config";
 import type { BlogPost, BlogStructuredData } from "./types";
 
-function opinlyImageConfig(imagesPrefix: string) {
-  return {
-    imagesPrefix,
-    siteUrl: blogSiteConfig.siteUrl,
-    blogPrefix: blogSiteConfig.blogPrefix,
-    siteName: blogSiteConfig.siteName,
-  };
-}
-
 export function buildStructuredDataForPost(post: BlogPost): BlogStructuredData {
-  const titleImageKey = post.titleImage?.src
-    ? post.titleImage.src.replace(/^\/blog-images\//, "")
+  const url = `${blogSiteConfig.siteUrl}${blogSiteConfig.blogPrefix}/${post.slug}/`;
+  const image = post.titleImage?.src
+    ? post.titleImage.src.startsWith("http")
+      ? post.titleImage.src
+      : `${blogSiteConfig.siteUrl}${post.titleImage.src}`
     : null;
 
   const structured: BlogStructuredData = {
-    blogPosting: buildBlogPostingJsonLd(
-      {
-        title: post.title,
-        description: post.description,
-        content: post.content as OpinlyNode,
-        firstPublishedAt: post.firstPublishedAt,
-        modifiedAt: post.modifiedAt,
-        author: post.author ? { name: post.author } : null,
-        imageFileKey: titleImageKey,
+    blogPosting: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.description,
+      datePublished: post.firstPublishedAt,
+      dateModified: post.modifiedAt,
+      mainEntityOfPage: url,
+      url,
+      author: {
+        "@type": post.author ? "Person" : "Organization",
+        name: post.author || blogSiteConfig.siteName,
       },
-      opinlyImageConfig(blogSiteConfig.imagesPrefix),
-    ) as unknown as Record<string, unknown>,
+      publisher: {
+        "@type": "Dentist",
+        "@id": dentistSchemaId(blogSiteConfig.siteUrl),
+        name: blogSiteConfig.siteName,
+        url: blogSiteConfig.siteUrl,
+      },
+      ...(image ? { image } : {}),
+    },
   };
 
   if (post.faqs?.length) {
-    structured.faq = buildFaqJsonLd(post.faqs) as unknown as Record<string, unknown>;
+    structured.faq = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: post.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    };
   }
 
   return structured;

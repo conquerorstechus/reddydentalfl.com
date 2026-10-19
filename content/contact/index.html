@@ -1815,6 +1815,15 @@
               <textarea class="font-body font-[300] normal-case text-[16px] text-neutral block w-full resize-none border-none px-2 py-1 outline-none" name="notes" id="notes"></textarea>
             </div>
 
+            <div class="sm:col-span-2">
+              <label class="font-title font-[400] capitalize text-[16px] text-tertiary block pb-1 pl-2" for="mathCaptcha" id="mathCaptchaLabel">What is …?</label>
+              <div class="flex items-center" style="gap:8px">
+                <input class="font-body font-[300] normal-case text-[16px] text-neutral block border-none px-2 py-1 outline-none" style="flex:1; min-width:0" type="text" id="mathCaptcha" inputmode="numeric" autocomplete="off">
+                <button class="font-body font-[300] text-[16px] text-neutral border border-[#5e5e5e] bg-white" style="flex:0 0 auto; min-width:44px; min-height:44px; padding:4px 12px" type="button" id="mathCaptchaRefresh" aria-label="New question">↻</button>
+              </div>
+              <div class="font-body font-[300] normal-case text-[16px] mt-1 hidden pl-2 text-[#b91c1c]" id="mathCaptchaError">Please enter the correct answer.</div>
+            </div>
+
             <div class="mt-sm col-span-1 flex w-full justify-center sm:col-span-2">
               <input class="border-tertiary font-body font-[300] normal-case text-[16px] text-tertiary text-tertiaryHover bg-light w-[220px] cursor-pointer border py-2 text-center" type="submit" value="Submit">
             </div>
@@ -1894,6 +1903,37 @@
             const preferredContactMethodSelect = document.getElementById(
               "preferredContactMethod",
             );
+            var mathCaptchaExpected = 0;
+            var mathCaptchaSpanish =
+              (document.documentElement.lang || "").toLowerCase().indexOf("es") === 0;
+
+            function refreshMathCaptcha() {
+              var left = 2 + Math.floor(Math.random() * 8);
+              var right = 2 + Math.floor(Math.random() * 8);
+              mathCaptchaExpected = left + right;
+              document.getElementById("mathCaptchaLabel").textContent = mathCaptchaSpanish
+                ? "¿Cuánto es " + left + " + " + right + "?"
+                : "What is " + left + " + " + right + "?";
+              document.getElementById("mathCaptcha").value = "";
+              document.getElementById("mathCaptchaError").textContent = mathCaptchaSpanish
+                ? "Introduzca la respuesta correcta."
+                : "Please enter the correct answer.";
+              document.getElementById("mathCaptchaRefresh").setAttribute(
+                "aria-label",
+                mathCaptchaSpanish ? "Nueva pregunta" : "New question",
+              );
+              document.getElementById("mathCaptchaError").classList.add("hidden");
+            }
+
+            refreshMathCaptcha();
+            document
+              .getElementById("mathCaptchaRefresh")
+              .addEventListener("click", refreshMathCaptcha);
+            document
+              .getElementById("mathCaptcha")
+              .addEventListener("input", function () {
+                document.getElementById("mathCaptchaError").classList.add("hidden");
+              });
 
             document
               .getElementById("name")
@@ -1994,6 +2034,11 @@
               }
               if (!email) {
                 showError("email", "Please enter a valid email address");
+                hasError = true;
+              }
+              var mathCaptchaAnswer = document.getElementById("mathCaptcha").value.trim();
+              if (mathCaptchaAnswer === "" || Number(mathCaptchaAnswer) !== mathCaptchaExpected) {
+                document.getElementById("mathCaptchaError").classList.remove("hidden");
                 hasError = true;
               }
               if (hasError) return;

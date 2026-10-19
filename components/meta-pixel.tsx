@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { META_PIXEL_ID } from "@/lib/analytics";
+import { useTrackingAllowed } from "@/components/use-tracking-consent";
 
 type MetaPixelFunction = ((...args: unknown[]) => void) & {
   callMethod?: (...args: unknown[]) => void;
@@ -44,12 +45,15 @@ function getMetaPixel() {
 
 export default function MetaPixel() {
   const pathname = usePathname();
+  const allowed = useTrackingAllowed();
 
   useEffect(() => {
+    if (!allowed) return;
     getMetaPixel()("track", "PageView");
-  }, [pathname]);
+  }, [pathname, allowed]);
 
   useEffect(() => {
+    if (!allowed) return;
     const trackPhoneClick = (event: MouseEvent) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
@@ -59,7 +63,7 @@ export default function MetaPixel() {
 
     document.addEventListener("click", trackPhoneClick, true);
     return () => document.removeEventListener("click", trackPhoneClick, true);
-  }, []);
+  }, [allowed]);
 
   return null;
 }

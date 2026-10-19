@@ -1,6 +1,5 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import { withOpinlyConfig } from "@opinly/next";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
@@ -22,14 +21,16 @@ const nextConfig = {
         destination: "/offers/call-us/",
         permanent: true,
       },
+      // Apex host → www. HTTPS is terminated by the host (Vercel) before this runs,
+      // so an HTTP→HTTPS rule here would never match and is omitted on purpose.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "reddydentalfl.com" }],
+        destination: "https://www.reddydentalfl.com/:path*",
+        permanent: true,
+      },
     ];
   },
 };
 
-export default withNextIntl(withOpinlyConfig({
-  cdnNamespace: "Xlz6qeNMFahM1LnqEBkJU",
-  siteUrl: "https://www.reddydentalfl.com",
-  blogPath: "/blog",
-  companyName: "Reddy Dental",
-  imagesPath: "/images",
-})(nextConfig));
+export default withNextIntl(nextConfig);

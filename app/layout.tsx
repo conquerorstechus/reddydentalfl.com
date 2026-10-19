@@ -1,23 +1,13 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Script from "next/script";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import GoogleCallTracking from "@/components/google-call-tracking";
 import MetaPixel from "@/components/meta-pixel";
-import { GA_MEASUREMENT_ID } from "@/lib/analytics";
-
-const PRODUCTION_SITE_URL = "https://www.reddydentalfl.com";
-
-function resolveMetadataBase(): URL {
-  // Prefer the canonical production host so OG/Twitter image URLs never
-  // resolve to a protected *.vercel.app preview deployment.
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (fromEnv) return new URL(fromEnv);
-  if (process.env.OPINLY_SITE_URL) return new URL(process.env.OPINLY_SITE_URL);
-  return new URL(PRODUCTION_SITE_URL);
-}
+import SiteGoogleAnalytics from "@/components/site-google-analytics";
+import { CANONICAL_SITE_ORIGIN, DEFAULT_SOCIAL_IMAGE } from "@/lib/site-origin";
+import { getTrackingConsentSource } from "@/lib/tracking-consent";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata");
@@ -26,9 +16,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = t("description");
 
   return {
-    metadataBase: resolveMetadataBase(),
+    metadataBase: new URL(CANONICAL_SITE_ORIGIN),
     title,
     description,
+    robots: { index: true, follow: true },
     openGraph: {
       type: "website",
       siteName: "Reddy Dental",
@@ -37,9 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [
         {
-          url: "/og-image.jpg",
-          width: 1200,
-          height: 630,
+          url: DEFAULT_SOCIAL_IMAGE.path,
+          width: DEFAULT_SOCIAL_IMAGE.width,
+          height: DEFAULT_SOCIAL_IMAGE.height,
           alt: t("ogImageAlt"),
         },
       ],
@@ -48,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image.jpg"],
+      images: [DEFAULT_SOCIAL_IMAGE.path],
     },
   };
 }
@@ -56,9 +47,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const locale = await getLocale();
   const messages = await getMessages();
-  // GoogleAnalytics applies to React routes only (e.g. /blog).
-  // Static HTML from app/[[...slug]]/route.ts bypasses this layout and
-  // receives GA via lib/site-pages.ts → getGoogleAnalyticsHtml().
+  // SiteGoogleAnalytics, Meta Pixel, and call tracking load only after the
+  // visitor accepts. Static HTML pages get the same gate from lib/site-pages.ts.
   return (
     <html lang={locale}>
       <body>
@@ -73,7 +63,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </NextIntlClientProvider>
         <GoogleCallTracking />
         <MetaPixel />
-        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+        <SiteGoogleAnalytics />
+        <Script id="rd-tracking-consent" strategy="afterInteractive">
+          {getTrackingConsentSource(false)}
+        </Script>
       </body>
     </html>
   );

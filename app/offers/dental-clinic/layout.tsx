@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { GoogleTagManager } from "@next/third-parties/google";
+import ConsentTagManager from "@/components/consent-tag-manager";
 import { getLocale, getTranslations } from "next-intl/server";
-import { GTM_CONTAINER_ID } from "@/lib/analytics";
+import { DEFAULT_SOCIAL_IMAGE } from "@/lib/site-origin";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("offers.dentalClinic.metadata");
@@ -13,6 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
+    robots: { index: true, follow: true },
     alternates: { canonical: "/offers/dental-clinic/" },
     openGraph: {
       type: "website",
@@ -22,9 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       images: [{
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
+        url: DEFAULT_SOCIAL_IMAGE.path,
+        width: DEFAULT_SOCIAL_IMAGE.width,
+        height: DEFAULT_SOCIAL_IMAGE.height,
         alt: t("ogImageAlt"),
       }],
     },
@@ -32,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image.jpg"],
+      images: [DEFAULT_SOCIAL_IMAGE.path],
     },
   };
 }
@@ -40,16 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function DentalClinicOfferLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <GoogleTagManager gtmId={GTM_CONTAINER_ID} />
-      <noscript>
-        <iframe
-          src={`https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}`}
-          height="0"
-          width="0"
-          style={{ display: "none", visibility: "hidden" }}
-          title="Google Tag Manager"
-        />
-      </noscript>
+      <ConsentTagManager />
       {children}
     </>
   );

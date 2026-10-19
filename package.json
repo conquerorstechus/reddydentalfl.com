@@ -5,15 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "import-blog": "npx tsx scripts/import-opinly-export.ts"
+    "start": "next start"
   },
   "dependencies": {
     "@next/third-parties": "15.5.23",
-    "@opinly/backend": "^1.4.0",
-    "@opinly/next": "^1.4.0",
-    "@opinly/react": "^1.4.0",
-    "@opinly/shared": "^1.4.0",
     "next": "^15.3.3",
     "next-intl": "^4.14.7",
     "react": "^19.1.0",

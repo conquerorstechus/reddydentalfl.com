@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { LanguageToggle } from "@/components/language-toggle";
 import "./no-insurance.css";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("offers.noInsurance");
+  return {
+    title: t("title"),
+    description: t("subtitle"),
+    robots: { index: true, follow: true },
+    alternates: { canonical: "/offers/no-insurance/" },
+  };
+}
 
 export default async function NoInsuranceOfferPage() {
   const t = await getTranslations("offers.noInsurance");
@@ -62,6 +73,7 @@ export default async function NoInsuranceOfferPage() {
 
         <div style={styles.footerLinkRow}>
           <a href="/" style={styles.backLink}>{t("backToHome")}</a>
+          <a href="/privacy/" style={styles.backLink}>{t("privacyPolicy")}</a>
         </div>
       </section>
     </main>

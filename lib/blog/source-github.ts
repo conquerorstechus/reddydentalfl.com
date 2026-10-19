@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
-import type { OpinlyNode } from "@opinly/shared";
 import { blogPaths, blogSiteConfig } from "./config";
+import { markdownToContent } from "./markdown";
 import type {
   BlogAuthor,
   BlogCategory,
@@ -76,9 +76,14 @@ async function readPost(slug: string): Promise<BlogPost | null> {
   const meta = await readPostMeta(slug);
   if (!meta || meta.draft) return null;
 
-  const contentPath = path.join(blogPaths.posts, slug, "content.json");
-  const content = await readJsonFile<OpinlyNode>(contentPath);
-  if (!content) return null;
+  const contentPath = path.join(blogPaths.posts, slug, "content.md");
+  let markdown: string;
+  try {
+    markdown = await fs.readFile(contentPath, "utf8");
+  } catch {
+    return null;
+  }
+  const content = markdownToContent(markdown);
 
   const structuredData = await readJsonFile<BlogStructuredData>(
     path.join(blogPaths.posts, slug, "structured-data.json"),

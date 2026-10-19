@@ -1,11 +1,13 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { getGoogleAnalyticsHtml, getMetaPixelHtml } from "@/lib/analytics";
+import { buildDentistSchemaJson, shouldInjectDentistSchema } from "@/lib/dentist-schema";
+import { buildPrivacyDocument, injectPrivacyLinks } from "@/lib/privacy-page";
+import { CANONICAL_SITE_ORIGIN, DEFAULT_SOCIAL_IMAGE } from "@/lib/site-origin";
+import { getTrackingConsentHtml } from "@/lib/tracking-consent";
 import type { AppLocale } from "@/i18n/routing";
 import { applySiteLocale, backLinkPrefix, translateBackLabel } from "@/lib/localize-site-html";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
-const PRODUCTION_SITE_URL = "https://www.reddydentalfl.com";
 const SITE_NAME = "Reddy Dental";
 const DEFAULT_TITLE = "Dentist Near Me in St. Petersburg, FL | Reddy Dental";
 const DEFAULT_DESCRIPTION =
@@ -15,11 +17,7 @@ function resolveSiteOrigin(_origin?: string): string {
   // Always emit absolute production URLs in OG/Twitter tags. Preview origins
   // (VERCEL_URL / request host) are often behind Deployment Protection, so
   // WhatsApp/Facebook scrapers never see the real page or image.
-  const fromEnv =
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-    process.env.OPINLY_SITE_URL?.trim() ||
-    "";
-  return (fromEnv || PRODUCTION_SITE_URL).replace(/\/$/, "");
+  return CANONICAL_SITE_ORIGIN;
 }
 
 export async function listSitePages(): Promise<string[][]> {
@@ -93,7 +91,7 @@ function injectOpenGraphTags(
   const title = extractTitle(html);
   const description = extractDescription(html);
   const url = buildCanonicalUrl(siteOrigin, slug);
-  const ogImageUrl = `${siteOrigin}/og-image.jpg`;
+  const ogImageUrl = `${siteOrigin}${DEFAULT_SOCIAL_IMAGE.path}`;
   const safeTitle = escapeHtmlAttr(title);
   const safeDescription = escapeHtmlAttr(description);
   const safeUrl = escapeHtmlAttr(url);
@@ -107,16 +105,15 @@ function injectOpenGraphTags(
     <meta property="og:url" content="${safeUrl}">
     <meta property="og:image" content="${safeImageUrl}">
     <meta property="og:image:secure_url" content="${safeImageUrl}">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="${DEFAULT_SOCIAL_IMAGE.type}">
+    <meta property="og:image:width" content="${DEFAULT_SOCIAL_IMAGE.width}">
+    <meta property="og:image:height" content="${DEFAULT_SOCIAL_IMAGE.height}">
     <meta property="og:image:alt" content="${safeTitle}">
     <meta property="og:locale" content="${locale === "es" ? "es_ES" : "en_US"}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${safeTitle}">
     <meta name="twitter:description" content="${safeDescription}">
     <meta name="twitter:image" content="${safeImageUrl}">
-    <link rel="canonical" href="${safeUrl}">
 `;
 
   const descriptionMeta =
@@ -137,24 +134,71 @@ function injectOpenGraphTags(
   return html.replace(/<head[^>]*>/i, (match) => `${match}\n${tags}`);
 }
 
-function injectAnalytics(html: string): string {
-  const snippets: string[] = [];
-
-  if (!/googletagmanager\.com\/gtag\/js/i.test(html)) {
-    snippets.push(getGoogleAnalyticsHtml());
-  }
-
-  if (!/connect\.facebook\.net\/.*\/fbevents\.js/i.test(html)) {
-    snippets.push(getMetaPixelHtml());
-  }
-
-  if (snippets.length === 0) return html;
-  const snippet = snippets.join("\n");
-
+function insertBeforeHeadClose(html: string, snippet: string): string {
   if (/<\/head>/i.test(html)) {
     return html.replace(/<\/head>/i, `${snippet}</head>`);
   }
+  if (/<head[^>]*>/i.test(html)) {
+    return html.replace(/<head[^>]*>/i, (match) => `${match}\n${snippet}`);
+  }
+  return `${snippet}${html}`;
+}
 
+function injectCanonicalLink(html: string, canonicalUrl: string): string {
+  if (/<link\b[^>]*rel=["']canonical["']/i.test(html)) return html;
+  return insertBeforeHeadClose(
+    html,
+    `\n    <link rel="canonical" href="${escapeHtmlAttr(canonicalUrl)}">`,
+  );
+}
+
+function injectRobotsMeta(html: string): string {
+  if (/<meta\b[^>]*name=["']robots["']/i.test(html)) return html;
+  return insertBeforeHeadClose(html, `\n    <meta name="robots" content="index, follow">`);
+}
+
+function injectDentistSchema(html: string, slug: string[], siteOrigin: string): string {
+  if (!shouldInjectDentistSchema(slug)) return html;
+  if (html.includes("data-rd-dentist-schema")) return html;
+  if (/"@type"\s*:\s*\[?\s*"Dentist"/i.test(html)) return html;
+  return insertBeforeHeadClose(
+    html,
+    `\n    <script type="application/ld+json" data-rd-dentist-schema>${buildDentistSchemaJson(siteOrigin)}</script>`,
+  );
+}
+
+function improveContentImages(html: string): string {
+  return html.replace(/<img\b([^>]*?)\/?>/gi, (full, attrs: string) => {
+    let next = attrs;
+    if (!/\balt\s*=/i.test(next)) {
+      next += ' alt=""';
+    } else {
+      next = next.replace(/\balt\s*=\s*(["'])Logo\1/gi, 'alt="Reddy Dental"');
+    }
+
+    const critical =
+      /fetchpriority\s*=\s*["']high["']/i.test(next) ||
+      /\bid\s*=\s*["']heroStill["']/i.test(next) ||
+      /\balt\s*=\s*["']Reddy Dental["']/i.test(next);
+    if (!critical && !/\bloading\s*=/i.test(next)) {
+      next += ' loading="lazy"';
+    }
+    if (!critical && !/\bdecoding\s*=/i.test(next)) {
+      next += ' decoding="async"';
+    }
+
+    if (next === attrs) return full;
+    const closed = full.trimEnd().endsWith("/>") ? "/>" : ">";
+    return `<img${next}${closed}`;
+  });
+}
+
+function injectTrackingConsent(html: string): string {
+  if (html.includes("data-rd-tracking-consent")) return html;
+  const snippet = getTrackingConsentHtml(true);
+  if (/<\/body>/i.test(html)) {
+    return html.replace(/<\/body>/i, `${snippet}</body>`);
+  }
   return `${html}${snippet}`;
 }
 
@@ -179,7 +223,28 @@ function injectMobileResponsiveFixes(html: string): string {
       html,
       body {
         max-width: 100%;
-        overflow-x: hidden;
+        /* clip stops sideways scroll without turning the page into a scroll
+           container. hidden does that, and it keeps the menu from sticking. */
+        overflow-x: clip;
+      }
+
+      @media (min-width: 1024px) {
+        #menuBar {
+          z-index: 40;
+        }
+
+        #menuBar.bg-primary {
+          box-shadow: 0 8px 24px rgba(24, 36, 58, 0.16);
+        }
+
+        #menuBar [id$="_dropdown"] {
+          min-width: max-content;
+          z-index: 50;
+        }
+
+        #menuBar [id$="_dropdown"] a {
+          white-space: nowrap;
+        }
       }
 
       img,
@@ -662,18 +727,28 @@ export async function readSiteHtml(
   origin?: string,
   locale: AppLocale = "en",
 ): Promise<string | null> {
-  const filePath = path.join(CONTENT_DIR, ...slug, "index.html");
+  const isPrivacy = slug.length === 1 && slug[0] === "privacy";
+  const filePath = isPrivacy
+    ? path.join(CONTENT_DIR, "index.html")
+    : path.join(CONTENT_DIR, ...slug, "index.html");
 
   try {
     const html = await fs.readFile(filePath, "utf8");
-    const localized = applySiteLocale(html, slug, locale);
-    const withOg = injectOpenGraphTags(localized, slug, resolveSiteOrigin(origin), locale);
-    const withPhone = fixMobileHeaderPhone(withOg);
+    const localized = applySiteLocale(html, isPrivacy ? [] : slug, locale);
+    const page = isPrivacy ? buildPrivacyDocument(localized, locale) : localized;
+    const siteOrigin = resolveSiteOrigin(origin);
+    const withOg = injectOpenGraphTags(page, slug, siteOrigin, locale);
+    const withCanonical = injectCanonicalLink(withOg, buildCanonicalUrl(siteOrigin, slug));
+    const withRobots = injectRobotsMeta(withCanonical);
+    const withSchema = injectDentistSchema(withRobots, slug, siteOrigin);
+    const withImages = improveContentImages(withSchema);
+    const withPhone = fixMobileHeaderPhone(withImages);
     const withMobile = injectMobileResponsiveFixes(withPhone);
     const withCallouts = fixCalloutBackgroundImages(withMobile);
     const withBack = injectPageBackNav(withCallouts, slug, locale);
     const withLearnMore = styleLearnMoreLinks(withBack);
-    return injectAnalytics(withLearnMore);
+    const withPrivacy = injectPrivacyLinks(withLearnMore, locale);
+    return injectTrackingConsent(withPrivacy);
   } catch {
     return null;
   }

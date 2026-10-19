@@ -1,5 +1,6 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
+import { DEFAULT_SOCIAL_IMAGE } from "@/lib/site-origin";
 import type { BlogRoute } from "./types";
 import { blogSiteConfig } from "./config";
 
@@ -44,9 +45,9 @@ function resolveOgImage(route: BlogRoute, title: string) {
   }
 
   return {
-    url: "/og-image.jpg",
-    width: 1200,
-    height: 630,
+    url: DEFAULT_SOCIAL_IMAGE.path,
+    width: DEFAULT_SOCIAL_IMAGE.width,
+    height: DEFAULT_SOCIAL_IMAGE.height,
     alt: title,
   };
 }

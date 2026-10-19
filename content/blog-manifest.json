@@ -1,0 +1,198 @@
+{
+  "migratedAt": "2026-10-15T00:00:00.000Z",
+  "site": "https://www.reddydentalfl.com/blog/",
+  "summary": {
+    "articleUrlsDiscovered": 14,
+    "articlesMigrated": 14,
+    "articlesWithMissingContent": 0,
+    "articlesWithMissingImages": 0,
+    "duplicateUrls": 0,
+    "duplicateArticles": 0,
+    "articlesRequiringManualRecovery": 0,
+    "liveDownloadsFailedThenRecoveredFromRepository": 3
+  },
+  "discovery": {
+    "listing": "https://www.reddydentalfl.com/blog/ returned 11 article links. There is no load-more control. /blog/page/2/ returned 404. /blog/?page=2 returned the same 11 articles.",
+    "sitemap": "https://reddydentalfl.com/sitemap.xml and https://www.reddydentalfl.com/sitemap.xml are identical. They list /blog/ plus 3 older article URLs that are not on the live listing. /blog/sitemap.xml, /sitemap_index.xml, and /blog-sitemap.xml returned 404.",
+    "internalLinks": "The 11 live articles did not link to any additional /blog/ article URLs.",
+    "duplicates": "The www and non-www sitemaps are the same URL set. No article appeared twice.",
+    "liveComparison": "All 11 live articles returned HTTP 200. Each meta title matched the local file. Unique h2 headings matched the local content after decoding HTML entities. The live HTML repeated each h2, so the raw tag count was double the local heading count.",
+    "spanish": "The 11 imported articles have content.es.md and meta.es.json. The 3 recovered articles only have published Spanish titles and descriptions in messages/es.json, saved as meta.es.json. No Spanish article body was published for those 3, so none was written."
+  },
+  "articles": [
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/dental-implants-cost-full-mouth/",
+      "slug": "dental-implants-cost-full-mouth",
+      "contentFile": "content/blog/posts/dental-implants-cost-full-mouth/content.md",
+      "metaFile": "content/blog/posts/dental-implants-cost-full-mouth/meta.json",
+      "spanishContentFile": "content/blog/posts/dental-implants-cost-full-mouth/content.es.md",
+      "imagePaths": ["/blog-images/dental-implants-cost-full-mouth/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/all-on-4-dental-implants/",
+      "slug": "all-on-4-dental-implants",
+      "contentFile": "content/blog/posts/all-on-4-dental-implants/content.md",
+      "metaFile": "content/blog/posts/all-on-4-dental-implants/meta.json",
+      "spanishContentFile": "content/blog/posts/all-on-4-dental-implants/content.es.md",
+      "imagePaths": ["/blog-images/all-on-4-dental-implants/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/dental-implants-affordable-dentures/",
+      "slug": "dental-implants-affordable-dentures",
+      "contentFile": "content/blog/posts/dental-implants-affordable-dentures/content.md",
+      "metaFile": "content/blog/posts/dental-implants-affordable-dentures/meta.json",
+      "spanishContentFile": "content/blog/posts/dental-implants-affordable-dentures/content.es.md",
+      "imagePaths": ["/blog-images/dental-implants-affordable-dentures/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/kids-dentist/",
+      "slug": "kids-dentist",
+      "contentFile": "content/blog/posts/kids-dentist/content.md",
+      "metaFile": "content/blog/posts/kids-dentist/meta.json",
+      "spanishContentFile": "content/blog/posts/kids-dentist/content.es.md",
+      "imagePaths": ["/blog-images/kids-dentist/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/dental-crown-cost/",
+      "slug": "dental-crown-cost",
+      "contentFile": "content/blog/posts/dental-crown-cost/content.md",
+      "metaFile": "content/blog/posts/dental-crown-cost/meta.json",
+      "spanishContentFile": "content/blog/posts/dental-crown-cost/content.es.md",
+      "imagePaths": ["/blog-images/dental-crown-cost/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/family-dentistry/",
+      "slug": "family-dentistry",
+      "contentFile": "content/blog/posts/family-dentistry/content.md",
+      "metaFile": "content/blog/posts/family-dentistry/meta.json",
+      "spanishContentFile": "content/blog/posts/family-dentistry/content.es.md",
+      "imagePaths": ["/blog-images/family-dentistry/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/dental-implants/",
+      "slug": "dental-implants",
+      "contentFile": "content/blog/posts/dental-implants/content.md",
+      "metaFile": "content/blog/posts/dental-implants/meta.json",
+      "spanishContentFile": "content/blog/posts/dental-implants/content.es.md",
+      "imagePaths": ["/blog-images/dental-implants/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/dental-implant-cost/",
+      "slug": "dental-implant-cost",
+      "contentFile": "content/blog/posts/dental-implant-cost/content.md",
+      "metaFile": "content/blog/posts/dental-implant-cost/meta.json",
+      "spanishContentFile": "content/blog/posts/dental-implant-cost/content.es.md",
+      "imagePaths": ["/blog-images/dental-implant-cost/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/cosmetic-dentistry/",
+      "slug": "cosmetic-dentistry",
+      "contentFile": "content/blog/posts/cosmetic-dentistry/content.md",
+      "metaFile": "content/blog/posts/cosmetic-dentistry/meta.json",
+      "spanishContentFile": "content/blog/posts/cosmetic-dentistry/content.es.md",
+      "imagePaths": ["/blog-images/cosmetic-dentistry/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/veneers/",
+      "slug": "veneers",
+      "contentFile": "content/blog/posts/veneers/content.md",
+      "metaFile": "content/blog/posts/veneers/meta.json",
+      "spanishContentFile": "content/blog/posts/veneers/content.es.md",
+      "imagePaths": ["/blog-images/veneers/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/professional-teeth-whitening/",
+      "slug": "professional-teeth-whitening",
+      "contentFile": "content/blog/posts/professional-teeth-whitening/content.md",
+      "metaFile": "content/blog/posts/professional-teeth-whitening/meta.json",
+      "spanishContentFile": "content/blog/posts/professional-teeth-whitening/content.es.md",
+      "imagePaths": ["/blog-images/professional-teeth-whitening/hero.webp"],
+      "source": "live-listing-and-local-export",
+      "liveStatus": 200,
+      "status": "migrated",
+      "errors": []
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/how-to-choose-a-family-dentist-in-st-petersburg/",
+      "slug": "how-to-choose-a-family-dentist-in-st-petersburg",
+      "contentFile": "content/blog/posts/how-to-choose-a-family-dentist-in-st-petersburg/content.md",
+      "metaFile": "content/blog/posts/how-to-choose-a-family-dentist-in-st-petersburg/meta.json",
+      "spanishContentFile": null,
+      "imagePaths": ["/blog-images/how-to-choose-a-family-dentist-in-st-petersburg/hero.webp"],
+      "source": "sitemap-and-repository-html",
+      "liveStatus": 404,
+      "status": "migrated",
+      "errors": [
+        "Live URL returned 404. Full English body was copied from content/blog/how-to-choose-a-family-dentist-in-st-petersburg/index.html. Spanish body was not published."
+      ]
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/what-to-do-in-a-dental-emergency/",
+      "slug": "what-to-do-in-a-dental-emergency",
+      "contentFile": "content/blog/posts/what-to-do-in-a-dental-emergency/content.md",
+      "metaFile": "content/blog/posts/what-to-do-in-a-dental-emergency/meta.json",
+      "spanishContentFile": null,
+      "imagePaths": ["/blog-images/what-to-do-in-a-dental-emergency/hero.webp"],
+      "source": "sitemap-and-repository-html",
+      "liveStatus": 404,
+      "status": "migrated",
+      "errors": [
+        "Live URL returned 404. Full English body was copied from content/blog/what-to-do-in-a-dental-emergency/index.html. Spanish body was not published."
+      ]
+    },
+    {
+      "originalUrl": "https://www.reddydentalfl.com/blog/cosmetic-dentistry-options-for-a-confident-smile/",
+      "slug": "cosmetic-dentistry-options-for-a-confident-smile",
+      "contentFile": "content/blog/posts/cosmetic-dentistry-options-for-a-confident-smile/content.md",
+      "metaFile": "content/blog/posts/cosmetic-dentistry-options-for-a-confident-smile/meta.json",
+      "spanishContentFile": null,
+      "imagePaths": ["/blog-images/cosmetic-dentistry-options-for-a-confident-smile/hero.webp"],
+      "source": "sitemap-and-repository-html",
+      "liveStatus": 404,
+      "status": "migrated",
+      "errors": [
+        "Live URL returned 404. Full English body was copied from content/blog/cosmetic-dentistry-options-for-a-confident-smile/index.html. Spanish body was not published."
+      ]
+    }
+  ]
+}

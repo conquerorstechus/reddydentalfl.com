@@ -327,7 +327,11 @@
       "formSubmitLoading": "Enviando...",
       "formSubmitIdle": "Solicitar mi llamada",
       "formPrivacyNote": "Su información se utiliza únicamente para contactarle sobre su atención dental.",
+      "privacyPolicy": "Política de privacidad",
       "formError": "No pudimos enviar su solicitud. Por favor llame al (727) 377-3339.",
+      "captchaQuestion": "¿Cuánto es {left} + {right}?",
+      "captchaError": "Introduzca la respuesta correcta.",
+      "captchaRefresh": "Nueva pregunta",
       "reviewsEyebrow": "Reseñas de pacientes",
       "reviewsHeading": "Lo que dicen los pacientes",
       "reviewsGoogleLink": "Leer más en Google",
@@ -463,7 +467,8 @@
       ],
       "bottomText": "¿Necesita respuestas antes de reservar? Hable con nuestro equipo hoy.",
       "callOffice": "Llame a la oficina ahora",
-      "backToHome": "← Volver al inicio"
+      "backToHome": "← Volver al inicio",
+      "privacyPolicy": "Política de privacidad"
     }
   },
   "copy": {

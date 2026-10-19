@@ -20,8 +20,9 @@ export const META_PIXEL_ID =
  * (app/[[...slug]]/route.ts), which bypasses RootLayout / React.
  *
  * This is the only GA install on those pages — do not also rely on
- * @next/third-parties there. Blog (React) pages use GoogleAnalytics in
- * app/layout.tsx instead.
+ * @next/third-parties there. Blog and other React pages use
+ * SiteGoogleAnalytics in app/layout.tsx. Offer routes that load GTM skip
+ * that component because the container already sends this same GA4 tag.
  */
 export function getGoogleAnalyticsHtml(gaId: string = GA_MEASUREMENT_ID): string {
   return `
@@ -79,7 +80,7 @@ export function getMetaPixelHtml(pixelId: string = META_PIXEL_ID): string {
         fbq('track', 'Contact');
       }, true);
     </script>
-    <noscript><img height="1" width="1" style="display:none"
+    <noscript><img height="1" width="1" alt="" style="display:none"
       src="https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->

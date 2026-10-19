@@ -9,6 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t("title"),
     description: t("description"),
     robots: { index: false, follow: false },
+    alternates: { canonical: "/offers/dental-clinic/thank-you/" },
   };
 }
 

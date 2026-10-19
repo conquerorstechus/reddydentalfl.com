@@ -1,4 +1,4 @@
-import type { OpinlyNode } from "@opinly/shared";
+import type { ContentNode } from "./content-node";
 
 export interface BlogFaq {
   question: string;
@@ -43,7 +43,7 @@ export interface BlogPostSummary {
 export interface BlogPost extends BlogPostSummary {
   metaTitle: string | null;
   metaDescription: string | null;
-  content: OpinlyNode;
+  content: ContentNode;
   faqs: BlogFaq[] | null;
   structuredData: BlogStructuredData | null;
 }

@@ -19,6 +19,10 @@ export function BlogAuthorView({ author }: { author: BlogAuthorView }) {
             <img
               src={author.image}
               alt={author.name}
+              width={96}
+              height={96}
+              loading="lazy"
+              decoding="async"
               className={styles.authorImage}
             />
           ) : null}

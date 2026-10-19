@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { GOOGLE_ADS_WEBSITE_CALL_LABEL } from "@/lib/analytics";
+import { useTrackingAllowed } from "@/components/use-tracking-consent";
 
 const PHONE_NUMBER = "727-377-3339";
 
@@ -32,7 +33,10 @@ function replaceWebsitePhoneNumber(formattedNumber: string, mobileNumber: string
 }
 
 export default function GoogleCallTracking() {
+  const allowed = useTrackingAllowed();
+
   useEffect(() => {
+    if (!allowed) return;
     const gtag = getGtag();
     gtag("config", GOOGLE_ADS_WEBSITE_CALL_LABEL, {
       phone_conversion_number: PHONE_NUMBER,
@@ -54,7 +58,7 @@ export default function GoogleCallTracking() {
 
     document.addEventListener("click", trackPhoneClick, true);
     return () => document.removeEventListener("click", trackPhoneClick, true);
-  }, []);
+  }, [allowed]);
 
   return null;
 }
