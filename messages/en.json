@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Dentist Near Me in St. Petersburg, FL | Reddy Dental",
-    "description": "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.",
-    "ogImageAlt": "Dentist Near Me in St. Petersburg, FL | Reddy Dental"
+    "title": "Dentist in St. Petersburg, FL 33707 | Reddy Dental",
+    "description": "Reddy Dental is a dental clinic in St. Petersburg, Florida at 6751 1st Ave S, 33707. Family dentistry for Gulfport, Pasadena, and South Pasadena.",
+    "ogImageAlt": "Dentist in St. Petersburg, FL 33707 | Reddy Dental"
   },
   "nav": {
     "showMenu": "Show Menu",
@@ -81,16 +81,16 @@
   },
   "pages": {
     "home": {
-      "title": "Dentist Near Me in St. Petersburg, FL | Reddy Dental",
-      "description": "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+      "title": "Dentist in St. Petersburg, FL 33707 | Reddy Dental",
+      "description": "Reddy Dental is a dental clinic in St. Petersburg, Florida at 6751 1st Ave S, 33707. Family dentistry for Gulfport, Pasadena, and South Pasadena."
     },
     "about": {
       "title": "Learn About Reddy Dental | St. Petersburg, FL",
       "description": "Learn about Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
     },
     "contact": {
-      "title": "Contact Reddy Dental | St. Petersburg, FL",
-      "description": "Contact Reddy Dental for an appointment located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+      "title": "Contact a Dentist in St. Petersburg, FL 33707 | Reddy Dental",
+      "description": "Contact Reddy Dental at 6751 1st Ave S, St. Petersburg, FL 33707, or call 727-377-3339 to request a dental appointment."
     },
     "reviews": {
       "title": "Top rated dentist in St. Petersburg, FL | Reddy Dental",
@@ -112,16 +112,16 @@
     },
     "services": {
       "index": {
-        "title": "Complete Dental Services in St. Petersburg, FL | Reddy Dental",
-        "description": "Complete dental services near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+        "title": "Dental Services in St. Petersburg, FL | Reddy Dental",
+        "description": "Explore dental services at Reddy Dental in St. Petersburg, FL 33707. Contact our team to learn about available treatments and schedule an appointment."
       },
       "bridges": {
         "title": "Bridges Near Me in St. Petersburg, FL | Reddy Dental",
         "description": "Bridges near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
       },
       "cosmetic": {
-        "title": "Cosmetic Dentistry Near Me in St. Petersburg, FL | Reddy Dental",
-        "description": "Cosmetic Dentistry near me is offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+        "title": "Cosmetic Dentistry in St. Petersburg, FL | Reddy Dental",
+        "description": "Cosmetic dentistry near Pasadena, FL at Reddy Dental in St. Petersburg. Whitening, veneers, and smile improvements. Call 727-377-3339."
       },
       "crowns": {
         "title": "Crowns Near Me in St. Petersburg, FL | Reddy Dental",
@@ -132,8 +132,8 @@
         "description": "Dental cleanings near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
       },
       "dentalImplants": {
-        "title": "Dental Implants Near Me in St. Petersburg, FL | Reddy Dental",
-        "description": "Dental implants near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+        "title": "Dental Implants in St. Petersburg, FL | Reddy Dental",
+        "description": "Dental implants near St. Petersburg, FL at Reddy Dental. Patients from Gulfport can ask about implant options. Call 727-377-3339."
       },
       "dentures": {
         "title": "Complete Dentures Near Me in St. Petersburg, FL | Reddy Dental",
@@ -144,8 +144,8 @@
         "description": "Dermal Fillers near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
       },
       "emergency": {
-        "title": "Emergency Dentist Near Me in St. Petersburg, FL | Reddy Dental",
-        "description": "Emergency dentistry near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+        "title": "Emergency Dental Services in St. Petersburg, FL | Reddy Dental",
+        "description": "Emergency dental services near St. Petersburg, FL at Reddy Dental. Same-day care for tooth pain and dental injuries. Call 727-377-3339."
       },
       "emergencyExams": {
         "title": "Emergency Exams Near Me in St. Petersburg, FL | Reddy Dental",
@@ -188,16 +188,16 @@
         "description": "Partial dentures near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
       },
       "preventative": {
-        "title": "Preventative Dentist Near Me in St. Petersburg, FL | Reddy Dental",
-        "description": "Preventative dentistry near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+        "title": "Preventive Dentistry in St. Petersburg, FL | Reddy Dental",
+        "description": "Preventive dentistry near Gulfport, FL at Reddy Dental in St. Petersburg 33707. Exams, cleanings, and sealants. Call 727-377-3339."
       },
       "reconstruction": {
         "title": "Full Mouth Reconstruction Near Me in St. Petersburg, FL | Reddy Dental",
         "description": "Full mouth reconstruction near me is offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
       },
       "restorative": {
-        "title": "Restorative Dentistry Near Me in St. Petersburg, FL | Reddy Dental",
-        "description": "Restorative dentistry near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+        "title": "Restorative Dentistry in St. Petersburg, FL | Reddy Dental",
+        "description": "Restorative dentistry near St. Petersburg, FL at Reddy Dental. Crowns, bridges, fillings, and implants to repair teeth. Call 727-377-3339."
       },
       "rootCanals": {
         "title": "Root Canals Near Me in St. Petersburg, FL | Reddy Dental",
@@ -239,7 +239,7 @@
       },
       "coneBeam": {
         "title": "Cone Beam Technology Near Me in St. Petersburg, FL | Reddy Dental",
-        "description": "Cone beam technology reminders near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+        "description": "Cone beam dental imaging at Reddy Dental in St. Petersburg, FL 33707, used to plan precise treatment."
       },
       "digitalXRays": {
         "title": "Digital X-Rays Near Me in St. Petersburg, FL | Reddy Dental",
@@ -255,7 +255,7 @@
       },
       "panoramicXRays": {
         "title": "Panoramic X-Rays Near Me in St. Petersburg, FL | Reddy Dental",
-        "description": "Panoramic X-Rays claims near me offered by Reddy Dental located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs."
+        "description": "Panoramic dental x-rays at Reddy Dental in St. Petersburg, FL 33707 for a full view of the teeth and jaws."
       },
       "ultrasonicScaler": {
         "title": "Ultrasonic Scaler Near Me in St. Petersburg, FL | Reddy Dental",
@@ -508,7 +508,7 @@
     "s034": "No Insurance? No Problem.",
     "s035": "We Have an Affordable Solution for you.",
     "s036": "Uninsured Care Plans",
-    "s037": "Looking for a dentist near you in the St. Petersburg, FL area?",
+    "s037": "Looking for a dentist in St. Petersburg, FL 33707?",
     "s038": "Meet Sajan “Anish” Reddy, DMD",
     "s039": "About “Anish” Reddy, DMD",
     "s040": "Dr. Sajan Anish Reddy, DMD, was drawn to dentistry for its unique blend of precision, problem-solving, and the ability to make an immediate, meaningful impact on a person’s confidence and quality of life. He earned his Doctor of Dental Medicine degree from the University of Florida and has over five years of clinical experience, including extensive hands-on patient care during his training. Dr. Reddy is licensed to practice in Florida, Georgia, Tennessee, Alabama, South Carolina, North Carolina, Missouri, and Wisconsin, and is an active member of the American Dental Association and Florida Dental Association.",
@@ -517,7 +517,7 @@
     "s043": "We offer emergency care for tooth extractions or damaged teeth in St. Petersburg, FL.",
     "s044": "Emergency dental appointments available.",
     "s045": "Call today! 727-377-3339 (727-DR REDDY)",
-    "s046": "In the Clearwater, St. Pete Beach, and Madeira Beach Area",
+    "s046": "Serving St. Petersburg, FL 33707 and Nearby Communities",
     "s047": "State-Of-The-Art Dental Technologies",
     "s048": "Request An Appointment",
     "s049": "Schedule a Free Consultation",
@@ -567,7 +567,7 @@
     "s094": "Fri",
     "s095": "Sat",
     "s096": "Sun",
-    "s111": "Your Best Choice for Dental Implants",
+    "s111": "Dental Implants in St. Petersburg, Florida",
     "s112": "Does it matter where you get your dental implants? Absolutely, yes.",
     "s113": "There are many factors that can influence the success, comfort, result and aesthetics of your dental implant.",
     "s114": "From the experience of your dentist to the cost of your procedure, we encourage you to look at every detail and learn as much as you can about dental implants before choosing a dentist.",
@@ -588,17 +588,17 @@
     "s129": "Restorative Dental Services:",
     "s130": "Preventative Dental Services:",
     "s131": "Emergency Dental Services:",
-    "s132": "Dental Services",
-    "s133": "Your Best Choice for Cosmetic Dentistry",
+    "s132": "Dental Services in St. Petersburg, Florida",
+    "s133": "Cosmetic Dentistry in St. Petersburg, Florida",
     "s134": "Your Best Choice for Endodontic Care",
-    "s135": "Your Best Choice for Preventative Dentistry",
-    "s136": "Your Best Choice for Restorative Dentistry",
+    "s135": "Preventive Dentistry in St. Petersburg, Florida",
+    "s136": "Restorative Dentistry in St. Petersburg, Florida",
     "s137": "Your Best Choice for Invisalign® Clear Aligners",
     "s138": "Your Best Choice for Non-Invasive Dental Veneers",
     "s139": "Your Best Choice for Advanced Dental Technology",
     "s140": "Your Best Choice for Cone Beam Technology",
     "s141": "Your Top Choice For Full-Mouth Reconstruction",
-    "s142": "Emergency Dental Care Available",
+    "s142": "Emergency Dental Services in St. Petersburg, Florida",
     "s143": "Wisdom Teeth Extraction",
     "s144": "Frequently Asked Questions About Wisdom Teeth Extractions",
     "s145": "Complete Dental Teeth Whitening",
@@ -1262,6 +1262,35 @@
     "s307": "Office Tour",
     "s308": "Saturday 9:00am - 5:00pm (Emergency dental calls only)",
     "s309": "Emergency Cases Only",
-    "s310": "Uninsured and not sure of the dental treatment plan?"
+    "s310": "Uninsured and not sure of the dental treatment plan?",
+    "s311": "Reddy Dental provides personalized dental care at 6751 1st Ave S, St. Petersburg, Florida 33707. Patients from the surrounding communities, including Gulfport, Pasadena, and South Pasadena, can contact the practice to learn about available dental services and appointment options.",
+    "s312": "The office is also a short drive from Tyrone, Jungle Terrace, and west St. Petersburg in 33710; Kenneth City and northwest St. Petersburg in 33709; Gulfport and southwest St. Petersburg in 33711; central St. Petersburg in 33713; St. Pete Beach and Treasure Island in 33706; Madeira Beach and Bay Pines in 33708; south St. Petersburg in 33712; Tierra Verde in 33715; and northeast St. Petersburg in 33704.",
+    "s313": "Dental implants",
+    "s314": "Cosmetic dentistry",
+    "s315": "Restorative dentistry",
+    "s316": "Preventive dentistry",
+    "s317": "Emergency dental care",
+    "s318": "Reddy Dental is a dental clinic in St. Petersburg, Florida, at 6751 1st Ave S, ZIP code 33707. Neighbors looking for a family dentist near Gulfport, FL, or a general dentist near Pasadena, FL and South Pasadena, can call the office. Patients from St. Pete Beach, Treasure Island, Kenneth City, and Tyrone are welcome too.",
+    "s319": "Patients looking for dental implants near St. Petersburg, FL, or an implant dentist near Gulfport, FL, can schedule a consultation at 6751 1st Ave S.",
+    "s320": "Patients interested in cosmetic dentistry near Pasadena, FL can visit the St. Petersburg office for whitening, veneers, and other smile improvements.",
+    "s321": "Restorative dentistry near St. Petersburg, FL includes crowns, bridges, fillings, and dental implants for damaged or missing teeth. Patients from south St. Petersburg in 33712 and Tierra Verde in 33715 can ask which option fits.",
+    "s322": "Preventive dentistry near Gulfport, FL includes exams, cleanings, fluoride, and sealants at the St. Petersburg office. Families from Kenneth City in 33709 are a short drive away.",
+    "s323": "Emergency dental services near St. Petersburg, FL are available for tooth pain, broken teeth, and other urgent problems. Patients from St. Pete Beach and Treasure Island in 33706, and from Madeira Beach and Bay Pines in 33708, can call 727-377-3339.",
+    "s324": "Personalized care for nearby Pinellas communities",
+    "s325": "For patients from Gulfport and St. Petersburg",
+    "s326": "Smile care for patients near Pasadena",
+    "s327": "Repair for damaged or missing teeth",
+    "s328": "Exams and cleanings for families near Gulfport",
+    "s329": "Same-day care when tooth pain cannot wait",
+    "s330": "See teeth whitening options",
+    "s331": "See restorative dentistry",
+    "s332": "See preventive cleanings",
+    "s333": "See dental implants",
+    "s334": "Dental services at Reddy Dental in St. Petersburg",
+    "s335": "Dental implant model at Reddy Dental",
+    "s336": "Patient with a dental implant restoration at Reddy Dental",
+    "s337": "Reddy Dental in St. Petersburg, Florida",
+    "s338": "Sajan Anish Reddy, DMD at Reddy Dental in St. Petersburg",
+    "s339": "Explore practical guidance on family dentistry, emergencies, cosmetic care, and more — written for patients in St. Petersburg, FL 33707 and nearby communities."
   }
 }

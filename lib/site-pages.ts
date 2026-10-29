@@ -9,9 +9,9 @@ import { applySiteLocale, backLinkPrefix, translateBackLabel } from "@/lib/local
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const SITE_NAME = "Reddy Dental";
-const DEFAULT_TITLE = "Dentist Near Me in St. Petersburg, FL | Reddy Dental";
+const DEFAULT_TITLE = "Dentist in St. Petersburg, FL 33707 | Reddy Dental";
 const DEFAULT_DESCRIPTION =
-  "Reddy Dental is a dentist near me located in St. Petersburg, FL 33707 for all your family and cosmetic dentistry needs.";
+  "Reddy Dental is a dental clinic in St. Petersburg, Florida at 6751 1st Ave S, 33707. Family dentistry for Gulfport, Pasadena, and South Pasadena.";
 
 function resolveSiteOrigin(_origin?: string): string {
   // Always emit absolute production URLs in OG/Twitter tags. Preview origins

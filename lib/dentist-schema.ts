@@ -30,6 +30,11 @@ export function buildDentistSchema(origin = CANONICAL_SITE_ORIGIN) {
     image: `${site}${DEFAULT_SOCIAL_IMAGE.path}`,
     logo: `${site}/assets/images/reddy-dental-logo-light-bg.svg`,
     hasMap: "https://maps.app.goo.gl/MmTH3GryrAqJzzqt9",
+    sameAs: [
+      "https://www.instagram.com/reddy_dental/",
+      "https://www.facebook.com/reddydentaloffices/",
+      "https://maps.app.goo.gl/MmTH3GryrAqJzzqt9",
+    ],
     address: {
       "@type": "PostalAddress",
       streetAddress: "6751 1st Ave S",
@@ -53,14 +58,27 @@ export function buildDentistSchema(origin = CANONICAL_SITE_ORIGIN) {
         description: "Emergency dental calls only",
       },
     ],
-    areaServed: {
-      "@type": "City",
-      name: "St. Petersburg",
-      containedInPlace: {
-        "@type": "State",
-        name: "Florida",
+    areaServed: [
+      {
+        "@type": "City",
+        name: "St. Petersburg",
+        containedInPlace: { "@type": "State", name: "Florida" },
       },
-    },
+      { "@type": "City", name: "South Pasadena" },
+      { "@type": "City", name: "Gulfport" },
+      { "@type": "City", name: "Kenneth City" },
+      { "@type": "City", name: "St. Pete Beach" },
+      { "@type": "City", name: "Treasure Island" },
+      { "@type": "City", name: "Madeira Beach" },
+      { "@type": "Place", name: "Tierra Verde" },
+    ],
+    availableService: [
+      { "@type": "MedicalProcedure", name: "Dental implants" },
+      { "@type": "MedicalProcedure", name: "Cosmetic dentistry" },
+      { "@type": "MedicalProcedure", name: "Restorative dentistry" },
+      { "@type": "MedicalProcedure", name: "Preventive dentistry" },
+      { "@type": "MedicalProcedure", name: "Emergency dentistry" },
+    ],
     medicalSpecialty: "https://schema.org/Dentistry",
   };
 }
