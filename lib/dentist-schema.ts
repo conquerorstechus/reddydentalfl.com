@@ -61,16 +61,19 @@ export function buildDentistSchema(origin = CANONICAL_SITE_ORIGIN) {
     areaServed: [
       {
         "@type": "City",
-        name: "St. Petersburg",
+        name: "St. Pete Beach",
         containedInPlace: { "@type": "State", name: "Florida" },
       },
-      { "@type": "City", name: "South Pasadena" },
-      { "@type": "City", name: "Gulfport" },
-      { "@type": "City", name: "Kenneth City" },
-      { "@type": "City", name: "St. Pete Beach" },
-      { "@type": "City", name: "Treasure Island" },
-      { "@type": "City", name: "Madeira Beach" },
-      { "@type": "Place", name: "Tierra Verde" },
+      {
+        "@type": "City",
+        name: "Treasure Island",
+        containedInPlace: { "@type": "State", name: "Florida" },
+      },
+      {
+        "@type": "Place",
+        name: "Tierra Verde",
+        containedInPlace: { "@type": "State", name: "Florida" },
+      },
     ],
     availableService: [
       { "@type": "MedicalProcedure", name: "Dental implants" },
