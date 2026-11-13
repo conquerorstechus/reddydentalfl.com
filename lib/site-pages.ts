@@ -233,6 +233,25 @@ function injectMobileResponsiveFixes(html: string): string {
           z-index: 40;
         }
 
+        /* Extra items (Special Offer / Discount) need a wider bar so labels stay on one line. */
+        #menuBar > .max-w-content {
+          max-width: 1600px;
+        }
+
+        #menuBar .gap-x-md {
+          flex-wrap: nowrap;
+          -moz-column-gap: clamp(12px, 2.08vw, 40px);
+          column-gap: clamp(12px, 2.08vw, 40px);
+        }
+
+        #menuBar .gap-x-md > * {
+          flex-shrink: 0;
+        }
+
+        #menuBar a.menuChild {
+          white-space: nowrap;
+        }
+
         #menuBar.bg-primary {
           box-shadow: 0 8px 24px rgba(24, 36, 58, 0.16);
         }
