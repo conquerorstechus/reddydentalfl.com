@@ -19,6 +19,7 @@
 # env & secrets
 .env
 .env*.local
+.env.local.example
 *.pem
 
 # misc / OS
