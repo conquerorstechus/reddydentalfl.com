@@ -233,7 +233,7 @@ function injectMobileResponsiveFixes(html: string): string {
           z-index: 40;
         }
 
-        /* Extra items (Special Offer / Discount) need a wider bar so labels stay on one line. */
+        /* Special Offer needs a wider bar so labels stay on one line. */
         #menuBar > .max-w-content {
           max-width: 1600px;
         }

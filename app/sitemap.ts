@@ -6,7 +6,6 @@ import { listSitePages } from "@/lib/site-pages";
 /** React routes that are indexable and are not stored as content HTML. */
 const INDEXABLE_APP_PATHS = [
   "/offers/call-us/",
-  "/offers/discount/",
   "/offers/no-insurance/",
   "/privacy/",
 ];
