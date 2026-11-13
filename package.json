@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run test:forms",
     "build": "next build",
+    "test:forms": "tsx --test --test-reporter=spec tests/form-webhooks.test.ts",
+    "test:forms:dry": "tsx --test --test-reporter=spec tests/form-webhooks.test.ts",
     "start": "next start"
   },
   "dependencies": {
@@ -18,6 +21,7 @@
     "@types/node": "^22.15.29",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
+    "tsx": "^4.19.2",
     "typescript": "^5.8.3"
   }
 }
