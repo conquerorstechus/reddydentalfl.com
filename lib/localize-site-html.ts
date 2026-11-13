@@ -123,9 +123,6 @@ function translateTextNodes(region: string, pairs: Array<[string, string]>): str
       `type="submit" value="${english}"`,
       `type="submit" value="${escapeHtmlAttr(spanish)}"`,
     );
-    if (english.includes(" ")) {
-      next = next.replaceAll(`value="${english}"`, `value="${escapeHtmlAttr(spanish)}"`);
-    }
     next = next.replace(
       new RegExp(`(>\\s*)${pattern}(\\s*<)`, "g"),
       `$1${escapeHtml(spanish)}$2`,

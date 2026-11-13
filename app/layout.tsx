@@ -50,14 +50,19 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   // SiteGoogleAnalytics, Meta Pixel, and call tracking load only after the
   // visitor accepts. Static HTML pages get the same gate from lib/site-pages.ts.
   return (
-    <html lang={locale}>
-      <body>
+    <html lang={locale} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <Script id="google-tag-bootstrap" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
           `}
         </Script>
+        {process.env.NODE_ENV !== "production" ? (
+          <Script id="rd-strip-ext-widgets" strategy="beforeInteractive">
+            {`(function(){function strip(){["open-incognito-widget","opens-in-origin-widget"].forEach(function(id){var n=document.getElementById(id);if(n)n.remove();});}strip();try{var o=new MutationObserver(strip);o.observe(document.documentElement,{childList:true,subtree:true});setTimeout(function(){o.disconnect();},4000);}catch(e){}})();`}
+          </Script>
+        ) : null}
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

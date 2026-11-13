@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { LanguageToggle } from "@/components/language-toggle";
@@ -35,12 +35,6 @@ function formatPhoneInput(value: string) {
   return value.replace(/\D/g, "").slice(0, 10);
 }
 
-function makeMathCaptcha() {
-  const left = 2 + Math.floor(Math.random() * 8);
-  const right = 2 + Math.floor(Math.random() * 8);
-  return { left, right, expected: left + right };
-}
-
 type CallButtonProps = {
   dark?: boolean;
   label: string;
@@ -61,7 +55,11 @@ function CallButton({ dark = false, label, ariaLabel }: CallButtonProps) {
   );
 }
 
-export default function CallUsOfferPage() {
+type CallUsOfferPageProps = {
+  className?: string;
+};
+
+export default function CallUsOfferPage({ className }: CallUsOfferPageProps) {
   const router = useRouter();
   const locale = useLocale();
   const t = useCallUsCopy();
@@ -69,28 +67,9 @@ export default function CallUsOfferPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [summary, setSummary] = useState("");
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "error">("idle");
-  const [captcha, setCaptcha] = useState<ReturnType<typeof makeMathCaptcha> | null>(null);
-  const [captchaAnswer, setCaptchaAnswer] = useState("");
-  const [captchaError, setCaptchaError] = useState(false);
-
-  useEffect(() => {
-    setCaptcha(makeMathCaptcha());
-  }, []);
-
-  function refreshCaptcha() {
-    setCaptcha(makeMathCaptcha());
-    setCaptchaAnswer("");
-    setCaptchaError(false);
-  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const answer = Number(captchaAnswer.trim());
-    if (!captcha || captchaAnswer.trim() === "" || answer !== captcha.expected) {
-      setCaptchaError(true);
-      return;
-    }
-    setCaptchaError(false);
     setFormStatus("loading");
 
     try {
@@ -98,6 +77,8 @@ export default function CallUsOfferPage() {
         method: "POST",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({
+          formType: "callback",
+          locale,
           source: window.location.href,
           name: name.trim(),
           phoneNumber: phoneNumber.trim(),
@@ -126,7 +107,7 @@ export default function CallUsOfferPage() {
   }
 
   return (
-    <main className="lp-page">
+    <main className={["lp-page", className].filter(Boolean).join(" ")} suppressHydrationWarning>
       <header className="lp-header">
         <a className="brand" href="/" aria-label={t.brandHomeAriaLabel}>
           <img
@@ -206,35 +187,6 @@ export default function CallUsOfferPage() {
 
       <section className="form-section" id="request-callback" aria-label={t.formSectionAriaLabel}>
         <form className="lead-form" onSubmit={handleSubmit}>
-          <div className="math-captcha">
-            <label htmlFor="math-captcha">
-              {captcha
-                ? t.captchaQuestion({ left: captcha.left, right: captcha.right })
-                : locale === "es"
-                  ? "¿Cuánto es …?"
-                  : "What is …?"}
-            </label>
-            <div className="math-captcha-controls">
-              <input
-                id="math-captcha"
-                value={captchaAnswer}
-                onChange={(event) => {
-                  setCaptchaAnswer(event.target.value);
-                  if (captchaError) setCaptchaError(false);
-                }}
-                inputMode="numeric"
-                autoComplete="off"
-                aria-invalid={captchaError}
-                aria-describedby={captchaError ? "math-captcha-error" : undefined}
-              />
-              <button type="button" className="math-captcha-refresh" onClick={refreshCaptcha} aria-label={t.captchaRefresh}>
-                ↻
-              </button>
-            </div>
-            {captchaError && (
-              <p id="math-captcha-error" role="alert" className="form-error">{t.captchaError}</p>
-            )}
-          </div>
           <div className="lead-form-row">
             <label>
               {t.formNameLabel}

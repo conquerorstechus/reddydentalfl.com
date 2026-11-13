@@ -36,10 +36,6 @@ export function useCallUsCopy() {
     formSubmitIdle: t("formSubmitIdle"),
     formPrivacyNote: t("formPrivacyNote"),
     privacyPolicy: t("privacyPolicy"),
-    captchaQuestion: (values: { left: number; right: number }) =>
-      t("captchaQuestion", values),
-    captchaError: t("captchaError"),
-    captchaRefresh: t("captchaRefresh"),
     formError: t("formError"),
     reviewsEyebrow: t("reviewsEyebrow"),
     reviewsHeading: t("reviewsHeading"),

@@ -21,6 +21,16 @@ const nextConfig = {
         destination: "/offers/call-us/",
         permanent: true,
       },
+      {
+        source: "/offers/dental-clinic",
+        destination: "/offers/call-us/",
+        permanent: true,
+      },
+      {
+        source: "/offers/dental-clinic/:path*",
+        destination: "/offers/call-us/:path*",
+        permanent: true,
+      },
       // Apex host → www. HTTPS is terminated by the host (Vercel) before this runs,
       // so an HTTP→HTTPS rule here would never match and is omitted on purpose.
       {

@@ -1,21 +1,28 @@
-const WEBHOOK_URL = process.env.CALL_US_WEBHOOK_URL;
+import { callbackFormType, callbackWebhookUrl } from "@/lib/offer-webhooks";
+import { escapeHtml, postFormWebhook, readText } from "@/lib/form-webhook";
 
 type CallbackPayload = {
+  formType: "callback" | "discount";
+  locale: string;
+  language: "Spanish" | "English";
   source: string;
   name: string;
   phoneNumber: string;
   summary: string;
 };
 
-function readText(value: unknown) {
-  return typeof value === "string" ? value.trim() : "";
+function buildEmailHtml(payload: CallbackPayload) {
+  const formLabel = payload.formType === "discount" ? "Discount offer callback" : "Call-us offer callback";
+  return `<h2>${formLabel}</h2>
+<p><strong>Form:</strong> ${escapeHtml(formLabel)}</p>
+<p><strong>Language:</strong> ${escapeHtml(payload.language)}</p>
+<p><strong>Name:</strong> ${escapeHtml(payload.name)}</p>
+<p><strong>Phone:</strong> ${escapeHtml(payload.phoneNumber)}</p>
+<p><strong>Summary:</strong> ${escapeHtml(payload.summary || "(none)")}</p>
+<p><strong>Source:</strong> ${escapeHtml(payload.source)}</p>`;
 }
 
 export async function POST(request: Request) {
-  if (!WEBHOOK_URL) {
-    return Response.json({ error: "Callback webhook is not configured." }, { status: 500 });
-  }
-
   let incoming: unknown;
   try {
     incoming = await request.json();
@@ -24,8 +31,13 @@ export async function POST(request: Request) {
   }
 
   const record = incoming && typeof incoming === "object" ? (incoming as Record<string, unknown>) : {};
+  const source = readText(record.source);
+  const locale = readText(record.locale) === "es" ? "es" : "en";
   const payload: CallbackPayload = {
-    source: readText(record.source),
+    formType: callbackFormType(source),
+    locale,
+    language: locale === "es" ? "Spanish" : "English",
+    source,
     name: readText(record.name),
     phoneNumber: readText(record.phoneNumber),
     summary: readText(record.summary),
@@ -35,23 +47,24 @@ export async function POST(request: Request) {
     return Response.json({ error: "Name and phone number are required." }, { status: 400 });
   }
 
-  const webhook = new URL(WEBHOOK_URL);
-  webhook.searchParams.set("source", payload.source);
-  webhook.searchParams.set("name", payload.name);
-  webhook.searchParams.set("phoneNumber", payload.phoneNumber);
-  webhook.searchParams.set("summary", payload.summary);
+  const webhookUrl = callbackWebhookUrl(payload.source);
+  if (!webhookUrl) {
+    return Response.json({ error: "Callback webhook is not configured." }, { status: 500 });
+  }
+
+  const html = buildEmailHtml(payload);
+  const body = { ...payload, html, htmlBody: html };
 
   try {
-    const upstream = await fetch(webhook, {
-      method: "POST",
-      headers: { Accept: "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      cache: "no-store",
+    await postFormWebhook(webhookUrl, body, {
+      formType: payload.formType,
+      locale: payload.locale,
+      language: payload.language,
+      source: payload.source,
+      name: payload.name,
+      phoneNumber: payload.phoneNumber,
+      summary: payload.summary,
     });
-
-    if (!upstream.ok) {
-      return Response.json({ error: "Webhook request failed." }, { status: 502 });
-    }
   } catch {
     return Response.json({ error: "Webhook request failed." }, { status: 502 });
   }

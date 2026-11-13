@@ -9,7 +9,7 @@ import { useTrackingAllowed } from "@/components/use-tracking-consent";
  * These routes already load Google Tag Manager, and that container includes
  * the same GA4 tag (G-1CH7FV431K). A second gtag.js install double-counts page views.
  */
-const GTM_ROUTE_PREFIXES = ["/offers/call-us/", "/offers/dental-clinic/"];
+const GTM_ROUTE_PREFIXES = ["/offers/call-us/", "/offers/discount/"];
 
 function routeLoadsTagManager(pathname: string): boolean {
   const path = pathname.endsWith("/") ? pathname : `${pathname}/`;

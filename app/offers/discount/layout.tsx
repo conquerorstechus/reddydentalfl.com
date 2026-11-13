@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { DEFAULT_SOCIAL_IMAGE } from "@/lib/site-origin";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("offers.dentalClinic.metadata");
+  const t = await getTranslations("offers.callUs.metadata");
   const locale = await getLocale();
   const title = t("title");
   const description = t("description");
@@ -14,12 +14,12 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     robots: { index: true, follow: true },
-    alternates: { canonical: "/offers/dental-clinic/" },
+    alternates: { canonical: "/offers/discount/" },
     openGraph: {
       type: "website",
       siteName: "Reddy Dental",
       locale: locale === "es" ? "es_ES" : "en_US",
-      url: "/offers/dental-clinic/",
+      url: "/offers/discount/",
       title,
       description,
       images: [{
@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function DentalClinicOfferLayout({ children }: { children: ReactNode }) {
+export default function DiscountOfferLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <ConsentTagManager />

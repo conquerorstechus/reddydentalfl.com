@@ -35,6 +35,7 @@
     "smileSavingsPlan": "Plan de Ahorro para la Sonrisa",
     "blog": "Blog",
     "specialOffer": "Oferta especial",
+    "discount": "Descuento",
     "contact": "Contacto"
   },
   "footer": {
@@ -329,9 +330,6 @@
       "formPrivacyNote": "Su información se utiliza únicamente para contactarle sobre su atención dental.",
       "privacyPolicy": "Política de privacidad",
       "formError": "No pudimos enviar su solicitud. Por favor llame al (727) 377-3339.",
-      "captchaQuestion": "¿Cuánto es {left} + {right}?",
-      "captchaError": "Introduzca la respuesta correcta.",
-      "captchaRefresh": "Nueva pregunta",
       "reviewsEyebrow": "Reseñas de pacientes",
       "reviewsHeading": "Lo que dicen los pacientes",
       "reviewsGoogleLink": "Leer más en Google",
@@ -424,25 +422,6 @@
       "thankYouFollowUp": "Nuestro equipo se pondrá en contacto con usted en breve.",
       "thankYouBackToOffers": "Volver a ofertas",
       "thankYouBackToHome": "Volver al inicio"
-    },
-    "dentalClinic": {
-      "metadata": {
-        "title": "Mejor dentista en Treasure Island, FL | Reddy Dental",
-        "description": "Llame al mejor dentista en Treasure Island, St. Pete Beach y Tierra Verde, FL para atención dental amable y ofertas de examen para pacientes nuevos.",
-        "ogImageAlt": "Reddy Dental, el mejor dentista para St. Pete Beach, Treasure Island y Tierra Verde, FL"
-      },
-      "thankYou": {
-        "metadata": {
-          "title": "Gracias | Reddy Dental",
-          "description": "Hemos recibido su solicitud de llamada. Nuestro equipo se pondrá en contacto con usted en breve."
-        },
-        "kicker": "Reddy Dental",
-        "title": "¡Gracias!",
-        "body": "Recibimos su solicitud de llamada. Nuestro equipo se pondrá en contacto con usted en breve.",
-        "callOffice": "Llame a la oficina ahora",
-        "backToOffer": "Volver a la oferta de la clínica dental",
-        "backToHome": "Volver al inicio"
-      }
     },
     "noInsurance": {
       "kicker": "Oferta para pacientes sin seguro",
