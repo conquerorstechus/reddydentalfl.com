@@ -173,6 +173,27 @@ function sliceDiv(html: string, openTag: string): [number, number] | null {
   return null;
 }
 
+function translateOfficeHourBlocks(html: string, pairs: Array<[string, string]>): string {
+  const marker = 'class="office-hours-rows"';
+  let cursor = 0;
+  let next = html;
+
+  while (cursor < next.length) {
+    const classAt = next.indexOf(marker, cursor);
+    if (classAt < 0) break;
+    const start = next.lastIndexOf("<div", classAt);
+    if (start < 0) break;
+    const local = sliceDiv(next.slice(start), "<div");
+    if (!local) break;
+    const end = start + local[1];
+    const translated = translateTextNodes(next.slice(start, end), pairs);
+    next = `${next.slice(0, start)}${translated}${next.slice(end)}`;
+    cursor = start + translated.length;
+  }
+
+  return next;
+}
+
 function replaceSlice(
   html: string,
   range: [number, number] | null,
@@ -332,8 +353,7 @@ function localizeSpanish(html: string, slug: string[]): string {
       (entry, index) =>
         [entry.day, esMessages.footer.hours[index]?.day ?? entry.day] as [string, string],
     ),
-    ["(Emergency dental calls only)", "(Solo llamadas dentales de emergencia)"] as [string, string],
-    ["9 AM–5 PM", "9 AM–5 PM"] as [string, string],
+    ["Emergency appointments and surgical cases only", "Solo citas de emergencia y casos quirúrgicos"] as [string, string],
     ["All Rights Reserved.", "Todos los derechos reservados."] as [string, string],
   ].sort((a, b) => b[0].length - a[0].length);
 
@@ -343,6 +363,7 @@ function localizeSpanish(html: string, slug: string[]): string {
       "Todos los derechos reservados.",
     ),
   );
+  next = translateOfficeHourBlocks(next, footerPairs);
 
   const bodyPairs = copyPairs();
   if (bodyPairs.length > 0) {

@@ -8,11 +8,6 @@ const WEEKDAYS = [
   "https://schema.org/Friday",
 ] as const;
 
-const WEEKEND = [
-  "https://schema.org/Saturday",
-  "https://schema.org/Sunday",
-] as const;
-
 export function dentistSchemaId(origin = CANONICAL_SITE_ORIGIN): string {
   return `${origin.replace(/\/$/, "")}/#dentist`;
 }
@@ -49,13 +44,6 @@ export function buildDentistSchema(origin = CANONICAL_SITE_ORIGIN) {
         dayOfWeek: WEEKDAYS,
         opens: "09:00",
         closes: "17:00",
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: WEEKEND,
-        opens: "09:00",
-        closes: "17:00",
-        description: "Emergency dental calls only",
       },
     ],
     areaServed: [

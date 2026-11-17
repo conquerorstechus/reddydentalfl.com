@@ -850,7 +850,7 @@ body { margin: 0; }
 
 .lp-footer-hours-list {
   display: grid;
-  grid-template-columns: max-content max-content max-content;
+  grid-template-columns: max-content minmax(0, 1fr);
   column-gap: 1.25rem;
   justify-content: start;
   margin: 18px 0 0;
@@ -876,7 +876,7 @@ body { margin: 0; }
 .lp-footer-hours-time,
 .lp-footer-hours-note {
   color: #c9d4de;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .lp-footer-emergency {

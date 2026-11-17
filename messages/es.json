@@ -44,31 +44,31 @@
     "hours": [
       {
         "day": "Lunes",
-        "hours": "9:00am - 5:00pm"
+        "hours": "8:00am - 5:00pm"
       },
       {
         "day": "Martes",
-        "hours": "9:00am - 5:00pm"
+        "hours": "8:00am - 5:00pm"
       },
       {
         "day": "Miércoles",
-        "hours": "9:00am - 5:00pm"
+        "hours": "8:00am - 5:00pm"
       },
       {
         "day": "Jueves",
-        "hours": "9:00am - 5:00pm"
+        "hours": "8:00am - 5:00pm"
       },
       {
         "day": "Viernes",
-        "hours": "9:00am - 5:00pm"
+        "hours": "8:00am - 5:00pm"
       },
       {
         "day": "Sábado",
-        "hours": "9:00am - 5:00pm"
+        "hours": "Solo citas de emergencia y casos quirúrgicos"
       },
       {
         "day": "Domingo",
-        "hours": "9:00am - 5:00pm"
+        "hours": "Solo citas de emergencia y casos quirúrgicos"
       }
     ],
     "emergency": "Solo casos de emergencia",
@@ -382,38 +382,36 @@
       "footerLocationLabel": "Ubicación",
       "footerOfficeHours": "Horario de atención",
       "weekendHoursLead": "Sábado y domingo",
-      "weekendHours": "9 AM–5 PM",
+      "weekendHours": "Solo citas de emergencia y casos quirúrgicos",
       "emergencyCasesOnly": "Solo casos de emergencia",
       "officeHours": [
         {
           "day": "Lunes",
-          "hours": "9:00am - 5:00pm"
+          "hours": "8:00am - 5:00pm"
         },
         {
           "day": "Martes",
-          "hours": "9:00am - 5:00pm"
+          "hours": "8:00am - 5:00pm"
         },
         {
           "day": "Miércoles",
-          "hours": "9:00am - 5:00pm"
+          "hours": "8:00am - 5:00pm"
         },
         {
           "day": "Jueves",
-          "hours": "9:00am - 5:00pm"
+          "hours": "8:00am - 5:00pm"
         },
         {
           "day": "Viernes",
-          "hours": "9:00am - 5:00pm"
+          "hours": "8:00am - 5:00pm"
         },
         {
           "day": "Sábado",
-          "hours": "9:00am - 5:00pm",
-          "note": "(Solo llamadas dentales de emergencia)"
+          "hours": "Solo citas de emergencia y casos quirúrgicos"
         },
         {
           "day": "Domingo",
-          "hours": "9:00am - 5:00pm",
-          "note": "(Solo llamadas dentales de emergencia)"
+          "hours": "Solo citas de emergencia y casos quirúrgicos"
         }
       ],
       "thankYouKicker": "Ofertas dentales",
@@ -1239,7 +1237,7 @@
     "s305": "El Dr. Reddy se compromete con el aprendizaje continuo y se mantiene al día con los avances en odontología digital, implantología, técnicas quirúrgicas y atención restauradora. Ejercer en Reddy Dental le permite ofrecer odontología de la manera correcta, sin prisas ni presión, y con un fuerte énfasis en la tecnología y la experiencia del paciente. Fuera de la consulta, disfruta del ejercicio y el entrenamiento, pasar tiempo con su familia, viajar y explorar restaurantes nuevos, intereses que reflejan su creencia en una odontología que cuida tanto la función como la estética de una sonrisa sana y segura. También disfruta trabajar en autos, conducirlos y competir con ellos, una pasión que refleja su aprecio por la precisión, el rendimiento y la artesanía.",
     "s306": "Entre a Reddy Dental y vea qué hace diferente a nuestra oficina para pacientes de St. Pete Beach, Treasure Island y Tierra Verde. Nuestra galería de fotos le muestra nuestro espacio limpio y moderno, la tecnología avanzada y el ambiente cálido y acogedor que hemos creado para que cada visita se sienta cómoda, relajada y sin estrés.",
     "s307": "Recorrido por la oficina",
-    "s308": "Sábado 9:00am - 5:00pm Solo llamadas dentales de emergencia",
+    "s308": "Solo citas de emergencia y casos quirúrgicos",
     "s309": "Solo casos de emergencia",
     "s310": "¿Sin seguro y no está seguro del plan de tratamiento dental?",
     "s311": "Reddy Dental ofrece atención dental personalizada para pacientes de St. Pete Beach, Treasure Island y Tierra Verde, FL. La oficina está en 6751 1st Ave S. Llame para conocer los servicios y las opciones de cita.",
