@@ -689,6 +689,167 @@ function fixCalloutBackgroundImages(html: string): string {
   );
 }
 
+const ZOCDOC_BOOKING_URL =
+  "https://www.zocdoc.com/booking-link/practice/reddy-dental-192669";
+
+function escapeHtmlText(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+/**
+ * Full-width scrolling announcement under the top utility bar.
+ * The whole strip links to free Zocdoc booking.
+ */
+function injectZocdocTicker(html: string, locale: AppLocale): string {
+  if (html.includes("data-zocdoc-ticker")) return html;
+  const navStart = html.indexOf('<nav id="topNav"');
+  if (navStart < 0) return html;
+  const navEnd = html.indexOf("</nav>", navStart);
+  if (navEnd < 0) return html;
+
+  const label =
+    locale === "es"
+      ? "Reserva tu cita en línea gratis en Zocdoc"
+      : "Book your appointment online for free on Zocdoc";
+  const aria =
+    locale === "es"
+      ? "Reservar una cita gratis en Zocdoc"
+      : "Book a free appointment on Zocdoc";
+  const safeLabel = escapeHtmlText(label);
+  const item = `<span class="rd-ticker-item"><span class="rd-ticker-text">${safeLabel}</span><img class="rd-ticker-logo" src="/assets/images/zocdoc-logo.png" alt="" width="84" height="32"></span>`;
+  const copies = item.repeat(8);
+  const ticker = `
+    <a class="rd-ticker" data-zocdoc-ticker aria-label="${escapeHtmlAttr(aria)}" href="${ZOCDOC_BOOKING_URL}" target="_blank" rel="noopener noreferrer">
+      <span class="rd-ticker-label">${safeLabel}</span>
+      <span class="rd-ticker-track">
+        <span class="rd-ticker-group">${copies}</span>
+        <span class="rd-ticker-group" aria-hidden="true">${copies}</span>
+      </span>
+    </a>`;
+
+  const styles = `
+    <style data-zocdoc-ticker>
+      .rd-ticker {
+        display: block;
+        position: relative;
+        z-index: 15;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        background: #ffffff;
+        color: #231f20;
+        text-decoration: none;
+        cursor: pointer;
+        border-bottom: 1px solid #e6e4df;
+      }
+      .rd-ticker:hover,
+      .rd-ticker:focus-visible {
+        background: #ffffff;
+        color: #231f20;
+        outline: none;
+      }
+      .rd-ticker:focus-visible {
+        outline: 2px solid #231f20;
+        outline-offset: -3px;
+      }
+      .rd-ticker-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .rd-ticker-track {
+        display: flex;
+        width: max-content;
+        animation: rd-ticker-scroll 64s linear infinite;
+      }
+      .rd-ticker:hover .rd-ticker-track,
+      .rd-ticker:focus-visible .rd-ticker-track {
+        animation-play-state: paused;
+      }
+      .rd-ticker-group {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .rd-ticker-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 48px;
+        padding: 10px 72px 10px 0;
+        font-family: Roboto, sans-serif;
+        font-size: 15.5px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+      .rd-ticker-text {
+        color: #231f20;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+      }
+      .rd-ticker:hover .rd-ticker-text,
+      .rd-ticker:focus-visible .rd-ticker-text {
+        color: #111111;
+      }
+      .rd-ticker-logo {
+        display: block;
+        width: 84px;
+        height: 32px;
+        flex: none;
+        object-fit: contain;
+      }
+      @keyframes rd-ticker-scroll {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+      }
+      @media (max-width: 640px) {
+        .rd-ticker-item {
+          gap: 28px;
+          padding: 9px 40px 9px 0;
+          font-size: 14px;
+        }
+        .rd-ticker-logo {
+          width: 72px;
+          height: 28px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .rd-ticker-track {
+          animation: none;
+          width: 100%;
+          justify-content: center;
+        }
+        .rd-ticker-group[aria-hidden="true"],
+        .rd-ticker-item:not(:first-child) {
+          display: none;
+        }
+        .rd-ticker-item {
+          padding-right: 0;
+        }
+        .rd-ticker-logo {
+          display: none;
+        }
+      }
+    </style>`;
+
+  let next = `${html.slice(0, navEnd + "</nav>".length)}${ticker}${html.slice(navEnd + "</nav>".length)}`;
+  if (/<\/head>/i.test(next)) {
+    return next.replace(/<\/head>/i, `${styles}</head>`);
+  }
+  return `${styles}${next}`;
+}
+
 /**
  * Makes inline "Learn More »" CTAs look like real hyperlinks (gold + underline)
  * so they don't blend into body copy.
@@ -767,7 +928,8 @@ export async function readSiteHtml(
     const withBack = injectPageBackNav(withCallouts, slug, locale);
     const withLearnMore = styleLearnMoreLinks(withBack);
     const withPrivacy = injectPrivacyLinks(withLearnMore, locale);
-    return injectTrackingConsent(withPrivacy);
+    const withTicker = injectZocdocTicker(withPrivacy, locale);
+    return injectTrackingConsent(withTicker);
   } catch {
     return null;
   }
