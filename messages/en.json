@@ -71,7 +71,7 @@
         "hours": "Emergency appointments and surgical cases only"
       }
     ],
-    "emergency": "Emergency Cases Only",
+    "emergency": "Book you're appointment",
     "quickLinks": "Quick Links",
     "requestAppointment": "Request an Appointment »",
     "dentalBlog": "Dental Blog »",
@@ -383,7 +383,7 @@
       "footerOfficeHours": "Office Hours",
       "weekendHoursLead": "Saturday & Sunday",
       "weekendHours": "Emergency appointments and surgical cases only",
-      "emergencyCasesOnly": "Emergency Cases Only",
+      "emergencyCasesOnly": "Book you're appointment",
       "officeHours": [
         {
           "day": "Monday",
@@ -1238,7 +1238,7 @@
     "s306": "Step inside Reddy Dental and see what makes our office feel different for patients from St. Pete Beach, Treasure Island, and Tierra Verde. Our photo gallery gives you a look at our clean, modern space, advanced technology, and the warm, welcoming environment we’ve created so every visit feels comfortable, relaxed, and stress-free.",
     "s307": "Office Tour",
     "s308": "Emergency appointments and surgical cases only",
-    "s309": "Emergency Cases Only",
+    "s309": "Book you're appointment",
     "s310": "Uninsured and not sure of the dental treatment plan?",
     "s311": "Reddy Dental provides personalized dental care for patients in St. Pete Beach, Treasure Island, and Tierra Verde, FL. The office is at 6751 1st Ave S. Call to learn about services and appointment options.",
     "s312": "Patients looking for the best dentist in St. Pete Beach, Treasure Island, or Tierra Verde, FL are welcome to call 727-377-3339.",
