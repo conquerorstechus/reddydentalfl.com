@@ -31,6 +31,9 @@ function getMetaPixel() {
   fbq.loaded = true;
   fbq.version = "2.0";
   fbq.push = fbq;
+  // PageView is sent on each route change below; without this, fbevents.js
+  // also sends one on history.pushState and counts it twice.
+  (fbq as MetaPixelFunction & { disablePushState?: boolean }).disablePushState = true;
   metaWindow.fbq = fbq;
   metaWindow._fbq = fbq;
 

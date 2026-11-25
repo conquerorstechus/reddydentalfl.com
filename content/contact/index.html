@@ -2085,6 +2085,14 @@
                   return;
                 }
 
+                // Meta Pixel exists only after the visitor accepts tracking.
+                // No form values are sent with the event.
+                if (typeof window.fbq === "function") {
+                  window.fbq("track", "Lead", {
+                    content_name: "contact_appointment_request",
+                  });
+                }
+
                 document.getElementById("success").classList.remove("hidden");
                 document
                   .getElementById("success")
